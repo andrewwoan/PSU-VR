@@ -170,7 +170,7 @@ export default class Player {
     resize() {}
 
     spawnPlayerOutOfBounds() {
-        const spawnPos = new THREE.Vector3(17.8838, 1.7 + 10, -3.72508);
+        const spawnPos = new THREE.Vector3(17.8838, 1.7 + 5, -3.72508);
         this.player.velocity = this.player.spawn.velocity;
         this.player.body.position.copy(spawnPos);
 
