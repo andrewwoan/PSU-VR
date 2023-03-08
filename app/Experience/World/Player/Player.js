@@ -84,9 +84,13 @@ export default class Player {
             this.actions.right = true;
         }
         if (e.code === "KeyM") {
-            this.resources.items.whiterun.video.source.data.play();
-            this.resources.items.whiterun.video.source.data.muted =
-                !this.resources.items.whiterun.video.source.data.muted;
+            if (this.resources.items.video.source.data.paused) {
+                this.resources.items.video.source.data.play();
+            } else {
+                this.resources.items.video.source.data.pause();
+            }
+            this.resources.items.video.source.data.muted =
+                !this.resources.items.video.source.data.muted;
         }
 
         if (e.code === "ShiftLeft") {

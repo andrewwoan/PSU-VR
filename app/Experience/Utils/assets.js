@@ -123,6 +123,11 @@ export default [
                     path: "/models/Collider.glb",
                 },
                 {
+                    name: "screen",
+                    type: "glbModel",
+                    path: "/models/Screen.glb",
+                },
+                {
                     name: "environment",
                     type: "cubeTexture",
                     path: [
@@ -133,6 +138,11 @@ export default [
                         "textures/environment/pz.png",
                         "textures/environment/nz.png",
                     ],
+                },
+                {
+                    name: "video",
+                    type: "videoTexture",
+                    path: "/videos/like.mp4",
                 },
             ],
         },

@@ -24,6 +24,13 @@ export default class Westgate {
         this.walls = this.resources.items.walls.scene;
         this.door = this.resources.items.door.scene;
         this.glass = this.resources.items.glass.scene;
+        this.screen = this.resources.items.screen.scene;
+
+        this.screen.children[0].material = new THREE.MeshBasicMaterial({
+            map: this.resources.items.video,
+        });
+
+        this.screen.children[0].material.flipY = false;
 
         this.collider = this.resources.items.collider.scene;
         this.octree.fromGraphNode(this.collider);
@@ -126,6 +133,7 @@ export default class Westgate {
             });
         });
 
+        this.scene.add(this.screen);
         this.scene.add(this.glass);
         this.scene.add(this.door);
         this.scene.add(this.boxes);
