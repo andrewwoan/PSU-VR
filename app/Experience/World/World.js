@@ -21,11 +21,15 @@ export default class World extends EventEmitter {
 
         this.resources.on("ready", () => {
             if (this.player === null) {
-                this.player = new Player();
-                this.environment = new Environment();
                 this.westgate = new Westgate();
+                this.player = new Player();
+                this.asyn();
             }
         });
+    }
+
+    asyn() {
+        this.environment = new Environment();
     }
 
     update() {

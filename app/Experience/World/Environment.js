@@ -20,16 +20,23 @@ export default class Environment {
 
         // this.scene.environment = this.environmentMap.texture;
 
+        // console.log(this.scene);
+
         // this.environmentMap.updateMaterials = () => {
-        //     this.scene.traverse((child) => {
-        //         if (
-        //             child instanceof THREE.Mesh &&
-        //             child.material instanceof THREE.MeshStandardMaterial
-        //         ) {
-        //             child.material.envMap = this.environmentMap.texture;
-        //             child.material.envMapIntensity =
-        //                 this.environmentMap.intensity;
-        //             child.material.needsUpdate = true;
+        //     this.scene.children.forEach((child) => {
+        //         if (child instanceof THREE.Group) {
+        //             console.log(child.children[0]);
+        //             if (
+        //                 child.children[0] instanceof THREE.Mesh &&
+        //                 child.children[0].material instanceof
+        //                     THREE.MeshPhysicalMaterial
+        //             ) {
+        //                 child.children[0].material.envMap =
+        //                     this.environmentMap.texture;
+        //                 child.children[0].material.envMapIntensity =
+        //                     this.environmentMap.intensity;
+        //                 child.children[0].material.needsUpdate = true;
+        //             }
         //         }
         //     });
         // };
