@@ -1,4 +1,4 @@
-import "./style.scss";
+import "./index.scss";
 import Experience from "./Experience/Experience.js";
 
 const experience = new Experience(
