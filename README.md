@@ -2,7 +2,7 @@
 
 **[Live demo](https://psu-futura.vercel.app/)**
 
-Penn State Futura is an immersive virtual reality experience of the University Park campus. This project is currently under development.
+Penn State Futura is an immersive virtual reality experience of Penn State's University Park Campus. This project is currently under development.
 
 <!-- ![Home page screenshot](public/social/screenshot.png?raw=true "Home page screenshot") -->
 
