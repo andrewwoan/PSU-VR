@@ -1,40 +1,51 @@
 .preloader {
     @extend %center;
     @extend %cover;
-    background: $color-base-dark-blue;
+    background: $color-base-white;
 }
 
 .preloader-title {
-    margin-bottom: 50px;
-    font-weight: bold;
-    font-size: 256px;
-    color: $color-base-white;
+    font-size: 16px;
+    font-weight: 500;
+    color: $color-base-gray;
     // letter-spacing: 2px;
     // text-transform: uppercase;
-    @include media("<=tablet") {
-        font-size: 70px;
-    }
+    // @include media("<=tablet") {
+    //     font-size: 70px;
+    // }
 }
 
 .preloader-wrapper {
     @extend %center;
-    flex-direction: column;
 }
 
 .preloader-progress {
     @extend %center;
+    flex-direction: column;
+    position: absolute;
+    bottom: 20%;
+}
+
+.progress-wrapper {
+    @extend %center;
+    position: relative;
 }
 
 .preloader-percentage1 {
     text-align: right;
 }
 
+.symbol {
+    position: absolute;
+    right: -11px;
+}
+
 .percent {
-    width: 256px;
-    font-weight: bold;
-    font-size: 256px;
-    color: $color-base-white;
-    @include media("<=tablet") {
-        font-size: 70px;
-    }
+    width: 16px;
+    font-weight: 500;
+    font-size: 16px;
+    color: $color-base-gray;
+    // @include media("<=tablet") {
+    //     font-size: 70px;
+    // }
 }
