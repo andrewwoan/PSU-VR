@@ -19,6 +19,7 @@ export default class Preloader {
 
         this.elements = elements({
             loadingPercentage: ".preloader-percentage",
+            preloader: ".preloader",
         });
 
         // **** This is for updating a percentage ****
@@ -41,13 +42,11 @@ export default class Preloader {
             this.timeline.to(".preloader", {
                 // opacity: 0.2,
                 duration: 1.5,
-                top: "-100%",
                 delay: 2,
-                ease: "power4.out",
+                top: "-100%",
+                ease: "power3.out",
                 onComplete: () => {
-                    document
-                        .querySelector(".preloader")
-                        .classList.add("hidden");
+                    this.elements.preloader.classList.add("hidden");
                 },
             });
         });

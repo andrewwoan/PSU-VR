@@ -1,12 +1,14 @@
 .preloader {
     @extend %center;
     @extend %cover;
-    background: $color-base-white;
+    background: $color-base-dark-blue;
 }
 
 .preloader-title {
     margin-bottom: 50px;
     font-weight: bold;
+    font-size: 256px;
+    color: $color-base-white;
     // letter-spacing: 2px;
     // text-transform: uppercase;
 }
@@ -16,48 +18,8 @@
     flex-direction: column;
 }
 
-// Preloader animation inspiration credit: Anastasiya Kuligina
-.spinner {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 1px solid transparent;
-    border-top-color: $color-base-dark-blue;
-    animation: spin 2s linear infinite;
-}
-
-.spinner:before {
-    content: "";
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    border-radius: 50%;
-    border: 1px solid transparent;
-    border-top-color: $color-base-medium-blue;
-    animation: spin 3s linear infinite;
-}
-
-.spinner:after {
-    content: "";
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    border-radius: 50%;
-    border: 1px solid transparent;
-    border-top-color: $color-base-light-blue;
-    animation: spin 1.5s linear infinite;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+.preloader-percentage {
+    font-weight: bold;
+    font-size: 256px;
+    color: $color-base-white;
 }
