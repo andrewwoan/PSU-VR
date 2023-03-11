@@ -1,4 +1,4 @@
-# Penn State Futura
+# PSU VR
 
 **[Live demo](https://psu-vr.vercel.app/)**
 
