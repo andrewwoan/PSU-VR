@@ -18,8 +18,9 @@ export default class Preloader {
         this.amountDone = 0;
 
         this.elements = elements({
-            loadingPercentage: ".preloader-percentage",
             preloader: ".preloader",
+            text1: ".preloader-percentage1",
+            text2: ".preloader-percentage2",
         });
 
         // **** This is for updating a percentage ****
@@ -55,7 +56,8 @@ export default class Preloader {
     update() {
         if (this.counter < this.amountDone) {
             this.counter++;
-            this.elements.loadingPercentage.innerText = this.counter;
+            this.elements.text1.innerText = Math.round(this.counter / 10);
+            this.elements.text2.innerText = Math.round(this.counter % 10);
         }
     }
 }

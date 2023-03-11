@@ -21,7 +21,16 @@
     flex-direction: column;
 }
 
-.preloader-percentage {
+.preloader-progress {
+    @extend %center;
+}
+
+.preloader-percentage1 {
+    text-align: right;
+}
+
+.percent {
+    width: 256px;
     font-weight: bold;
     font-size: 256px;
     color: $color-base-white;
