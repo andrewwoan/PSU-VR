@@ -11,6 +11,9 @@
     color: $color-base-white;
     // letter-spacing: 2px;
     // text-transform: uppercase;
+    @include media("<=tablet") {
+        font-size: 70px;
+    }
 }
 
 .preloader-wrapper {
@@ -22,4 +25,7 @@
     font-weight: bold;
     font-size: 256px;
     color: $color-base-white;
+    @include media("<=tablet") {
+        font-size: 70px;
+    }
 }
