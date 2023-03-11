@@ -21,6 +21,7 @@ export default class Preloader {
             preloader: ".preloader",
             text1: ".preloader-percentage1",
             text2: ".preloader-percentage2",
+            progressBar: ".progress-bar",
         });
 
         // **** This is for updating a percentage ****
@@ -43,9 +44,9 @@ export default class Preloader {
             this.timeline.to(".preloader", {
                 // opacity: 0.2,
                 duration: 1.5,
-                delay: 2,
+                delay: 2.5,
                 top: "-100%",
-                ease: "power3.out",
+                ease: "power4.out",
                 onComplete: () => {
                     this.elements.preloader.classList.add("hidden");
                 },
@@ -58,6 +59,8 @@ export default class Preloader {
             this.counter++;
             this.elements.text1.innerText = Math.round(this.counter / 10);
             this.elements.text2.innerText = Math.round(this.counter % 10);
+            this.elements.progressBar.style.width =
+                Math.round(this.counter) + "%";
         }
     }
 }

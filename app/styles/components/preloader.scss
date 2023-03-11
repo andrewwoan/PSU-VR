@@ -17,18 +17,24 @@
 
 .preloader-wrapper {
     @extend %center;
+    flex-direction: column;
+    gap: 48px;
 }
 
 .preloader-progress {
     @extend %center;
     flex-direction: column;
     position: absolute;
-    bottom: 20%;
+    bottom: 10%;
 }
 
 .progress-wrapper {
     @extend %center;
     position: relative;
+}
+
+.preloader-wrapper {
+    padding-bottom: 120px;
 }
 
 .preloader-percentage1 {
@@ -48,4 +54,18 @@
     // @include media("<=tablet") {
     //     font-size: 70px;
     // }
+}
+
+.progress-bar-container {
+    width: 300px;
+    height: 2px;
+    background-color: $color-base-light-gray;
+    border-radius: 7px;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 2px;
+    background-color: $color-base-dark-blue;
+    border-radius: 7px;
 }
