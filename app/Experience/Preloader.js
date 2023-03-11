@@ -14,25 +14,26 @@ export default class Preloader {
         this.loaded = 0;
         this.queue = 0;
 
-        this.previousProgress = 0;
+        this.counter = 0;
+        this.amountDone = 0;
 
-        this.elements = elements({ loadingText: ".loading-text" });
+        this.elements = elements({
+            loadingPercentage: ".preloader-percentage",
+        });
 
         // **** This is for updating a percentage ****
-        // this.resources.on("loading", (loaded, queue) => {
-        //     this.updateProgress(loaded, queue);
-        // });
+        this.resources.on("loading", (loaded, queue) => {
+            this.updateProgress(loaded, queue);
+        });
 
         this.resources.on("ready", () => {
             this.playIntro();
         });
     }
 
-    // setPreloader() {}
-    // updateProgress(loaded, queue) {
-    //     const percent = loaded / queue;
-    //     this.elements.loadingText.innerText = `${Math.round(percent * 100)}%`;
-    // }
+    updateProgress(loaded, queue) {
+        this.amountDone = Math.round((loaded / queue) * 100);
+    }
 
     async playIntro() {
         return new Promise((resolve) => {
@@ -40,7 +41,7 @@ export default class Preloader {
             this.timeline.to(".preloader", {
                 // opacity: 0.2,
                 top: "-100%",
-                delay: 1,
+                delay: 2,
                 ease: "power4.out",
                 onComplete: () => {
                     document
@@ -49,5 +50,12 @@ export default class Preloader {
                 },
             });
         });
+    }
+
+    update() {
+        if (this.counter < this.amountDone) {
+            this.counter++;
+            this.elements.loadingPercentage.innerText = this.counter;
+        }
     }
 }

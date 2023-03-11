@@ -69,6 +69,7 @@ export default class Experience {
     }
 
     update() {
+        if (this.preloader) this.preloader.update();
         if (this.camera) this.camera.update();
         if (this.renderer) this.renderer.update();
         if (this.world) this.world.update();
