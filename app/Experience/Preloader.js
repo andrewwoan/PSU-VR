@@ -40,6 +40,7 @@ export default class Preloader {
             this.timeline = new gsap.timeline();
             this.timeline.to(".preloader", {
                 // opacity: 0.2,
+                duration: 1.5,
                 top: "-100%",
                 delay: 2,
                 ease: "power4.out",
