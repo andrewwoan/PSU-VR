@@ -1,5 +1,9 @@
 @import "./styles/defaults/reset.scss";
+@import "./styles/defaults/fonts.scss";
+@import "./styles/defaults/defaults.scss";
 @import "./styles/defaults/variables.scss";
 
-@import "./styles/preloader.scss";
-@import "./styles/canvas.scss";
+@import "./styles/utils/common.scss";
+
+@import "./styles/components/preloader.scss";
+@import "./styles/components/canvas.scss";
