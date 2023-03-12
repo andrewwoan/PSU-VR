@@ -44,7 +44,7 @@ export default class Preloader {
             this.timeline.to(".preloader", {
                 // opacity: 0.2,
                 duration: 1.5,
-                delay: 2.5,
+                delay: 2.2,
                 top: "-100%",
                 ease: "power4.out",
                 onComplete: () => {

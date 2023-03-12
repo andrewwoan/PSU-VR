@@ -2,6 +2,7 @@
     @extend %center;
     @extend %cover;
     background: $color-base-white;
+    // z-index: 99999;
 }
 
 .preloader-title {
