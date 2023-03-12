@@ -4,11 +4,15 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite --host",
+        "frontend-dev": "vite --host",
+        "frontend-debuild": "vite build",
+        "backend-dev": "nodemon server.js",
+        "dev": "concurrently --kill-others \"npm run backend-dev\" \"npm run frontend-dev\"",
         "build": "vite build",
         "preview": "vite preview"
     },
     "devDependencies": {
+        "concurrently": "^7.6.0",
         "gsap": "^3.11.4",
         "include-media": "^2.0.0",
         "sass": "^1.58.3",
