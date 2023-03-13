@@ -9,9 +9,9 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            "/foo": "http://localhost:5000",
+            "/foo": "http://localhost:3000",
             "/api": {
-                target: "https://localhost:5000",
+                target: "https://localhost:3000",
                 changeOrigin: true,
                 secure: false,
                 ws: true,
