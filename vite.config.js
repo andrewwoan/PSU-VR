@@ -7,6 +7,9 @@ export default defineConfig({
         outDir: "../dist",
         emptyOutDir: true,
     },
+    optimizeDeps: {
+        include: ["socket.io-client"],
+    },
     server: {
         proxy: {
             "/foo": "http://localhost:3000",
