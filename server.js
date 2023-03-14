@@ -27,11 +27,13 @@ import { Server } from "socket.io";
 import path from "path";
 import cors from "cors";
 
+const port = process.env.PORT || 3000;
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "*",
         methods: "*",
     },
 });
@@ -39,8 +41,11 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     const socketUrl = new URL(socket.handshake.headers.referer);
     console.log("A user has connected from", socketUrl.hostname);
+    socket.on("test", (num, string) => {
+        console.log(num, string);
+    });
 });
 
-server.listen(3000, () => {
-    console.log("Server listening on port 3000.");
+server.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
 });

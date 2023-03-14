@@ -7,3 +7,20 @@
     background-color: $color-base-black-transparent;
     color: $color-base-white;
 }
+
+.form {
+    @extend %center;
+    position: absolute;
+    bottom: 0px;
+    flex-direction: row;
+}
+
+#chat-message-button {
+    @extend %center;
+    width: 50px;
+    height: 30px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: $color-base-white;
+}
