@@ -168,7 +168,10 @@ export default class Player {
         document.addEventListener("keydown", this.onKeyDown);
         document.addEventListener("keyup", this.onKeyUp);
         document.addEventListener("pointermove", this.onDesktopPointerMove);
-        document.addEventListener("pointerdown", this.onPointerDown);
+        this.experience.canvas.addEventListener(
+            "pointerdown",
+            this.onPointerDown
+        );
     }
 
     resize() {}

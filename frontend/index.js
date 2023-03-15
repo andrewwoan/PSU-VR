@@ -2,11 +2,16 @@ import "./index.scss";
 import Experience from "./Experience/Experience.js";
 import { io } from "socket.io-client";
 import elements from "./Experience/Utils/functions/elements.js";
+
+let domElements = elements({
+    canvas: ".experience-canvas",
+    messageSubmitButton: "#chat-message-button",
+    chatContainer: ".chat-container",
+});
+
 // Experience ----------------------------------
 
-const experience = new Experience(
-    document.querySelector("canvas.experience-canvas")
-);
+const experience = new Experience(domElements.canvas);
 
 // Frontend Server ----------------------------------
 
@@ -21,4 +26,9 @@ socket.on("connect", () => {
 
 socket.emit("test", 10, "hi");
 
-// import { io } from "socket.io-client";
+domElements.messageSubmitButton.addEventListener("click", (message) => {
+    console.log("Clicked me bro");
+    const messageDiv = document.createElement("div");
+    messageDiv.textContent = message;
+    domElements.chatContainer.append(messageDiv);
+});
