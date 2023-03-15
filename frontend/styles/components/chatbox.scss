@@ -6,6 +6,11 @@
     height: 200px;
     background-color: $color-base-black-transparent;
     color: $color-base-white;
+}
+
+.chat-container {
+    width: 400px;
+    height: 200px;
     overflow-y: scroll;
 }
 
@@ -24,4 +29,11 @@
     background-color: transparent;
     border: none;
     color: $color-base-white;
+}
+
+.input-wrapper {
+    @extend %center;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
 }

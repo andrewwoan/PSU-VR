@@ -25,8 +25,6 @@ socket.on("connect", () => {
     console.log("Connected to server with ID" + socket.id);
 });
 
-socket.emit("test", 10, "hi");
-
 domElements.messageSubmitButton.addEventListener("click", handleMessageSubmit);
 domElements.messageInput.addEventListener("keydown", handleMessageSubmit);
 
@@ -41,6 +39,8 @@ function handleMessageSubmit(event) {
             domElements.messageInput.value
         }`;
         domElements.chatContainer.append(messageDiv);
+
+        socket.emit("test", 10, "hi");
 
         domElements.messageInput.value = "";
     }
