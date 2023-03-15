@@ -1,12 +1,13 @@
 import "./index.scss";
-import Experience from "./Experience/Experience.js";
 import { io } from "socket.io-client";
+import Experience from "./Experience/Experience.js";
 import elements from "./Experience/Utils/functions/elements.js";
 
-let domElements = elements({
+const domElements = elements({
     canvas: ".experience-canvas",
-    messageSubmitButton: "#chat-message-button",
     chatContainer: ".chat-container",
+    messageSubmitButton: "#chat-message-button",
+    messageInput: "#chat-message-input",
 });
 
 // Experience ----------------------------------
@@ -26,9 +27,29 @@ socket.on("connect", () => {
 
 socket.emit("test", 10, "hi");
 
-domElements.messageSubmitButton.addEventListener("click", (message) => {
-    console.log("Clicked me bro");
-    const messageDiv = document.createElement("div");
-    messageDiv.textContent = message;
-    domElements.chatContainer.append(messageDiv);
-});
+domElements.messageSubmitButton.addEventListener("click", handleMessageSubmit);
+domElements.messageInput.addEventListener("keydown", handleMessageSubmit);
+
+function handleMessageSubmit(event) {
+    if (
+        event.type === "click" ||
+        (event.key === "Enter" &&
+            document.activeElement === domElements.messageInput)
+    ) {
+        const messageDiv = document.createElement("div");
+        messageDiv.textContent = `[${getTime()}]: ${
+            domElements.messageInput.value
+        }`;
+        domElements.chatContainer.append(messageDiv);
+
+        domElements.messageInput.value = "";
+    }
+}
+
+function getTime() {
+    const currentDate = new Date();
+    const hours = currentDate.getHours().toString().padStart(2, "0");
+    const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+    const time = `${hours}:${minutes}`;
+    return time;
+}

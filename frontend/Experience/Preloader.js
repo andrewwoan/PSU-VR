@@ -17,7 +17,7 @@ export default class Preloader {
         this.counter = 0;
         this.amountDone = 0;
 
-        this.elements = elements({
+        this.domElements = elements({
             preloader: ".preloader",
             text1: ".preloader-percentage1",
             text2: ".preloader-percentage2",
@@ -48,7 +48,7 @@ export default class Preloader {
                 top: "-100%",
                 ease: "power4.out",
                 onComplete: () => {
-                    this.elements.preloader.classList.add("hidden");
+                    this.domElements.preloader.classList.add("hidden");
                 },
             });
         });
@@ -57,9 +57,9 @@ export default class Preloader {
     update() {
         if (this.counter < this.amountDone) {
             this.counter++;
-            this.elements.text1.innerText = Math.round(this.counter / 10);
-            this.elements.text2.innerText = Math.round(this.counter % 10);
-            this.elements.progressBar.style.width =
+            this.domElements.text1.innerText = Math.round(this.counter / 10);
+            this.domElements.text2.innerText = Math.round(this.counter % 10);
+            this.domElements.progressBar.style.width =
                 Math.round(this.counter) + "%";
         }
     }
