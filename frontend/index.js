@@ -39,6 +39,8 @@ function handleMessageSubmit(event) {
             domElements.messageInput.value
         }`;
         domElements.chatContainer.append(messageDiv);
+        domElements.chatContainer.scrollTop =
+            domElements.chatContainer.scrollHeight;
 
         socket.emit("test", 10, "hi");
 
