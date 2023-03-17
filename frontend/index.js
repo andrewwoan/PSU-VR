@@ -35,13 +35,9 @@ function handleMessageSubmit(event) {
             document.activeElement === domElements.messageInput)
     ) {
         displayMessage(domElements.messageInput.value, getTime());
-        socket.emit(
-            "send-message",
-            domElements.messageInput.value,
-            getTime(),
-            room
-        );
+        socket.emit("send-message", domElements.messageInput.value, getTime());
         domElements.messageInput.value = "";
+        console.log(domElements.messageInput.value);
     }
 }
 

@@ -17,12 +17,8 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     const socketUrl = new URL(socket.handshake.headers.referer);
     console.log("A user has connected from", socketUrl.hostname);
-    socket.on("send-message", (message, time, room) => {
-        if (room === "") {
-            socket.broadcast.emit("recieved-message", message, time);
-        } else {
-            socket.to(room).emit("recieved-message", message, time);
-        }
+    socket.on("send-message", (message, time) => {
+        socket.broadcast.emit("recieved-message", message, time);
     });
 });
 
