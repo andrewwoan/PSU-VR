@@ -34,16 +34,13 @@ function handleMessageSubmit(event) {
         (event.key === "Enter" &&
             document.activeElement === domElements.messageInput)
     ) {
-        const messageDiv = document.createElement("div");
-        messageDiv.textContent = `[${getTime()}]: ${
-            domElements.messageInput.value
-        }`;
-        domElements.chatContainer.append(messageDiv);
-        domElements.chatContainer.scrollTop =
-            domElements.chatContainer.scrollHeight;
-
-        socket.emit("test", 10, "hi");
-
+        displayMessage(domElements.messageInput.value, getTime());
+        socket.emit(
+            "send-message",
+            domElements.messageInput.value,
+            getTime(),
+            room
+        );
         domElements.messageInput.value = "";
     }
 }
@@ -55,3 +52,18 @@ function getTime() {
     const time = `${hours}:${minutes}`;
     return time;
 }
+
+function displayMessage(message, time) {
+    const messageDiv = document.createElement("div");
+    messageDiv.textContent = `[${time}]: ${message}`;
+    domElements.chatContainer.append(messageDiv);
+    domElements.chatContainer.scrollTop =
+        domElements.chatContainer.scrollHeight;
+}
+
+// Get data from server ----------------------------------
+
+socket.on("recieved-message", (message, time) => {
+    console.log(message, time);
+    displayMessage(message, time);
+});

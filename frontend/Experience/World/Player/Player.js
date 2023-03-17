@@ -10,6 +10,7 @@ export default class Player {
         this.camera = this.experience.camera;
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
+        this.avatar = this.experience.world.avatar.avatar;
 
         this.initPlayer();
         this.initControls();
@@ -285,8 +286,13 @@ export default class Player {
         }
     }
 
+    updateAvatar() {
+        this.avatar.position.copy(this.player.body.position);
+    }
+
     update() {
         this.updateMovement();
+        this.updateAvatar();
         // this.updateRaycaster();
     }
 }

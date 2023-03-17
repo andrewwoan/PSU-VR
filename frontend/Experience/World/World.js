@@ -4,6 +4,7 @@ import Experience from "../Experience.js";
 
 import { Octree } from "three/examples/jsm/math/Octree";
 
+import Avatar from "./Player/Avatar.js";
 import Player from "./Player/Player.js";
 
 import Westgate from "./Westgate.js";
@@ -22,14 +23,11 @@ export default class World extends EventEmitter {
         this.resources.on("ready", () => {
             if (this.player === null) {
                 this.westgate = new Westgate();
+                this.avatar = new Avatar();
                 this.player = new Player();
-                this.asyn();
+                this.environment = new Environment();
             }
         });
-    }
-
-    asyn() {
-        this.environment = new Environment();
     }
 
     update() {
