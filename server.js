@@ -14,16 +14,33 @@ const io = new Server(server, {
     },
 });
 
-io.on("connection", (socket) => {
-    const socketUrl = new URL(socket.handshake.headers.referer);
-    console.log("A user has connected from", socketUrl.hostname);
+// Chat Name Space ----------------------------------------
+
+const chatNameSpace = io.of("/chat");
+
+chatNameSpace.on("connection", (socket) => {
+    console.log(`${socket.id} has connected to chat namespace`);
+
+    socket.on("disconnect", () => {
+        console.log(`${socket.id} has disconnected`);
+    });
+
     socket.on("send-message", (message, time) => {
         socket.broadcast.emit("recieved-message", message, time);
     });
+});
 
-    socket.on("updatePlayer", (test) => {
-        console.log(test);
+// Update Name Space ----------------------------------------
+const updateNameSpace = io.of("/update");
+
+updateNameSpace.on("connection", (socket) => {
+    console.log(`${socket.id} has connected to update namespace`);
+
+    socket.on("disconnect", () => {
+        console.log(`${socket.id} has disconnected`);
     });
+
+    socket.on("updatePlayer", (test) => {});
 });
 
 server.listen(port, () => {

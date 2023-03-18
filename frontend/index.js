@@ -3,6 +3,8 @@ import { io } from "socket.io-client";
 import Experience from "./Experience/Experience.js";
 import elements from "./Experience/Utils/functions/elements.js";
 
+// Dom Elements ----------------------------------
+
 const domElements = elements({
     canvas: ".experience-canvas",
     chatContainer: ".chat-container",
@@ -15,10 +17,18 @@ const domElements = elements({
 const socketUrl = new URL("/", window.location.href);
 socketUrl.host = "localhost:3000";
 
-const socket = io(socketUrl.toString());
+// const socket = io(socketUrl.toString());
+const chatSocket = io(socketUrl.toString() + "chat");
+const updateSocket = io(socketUrl.toString() + "update");
 
-socket.on("connect", () => {
-    console.log("Connected to server with ID" + socket.id);
+// Experience ----------------------------------
+
+const experience = new Experience(domElements.canvas, updateSocket);
+
+// Sockets ----------------------------------
+
+chatSocket.on("connect", () => {
+    console.log("Connected to server with ID" + chatSocket.id);
 });
 
 domElements.messageSubmitButton.addEventListener("click", handleMessageSubmit);
@@ -31,7 +41,11 @@ function handleMessageSubmit(event) {
             document.activeElement === domElements.messageInput)
     ) {
         displayMessage(domElements.messageInput.value, getTime());
-        socket.emit("send-message", domElements.messageInput.value, getTime());
+        chatSocket.emit(
+            "send-message",
+            domElements.messageInput.value,
+            getTime()
+        );
         domElements.messageInput.value = "";
     }
 }
@@ -54,11 +68,13 @@ function displayMessage(message, time) {
 
 // Get data from server ----------------------------------
 
-socket.on("recieved-message", (message, time) => {
+chatSocket.on("recieved-message", (message, time) => {
     console.log(message, time);
     displayMessage(message, time);
 });
 
-// Experience ----------------------------------
+// Update Socket ----------------------------------------------------
 
-const experience = new Experience(domElements.canvas, socket);
+updateSocket.on("connect", () => {
+    console.log("Connected to update with ID" + updateSocket.id);
+});
