@@ -10,10 +10,6 @@ const domElements = elements({
     messageInput: "#chat-message-input",
 });
 
-// Experience ----------------------------------
-
-const experience = new Experience(domElements.canvas);
-
 // Frontend Server ----------------------------------
 
 const socketUrl = new URL("/", window.location.href);
@@ -37,7 +33,6 @@ function handleMessageSubmit(event) {
         displayMessage(domElements.messageInput.value, getTime());
         socket.emit("send-message", domElements.messageInput.value, getTime());
         domElements.messageInput.value = "";
-        console.log(domElements.messageInput.value);
     }
 }
 
@@ -63,3 +58,7 @@ socket.on("recieved-message", (message, time) => {
     console.log(message, time);
     displayMessage(message, time);
 });
+
+// Experience ----------------------------------
+
+const experience = new Experience(domElements.canvas, socket);

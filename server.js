@@ -20,6 +20,10 @@ io.on("connection", (socket) => {
     socket.on("send-message", (message, time) => {
         socket.broadcast.emit("recieved-message", message, time);
     });
+
+    socket.on("updatePlayer", (test) => {
+        console.log(test);
+    });
 });
 
 server.listen(port, () => {

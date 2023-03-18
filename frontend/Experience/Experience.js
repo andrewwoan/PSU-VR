@@ -14,7 +14,7 @@ import World from "./World/World.js";
 export default class Experience {
     static instance;
 
-    constructor(canvas) {
+    constructor(canvas, socket) {
         if (Experience.instance) {
             return Experience.instance;
         }
@@ -22,6 +22,7 @@ export default class Experience {
         Experience.instance = this;
 
         this.canvas = canvas;
+        this.socket = socket;
         this.sizes = new Sizes();
         this.time = new Time();
 
@@ -72,7 +73,12 @@ export default class Experience {
         if (this.preloader) this.preloader.update();
         if (this.camera) this.camera.update();
         if (this.renderer) this.renderer.update();
-        if (this.world) this.world.update();
+        if (this.world) {
+            this.world.update();
+            if (this.world.player) {
+                this.socket.emit("updatePlayer", "test");
+            }
+        }
         if (this.time) this.time.update();
 
         window.requestAnimationFrame(() => {
