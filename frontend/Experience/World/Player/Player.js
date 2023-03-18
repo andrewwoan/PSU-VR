@@ -11,9 +11,11 @@ export default class Player {
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
         this.avatar = this.experience.world.avatar.avatar;
+        this.socket = this.experience.socket;
 
         this.initPlayer();
         this.initControls();
+        this.setPlayerSocket();
 
         this.addEventListeners();
     }
@@ -53,6 +55,14 @@ export default class Player {
 
     initControls() {
         this.actions = {};
+    }
+
+    setPlayerSocket() {
+        this.socket.emit("initPlayer", this.avatar.position);
+    }
+
+    updatePlayerSocket() {
+        this.socket.emit("updatePlayer", this.avatar.position);
     }
 
     onDesktopPointerMove = (e) => {
@@ -293,6 +303,7 @@ export default class Player {
     update() {
         this.updateMovement();
         this.updateAvatar();
+        this.updatePlayerSocket();
         // this.updateRaycaster();
     }
 }

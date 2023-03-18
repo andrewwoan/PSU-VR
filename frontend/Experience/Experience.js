@@ -73,12 +73,7 @@ export default class Experience {
         if (this.preloader) this.preloader.update();
         if (this.camera) this.camera.update();
         if (this.renderer) this.renderer.update();
-        if (this.world) {
-            this.world.update();
-            if (this.world.player) {
-                this.socket.emit("updatePlayer", "test");
-            }
-        }
+        if (this.world) this.world.update();
         if (this.time) this.time.update();
 
         window.requestAnimationFrame(() => {

@@ -74,7 +74,6 @@ chatSocket.on("recieved-message", (message, time) => {
 });
 
 // Update Socket ----------------------------------------------------
-
 updateSocket.on("connect", () => {
-    console.log("Connected to update with ID" + updateSocket.id);
+    console.log("update socket" + updateSocket.id);
 });

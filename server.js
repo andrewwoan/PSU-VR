@@ -35,13 +35,38 @@ const updateNameSpace = io.of("/update");
 
 updateNameSpace.on("connection", (socket) => {
     console.log(`${socket.id} has connected to update namespace`);
+    socket.emit("setID", { id: socket.id });
+
+    socket.userData = { x: 0, y: 0, z: 0 };
 
     socket.on("disconnect", () => {
         console.log(`${socket.id} has disconnected`);
     });
 
-    socket.on("updatePlayer", (test) => {});
+    socket.on("initPlayer", (player) => {
+        socket.userData.x = player.x;
+        socket.userData.y = player.y;
+        socket.userData.z = player.z;
+    });
+
+    socket.on("updatePlayer", (player) => {
+        socket.userData.x = player.x;
+        socket.userData.y = player.y;
+        socket.userData.z = player.z;
+    });
 });
+
+setInterval(() => {
+    // Get the socket IDs in the namespace
+
+    const socketIds = updateNameSpace.sockets.keys();
+    const socketIdsArray = Array.from(socketIds);
+
+    for (const id of socketIdsArray) {
+        console.log(id);
+    }
+    let playerData = [];
+}, 1000);
 
 server.listen(port, () => {
     console.log(`Server listening on port ${port}`);
