@@ -33,9 +33,13 @@ chatNameSpace.on("connection", (socket) => {
 // Update Name Space ----------------------------------------
 const updateNameSpace = io.of("/update");
 
+const connectedSockets = new Map();
+
 updateNameSpace.on("connection", (socket) => {
     console.log(`${socket.id} has connected to update namespace`);
     socket.emit("setID", { id: socket.id });
+
+    connectedSockets.set(socket.id, socket);
 
     socket.userData = { x: 0, y: 0, z: 0 };
 
@@ -57,15 +61,17 @@ updateNameSpace.on("connection", (socket) => {
 });
 
 setInterval(() => {
-    // Get the socket IDs in the namespace
-
-    const socketIds = updateNameSpace.sockets.keys();
-    const socketIdsArray = Array.from(socketIds);
-
-    for (const id of socketIdsArray) {
-        console.log(id);
+    const playerData = [];
+    for (const socket of connectedSockets.values()) {
+        playerData.push({
+            id: socket.id,
+            x: socket.userData.x,
+            y: socket.userData.y,
+            z: socket.userData.z,
+        });
     }
-    let playerData = [];
+
+    updateNameSpace.emit("playerData", playerData);
 }, 1000);
 
 server.listen(port, () => {
