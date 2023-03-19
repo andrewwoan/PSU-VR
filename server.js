@@ -71,7 +71,7 @@ setInterval(() => {
         });
     }
 
-    console.log(playerData);
+    // console.log(playerData);
 
     updateNameSpace.emit("playerData", playerData);
 }, 1000);

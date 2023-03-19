@@ -58,7 +58,11 @@ export default class Player {
     }
 
     setPlayerSocket() {
-        this.socket.emit("initPlayer", this.avatar.position);
+        this.socket.emit("initPlayer", this.avatar);
+        this.socket.on("playerData", (data) => {
+            this.avatar.position.copy(data);
+            console.log(data);
+        });
     }
 
     updatePlayerSocket() {
@@ -297,12 +301,14 @@ export default class Player {
     }
 
     updateAvatar() {
-        this.avatar.position.copy(this.player.body.position);
+        const playerPos = this.player.body.position.clone();
+        playerPos.z -= 1;
+        this.avatar.position.copy(playerPos);
     }
 
     update() {
         this.updateMovement();
-        this.updateAvatar();
+        // this.updateAvatar();
         this.updatePlayerSocket();
         // this.updateRaycaster();
     }
