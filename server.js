@@ -37,7 +37,10 @@ const connectedSockets = new Map();
 
 updateNameSpace.on("connection", (socket) => {
     console.log(`${socket.id} has connected to update namespace`);
-    socket.emit("setID", { id: socket.id });
+
+    socket.on("setID", () => {
+        socket.emit("setID", socket.id);
+    });
 
     connectedSockets.set(socket.id, socket);
 
@@ -54,6 +57,7 @@ updateNameSpace.on("connection", (socket) => {
     });
 
     socket.on("updatePlayer", (player) => {
+        console.log(player);
         socket.userData.x = player.x;
         socket.userData.y = player.y;
         socket.userData.z = player.z;

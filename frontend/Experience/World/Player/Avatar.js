@@ -21,7 +21,7 @@ export default class Avatar extends EventEmitter {
             opacity: 0.5,
         });
         this.avatar = new THREE.Mesh(geometry, material);
-        this.scene.add(this.avatar);
+        // this.scene.add(this.avatar);
     }
 
     update() {}

@@ -7,6 +7,7 @@ export default class Player {
     constructor() {
         this.experience = new Experience();
         this.time = this.experience.time;
+        this.scene = this.experience.scene;
         this.camera = this.experience.camera;
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
@@ -51,6 +52,10 @@ export default class Player {
             new THREE.Vector3(),
             0.35
         );
+
+        this.otherPlayers = {};
+
+        this.socket.emit("setID");
     }
 
     initControls() {
@@ -58,15 +63,53 @@ export default class Player {
     }
 
     setPlayerSocket() {
-        this.socket.emit("initPlayer", this.avatar);
-        this.socket.on("playerData", (data) => {
-            this.avatar.position.copy(data);
-            console.log(data);
+        this.socket.on("setID", (setID) => {});
+        this.socket.emit("initPlayer", this.player);
+
+        this.socket.on("playerData", (playerData) => {
+            for (let player of playerData) {
+                console.log(player);
+
+                if (player.id !== this.socket.id) {
+                    this.scene.traverse((child) => {
+                        if (child.userData.id === player.id) {
+                            child.position.set();
+                        } else {
+                            if (!this.otherPlayers.hasOwnProperty(player.id)) {
+                                const geometry = new THREE.BoxGeometry(
+                                    0.5,
+                                    0.5,
+                                    0.5
+                                );
+                                const material = new THREE.MeshBasicMaterial({
+                                    color: 0x00ff00,
+                                    side: THREE.DoubleSide,
+                                    transparent: true,
+                                    opacity: 0.5,
+                                });
+
+                                const otherPlayer = new THREE.Mesh(
+                                    geometry,
+                                    material
+                                );
+                                otherPlayer.userData = player.id;
+                                player["model"] = otherPlayer;
+                                this.scene.add(otherPlayer);
+                                this.otherPlayers[player.id] = player;
+                            } else {
+                                this.otherPlayers[player.id][
+                                    "model"
+                                ].position.set(player.x, player.y, player.z);
+                            }
+                        }
+                    });
+                }
+            }
         });
     }
 
     updatePlayerSocket() {
-        this.socket.emit("updatePlayer", this.avatar.position);
+        this.socket.emit("updatePlayer", this.player.body.position);
     }
 
     onDesktopPointerMove = (e) => {
