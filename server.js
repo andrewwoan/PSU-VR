@@ -44,41 +44,40 @@ updateNameSpace.on("connection", (socket) => {
 
     connectedSockets.set(socket.id, socket);
 
-    socket.userData = { x: 0, y: 0, z: 0 };
+    socket.userData = {
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+    };
 
     socket.on("disconnect", () => {
         console.log(`${socket.id} has disconnected`);
     });
 
-    socket.on("initPlayer", (player) => {
-        socket.userData.x = player.x;
-        socket.userData.y = player.y;
-        socket.userData.z = player.z;
-    });
-
     socket.on("updatePlayer", (player) => {
-        console.log(player);
-        socket.userData.x = player.x;
-        socket.userData.y = player.y;
-        socket.userData.z = player.z;
+        socket.userData.position.x = player.position.x;
+        socket.userData.position.y = player.position.y;
+        socket.userData.position.z = player.position.z;
+        socket.userData.rotation.x = player.rotation._x;
+        socket.userData.rotation.y = player.rotation._y;
+        socket.userData.rotation.z = player.rotation._z;
+
+        const playerData = [];
+        for (const socket of connectedSockets.values()) {
+            console.log(socket.userData.rotation.x);
+            playerData.push({
+                id: socket.id,
+                position_x: socket.userData.position.x,
+                position_y: socket.userData.position.y,
+                position_z: socket.userData.position.z,
+                rotation_x: socket.userData.rotation.x,
+                rotation_y: socket.userData.rotation.y,
+                rotation_z: socket.userData.rotation.z,
+            });
+        }
+
+        updateNameSpace.emit("playerData", playerData);
     });
 });
-
-setInterval(() => {
-    const playerData = [];
-    for (const socket of connectedSockets.values()) {
-        playerData.push({
-            id: socket.id,
-            x: socket.userData.x,
-            y: socket.userData.y,
-            z: socket.userData.z,
-        });
-    }
-
-    // console.log(playerData);
-
-    updateNameSpace.emit("playerData", playerData);
-}, 1000);
 
 server.listen(port, () => {
     console.log(`Server listening on port ${port}`);

@@ -64,12 +64,10 @@ export default class Player {
 
     setPlayerSocket() {
         this.socket.on("setID", (setID) => {});
-        this.socket.emit("initPlayer", this.player);
 
         this.socket.on("playerData", (playerData) => {
+            // console.log(playerData);
             for (let player of playerData) {
-                console.log(player);
-
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
                         if (child.userData.id === player.id) {
@@ -85,13 +83,15 @@ export default class Player {
                                     color: 0x00ff00,
                                     side: THREE.DoubleSide,
                                     transparent: true,
-                                    opacity: 0.5,
+                                    opacity: 0.9,
                                 });
 
                                 const otherPlayer = new THREE.Mesh(
                                     geometry,
                                     material
                                 );
+
+                                otherPlayer.rotation.order = "YXZ";
                                 otherPlayer.userData = player.id;
                                 player["model"] = otherPlayer;
                                 this.scene.add(otherPlayer);
@@ -99,7 +99,19 @@ export default class Player {
                             } else {
                                 this.otherPlayers[player.id][
                                     "model"
-                                ].position.set(player.x, player.y, player.z);
+                                ].position.set(
+                                    player.position_x,
+                                    player.position_y,
+                                    player.position_z
+                                );
+
+                                this.otherPlayers[player.id][
+                                    "model"
+                                ].rotation.set(
+                                    player.rotation_x,
+                                    player.rotation_y,
+                                    player.rotation_z
+                                );
                             }
                         }
                     });
@@ -109,7 +121,10 @@ export default class Player {
     }
 
     updatePlayerSocket() {
-        this.socket.emit("updatePlayer", this.player.body.position);
+        this.socket.emit("updatePlayer", {
+            position: this.player.body.position,
+            rotation: this.player.body.rotation,
+        });
     }
 
     onDesktopPointerMove = (e) => {
