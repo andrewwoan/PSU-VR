@@ -53,6 +53,10 @@ updateNameSpace.on("connection", (socket) => {
         console.log(`${socket.id} has disconnected`);
     });
 
+    socket.on("initPlayer", (player) => {
+        console.log(player);
+    });
+
     socket.on("updatePlayer", (player) => {
         socket.userData.position.x = player.position.x;
         socket.userData.position.y = player.position.y;
@@ -63,7 +67,6 @@ updateNameSpace.on("connection", (socket) => {
 
         const playerData = [];
         for (const socket of connectedSockets.values()) {
-            console.log(socket.userData.rotation.x);
             playerData.push({
                 id: socket.id,
                 position_x: socket.userData.position.x,
