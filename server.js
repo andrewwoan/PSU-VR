@@ -14,6 +14,12 @@ const io = new Server(server, {
     },
 });
 
+app.use(express.static("dist"));
+
+app.get("/", function (req, res) {
+    res.sendFile(__dirname + "/dist/index.html");
+});
+
 // Chat Name Space ----------------------------------------
 
 const chatNameSpace = io.of("/chat");
