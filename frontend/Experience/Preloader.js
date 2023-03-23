@@ -48,7 +48,8 @@ export default class Preloader {
                 top: "-100%",
                 ease: "power4.out",
                 onComplete: () => {
-                    this.domElements.preloader.classList.add("hidden");
+                    this.domElements.preloader.remove();
+                    resolve;
                 },
             });
         });
