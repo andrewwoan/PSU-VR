@@ -8,3 +8,13 @@ html,
 body {
     overflow: hidden;
 }
+
+ol,
+ul {
+    list-style: none;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
