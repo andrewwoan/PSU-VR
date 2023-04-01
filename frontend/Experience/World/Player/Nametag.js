@@ -8,11 +8,13 @@ export default class Nametag {
         this.resources = this.experience.resources;
         this.scene = this.experience.scene;
 
-        this.createAvatar();
+        this.createNametag();
     }
 
-    createAvatar() {
-        const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    createNametag() {
+        this.canvas = document.createElement("canvas");
+        this.context = canvas.getContext("2d");
+
         const material = new THREE.MeshBasicMaterial({
             color: 0x00ff00,
             side: THREE.DoubleSide,
