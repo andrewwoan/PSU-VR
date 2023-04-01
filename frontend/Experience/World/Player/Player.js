@@ -56,6 +56,7 @@ export default class Player {
         this.otherPlayers = {};
 
         this.socket.emit("setID");
+        this.socket.emit("initPlayer", this.player);
     }
 
     initControls() {

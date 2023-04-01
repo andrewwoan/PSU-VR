@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import Experience from "../../Experience.js";
 
-export default class Avatar {
+export default class Nametag {
     constructor() {
         super();
         this.experience = new Experience();
