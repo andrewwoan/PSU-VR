@@ -10,15 +10,15 @@ export default defineConfig({
     optimizeDeps: {
         include: ["socket.io-client"],
     },
-    server: {
-        proxy: {
-            "/foo": "http://localhost:3000",
-            "/api": {
-                target: "https://localhost:3000",
-                changeOrigin: true,
-                secure: false,
-                ws: true,
-            },
-        },
-    },
+    // server: {
+    //     proxy: {
+    //         "/foo": "http://localhost:3000",
+    //         "/api": {
+    //             target: "https://localhost:3000",
+    //             changeOrigin: true,
+    //             secure: false,
+    //             ws: true,
+    //         },
+    //     },
+    // },
 });

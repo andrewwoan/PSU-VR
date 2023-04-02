@@ -15,7 +15,6 @@ const domElements = elements({
 // Frontend Server ----------------------------------
 
 const socketUrl = new URL("/", window.location.href);
-socketUrl.host = "localhost:3000";
 console.log(socketUrl.toString());
 
 // const socket = io(socketUrl.toString());
