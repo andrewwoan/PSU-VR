@@ -3,6 +3,8 @@ import Experience from "../../Experience.js";
 
 import { Capsule } from "three/examples/jsm/math/Capsule";
 
+import Avatar from "./Avatar.js";
+
 export default class Player {
     constructor() {
         this.experience = new Experience();
@@ -11,8 +13,7 @@ export default class Player {
         this.camera = this.experience.camera;
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
-        this.avatar = this.experience.world.avatar.avatar;
-        this.nametag = this.experience.world.avatar.avatar;
+        this.avatar = new Avatar();
         this.socket = this.experience.socket;
 
         this.initPlayer();

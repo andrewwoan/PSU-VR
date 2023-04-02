@@ -7,15 +7,13 @@ export default class Nametag {
         this.resources = this.experience.resources;
         this.scene = this.experience.scene;
         this.nametag = "";
-
-        this.createNametag();
     }
 
-    createNametag(size = 32, baseWidth = 150, name = "John Doe") {
+    createNametag(size = 24, baseWidth = 150, name = "John Doe") {
         const borderSize = 2;
         const fontSize = 12;
         const ctx = document.createElement("canvas").getContext("2d");
-        const font = `${size}px bold sans-serif`;
+        const font = `200 ${size}px Arial`;
         ctx.font = font;
         // measure how long the name will be
         const textWidth = ctx.measureText(name).width;
@@ -31,7 +29,7 @@ export default class Nametag {
         ctx.textBaseline = "middle";
         ctx.textAlign = "center";
 
-        ctx.fillStyle = "blue";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
         ctx.fillRect(0, 0, width, height);
 
         // scale to fit but don't stretch
@@ -60,7 +58,9 @@ export default class Nametag {
         label.scale.x = ctx.canvas.width * labelBaseScale;
         label.scale.y = ctx.canvas.height * labelBaseScale;
 
-        this.scene.add(label);
+        return label;
+
+        // this.scene.add(label);
 
         // return ctx.canvas;
 
