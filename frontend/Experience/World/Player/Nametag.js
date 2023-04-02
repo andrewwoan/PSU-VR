@@ -11,35 +11,58 @@ export default class Nametag {
         this.createNametag();
     }
 
-    createNametag(text) {
-        text = "Hello World Test";
-        this.canvas = document.createElement("canvas");
-        this.context = this.canvas.getContext("2d");
+    createNametag(size = 32, baseWidth = 150, name = "John Doe") {
+        const borderSize = 2;
+        const fontSize = 12;
+        const ctx = document.createElement("canvas").getContext("2d");
+        const font = `${size}px bold sans-serif`;
+        ctx.font = font;
+        // measure how long the name will be
+        const textWidth = ctx.measureText(name).width;
 
-        this.context.font = "bold 12px Arial";
-        const width = this.context.measureText(text).width;
-        this.canvas.width = width;
-        this.canvas.height = 20;
+        const doubleBorderSize = borderSize * 2;
+        const width = baseWidth + doubleBorderSize;
+        const height = size + doubleBorderSize;
+        ctx.canvas.width = width;
+        ctx.canvas.height = height;
 
-        this.context.fillStyle = "white";
-        this.context.fillRect(0, 0, width, 20);
+        // need to set font again after resizing canvas
+        ctx.font = font;
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
 
-        this.context.fillStyle = "black";
-        this.context.fillText(text, 5, 15);
+        ctx.fillStyle = "blue";
+        ctx.fillRect(0, 0, width, height);
 
-        const texture = new THREE.CanvasTexture(this.canvas);
-        const material = new THREE.MeshBasicMaterial({
-            map: texture,
-            side: THREE.DoubleSide,
+        // scale to fit but don't stretch
+        const scaleFactor = Math.min(1, baseWidth / textWidth);
+        ctx.translate(width / 2, height / 2);
+        ctx.scale(scaleFactor, 1);
+        ctx.fillStyle = "white";
+        ctx.fillText(name, 0, 0);
+
+        const canvasTexture = new THREE.CanvasTexture(ctx.canvas);
+
+        canvasTexture.minFilter = THREE.LinearFilter;
+        canvasTexture.wrapS = THREE.ClampToEdgeWrapping;
+        canvasTexture.wrapT = THREE.ClampToEdgeWrapping;
+
+        const nameMaterial = new THREE.SpriteMaterial({
+            map: canvasTexture,
+            transparent: true,
         });
-        const geometry = new THREE.PlaneGeometry(width / 20, 1);
 
-        this.nametag = new THREE.Mesh(geometry, material);
+        const labelBaseScale = 0.01;
+        const label = new THREE.Sprite(nameMaterial);
 
-        this.nametag.position.y = 5;
+        label.position.y = 5;
 
-        this.scene.add(this.nametag);
-        console.log(this.nametag.position);
+        label.scale.x = ctx.canvas.width * labelBaseScale;
+        label.scale.y = ctx.canvas.height * labelBaseScale;
+
+        this.scene.add(label);
+
+        // return ctx.canvas;
 
         // return this.nametag;
     }
