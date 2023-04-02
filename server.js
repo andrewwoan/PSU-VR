@@ -15,12 +15,20 @@ const io = new Server(server, {
     },
 });
 
-const rootDir = process.cwd();
-app.use(express.static(path.join(rootDir, "/dist/")));
+app.use(express.static("dist"));
 
-app.get("/", function (req, res) {
+// app.use(express.static("dist/assets"));
+
+app.get("*", (req, res) => {
     res.sendFile("index.html");
 });
+
+// const rootDir = process.cwd();
+// app.use(express.static(path.join(rootDir, "/dist/")));
+
+// app.get("/", function (req, res) {
+//     res.sendFile("index.html");
+// });
 
 // Chat Name Space ----------------------------------------
 
