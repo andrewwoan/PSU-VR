@@ -1,5 +1,6 @@
 import * as dotenv from "dotenv";
 import express from "express";
+import path from "path";
 import http from "http";
 import { Server } from "socket.io";
 
@@ -14,10 +15,11 @@ const io = new Server(server, {
     },
 });
 
-app.use(express.static("dist"));
+const rootDir = process.cwd();
+app.use(express.static(path.join(rootDir, "/dist/")));
 
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/dist/index.html");
+    res.sendFile("index.html");
 });
 
 // Chat Name Space ----------------------------------------
