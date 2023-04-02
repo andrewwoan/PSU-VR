@@ -15,12 +15,10 @@ const io = new Server(server, {
     },
 });
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
 app.use(express.static("dist"));
 
 app.get("*", (req, res) => {
-    res.sendFile("index.html", { root: __dirname });
+    res.sendFile("index.html", { root: process.cwd() + "/dist" });
 });
 
 // const rootDir = process.cwd();
@@ -66,11 +64,11 @@ updateNameSpace.on("connection", (socket) => {
     };
 
     socket.on("disconnect", () => {
-        console.log(`${socket.id} has disconnected`);
+        // console.log(`${socket.id} has disconnected`);
     });
 
     socket.on("initPlayer", (player) => {
-        console.log(player);
+        // console.log(player);
     });
 
     socket.on("updatePlayer", (player) => {
