@@ -8,11 +8,9 @@ export default class Avatar {
         this.nametag = new Nametag();
         this.resources = this.experience.resources;
         this.scene = this.experience.scene;
-
-        this.avatar = new THREE.Object3D();
     }
 
-    createAvatar(name = "anonymous") {
+    createAvatar(id, name = "anonymous") {
         const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
         const material = new THREE.MeshBasicMaterial({
             color: 0x00ff00,
@@ -21,6 +19,8 @@ export default class Avatar {
             opacity: 0.5,
         });
         const head = new THREE.Mesh(geometry, material);
+        head.rotation.order = "YXZ";
+        head.userData = id;
 
         const nametag = this.nametag.createNametag(32, 150, name);
 
@@ -28,10 +28,7 @@ export default class Avatar {
         head.position.y = 1.2;
         nametag.position.y = 1.2 + 0.5;
 
-        this.avatar.add(nametag);
-        this.avatar.add(head);
-
-        this.scene.add(this.avatar);
+        return { head, nametag };
     }
 
     update() {}

@@ -77,27 +77,15 @@ export default class Player {
                             child.position.set();
                         } else {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
-                                const geometry = new THREE.BoxGeometry(
-                                    0.5,
-                                    0.5,
-                                    0.5
-                                );
-                                const material = new THREE.MeshBasicMaterial({
-                                    color: 0x00ff00,
-                                    side: THREE.DoubleSide,
-                                    transparent: true,
-                                    opacity: 0.9,
-                                });
-
-                                const otherPlayer = new THREE.Mesh(
-                                    geometry,
-                                    material
+                                const newAvatar = this.avatar.createAvatar(
+                                    player.id,
+                                    "john doe"
                                 );
 
-                                otherPlayer.rotation.order = "YXZ";
-                                otherPlayer.userData = player.id;
-                                player["model"] = otherPlayer;
-                                this.scene.add(otherPlayer);
+                                player["model"] = newAvatar.head;
+                                player["nametag"] = newAvatar.nametag;
+                                this.scene.add(newAvatar.head);
+                                this.scene.add(newAvatar.nametag);
                                 this.otherPlayers[player.id] = player;
                             } else {
                                 this.otherPlayers[player.id][
@@ -107,13 +95,19 @@ export default class Player {
                                     player.position_y,
                                     player.position_z
                                 );
-
                                 this.otherPlayers[player.id][
                                     "model"
                                 ].rotation.set(
                                     player.rotation_x,
                                     player.rotation_y,
                                     player.rotation_z
+                                );
+                                this.otherPlayers[player.id][
+                                    "nametag"
+                                ].position.set(
+                                    player.position_x,
+                                    player.position_y + 0.6,
+                                    player.position_z
                                 );
                             }
                         }
