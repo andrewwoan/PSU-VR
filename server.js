@@ -17,8 +17,10 @@ const io = new Server(server, {
 
 app.use(express.static("dist"));
 
+const indexPath = path.join(process.cwd(), "dist", "index.html");
+
 app.get("*", (req, res) => {
-    res.sendFile("index.html", { root: process.cwd() + "/dist" });
+    res.sendFile(indexPath);
 });
 
 // const rootDir = process.cwd();
