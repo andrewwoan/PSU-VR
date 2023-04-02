@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import Experience from "../../Experience.js";
+import Nametag from "./Nametag.js";
 
 export default class Avatar {
     constructor() {

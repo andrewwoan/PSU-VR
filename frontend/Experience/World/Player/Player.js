@@ -12,6 +12,7 @@ export default class Player {
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
         this.avatar = this.experience.world.avatar.avatar;
+        this.nametag = this.experience.world.avatar.avatar;
         this.socket = this.experience.socket;
 
         this.initPlayer();
