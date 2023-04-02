@@ -11,24 +11,29 @@ export default class Avatar {
     }
 
     createAvatar(id, name = "anonymous") {
-        const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-        const material = new THREE.MeshBasicMaterial({
+        const headGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+        const headMaterial = new THREE.MeshBasicMaterial({
             color: 0x00ff00,
             side: THREE.DoubleSide,
             transparent: true,
             opacity: 0.5,
         });
-        const head = new THREE.Mesh(geometry, material);
+        const head = new THREE.Mesh(headGeometry, headMaterial);
         head.rotation.order = "YXZ";
         head.userData = id;
 
         const nametag = this.nametag.createNametag(32, 150, name);
 
-        // return this.head;
-        head.position.y = 1.2;
-        nametag.position.y = 1.2 + 0.5;
+        const bodyGeometry = new THREE.BoxGeometry(0.5, 1, 0.5);
+        const bodyMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ff00,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.5,
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
 
-        return { head, nametag };
+        return { head, nametag, body };
     }
 
     update() {}
