@@ -19,6 +19,8 @@ export default class Avatar {
             opacity: 0.5,
         });
         this.avatar = new THREE.Mesh(geometry, material);
+
+        return this.avatar;
         // this.scene.add(this.avatar);
     }
 
