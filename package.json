@@ -8,7 +8,8 @@
         "backend-dev": "nodemon server.js",
         "dev": "concurrently --kill-others \"npm run backend-dev\" \"npm run frontend-dev\"",
         "frontend-build": "vite build",
-        "backend-build": "node server.js"
+        "backend-build": "node server.js",
+        "heroku-postbuild": "npm run frontend-build"
     },
     "devDependencies": {
         "concurrently": "^7.6.0",
