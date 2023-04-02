@@ -15,6 +15,8 @@ const io = new Server(server, {
     },
 });
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
 app.use(express.static("dist"));
 
 app.get("*", (req, res) => {
