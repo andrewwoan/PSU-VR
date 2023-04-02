@@ -17,10 +17,8 @@ const io = new Server(server, {
 
 app.use(express.static("dist"));
 
-// app.use(express.static("dist/assets"));
-
 app.get("*", (req, res) => {
-    res.sendFile("index.html");
+    res.sendFile("index.html", { root: __dirname });
 });
 
 // const rootDir = process.cwd();
