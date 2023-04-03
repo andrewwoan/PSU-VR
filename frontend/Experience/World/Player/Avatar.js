@@ -13,11 +13,28 @@ export default class Avatar {
     createAvatar(id, name = "anonymous") {
         const headGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
         const headMaterial = new THREE.MeshBasicMaterial({
-            color: 0x0046dd,
+            color: 0x002a83,
             // transparent: true,
             // opacity: 0.5,
         });
-        const head = new THREE.Mesh(headGeometry, headMaterial);
+        const faceMaterial = new THREE.MeshBasicMaterial({ color: 0x0e56ee });
+
+        const materials = [
+            headMaterial,
+            headMaterial,
+            headMaterial,
+            headMaterial,
+            headMaterial,
+            faceMaterial,
+        ];
+
+        console.log(headGeometry.groups);
+
+        headGeometry.groups.forEach((face, i) => {
+            face.materialIndex = i;
+        });
+
+        const head = new THREE.Mesh(headGeometry, materials);
         head.rotation.order = "YXZ";
         head.userData = id;
 
@@ -25,7 +42,7 @@ export default class Avatar {
 
         const bodyGeometry = new THREE.BoxGeometry(0.5, 1, 0.5);
         const bodyMaterial = new THREE.MeshBasicMaterial({
-            color: 0x0046dd,
+            color: 0x002a83,
             // transparent: true,
             // opacity: 0.5,
         });

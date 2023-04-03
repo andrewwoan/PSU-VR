@@ -74,7 +74,6 @@ export default class Player {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
                         if (child.userData.id === player.id) {
-                            child.position.set();
                         } else {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
                                 const newAvatar = this.avatar.createAvatar(
@@ -115,7 +114,7 @@ export default class Player {
                                     "body"
                                 ].position.set(
                                     player.position_x,
-                                    player.position_y - 1,
+                                    player.position_y - 0.9,
                                     player.position_z
                                 );
                             }
@@ -123,6 +122,12 @@ export default class Player {
                     });
                 }
             }
+        });
+
+        this.socket.on("removePlayer", (id) => {
+            this.otherPlayers[id]["nametag"].remove();
+            this.otherPlayers[id]["body"].remove();
+            this.otherPlayers[id]["model"].remove();
         });
     }
 

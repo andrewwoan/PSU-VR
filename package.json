@@ -5,9 +5,9 @@
     "type": "module",
     "scripts": {
         "frontend-dev": "vite --host",
+        "frontend-build": "vite build --watch",
         "backend-dev": "nodemon server.js",
-        "dev": "concurrently --kill-others \"npm run backend-dev\" \"npm run frontend-dev\"",
-        "frontend-build": "vite build",
+        "dev": "concurrently --kill-others \"npm run frontend-build\" \"npm run backend-dev\"",
         "backend-build": "node server.js",
         "heroku-postbuild": "npm run frontend-build"
     },
@@ -26,7 +26,6 @@
         "express": "^4.18.2",
         "socket.io": "^4.6.1",
         "socket.io-client": "^4.6.1",
-        "three": "^0.150.1",
-        "url-parse": "^1.5.10"
+        "three": "^0.150.1"
     }
 }
