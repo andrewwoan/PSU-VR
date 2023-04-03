@@ -23,13 +23,6 @@ app.get("*", (req, res) => {
     res.sendFile(indexPath);
 });
 
-// const rootDir = process.cwd();
-// app.use(express.static(path.join(rootDir, "/dist/")));
-
-// app.get("/", function (req, res) {
-//     res.sendFile("index.html");
-// });
-
 // Chat Name Space ----------------------------------------
 
 const chatNameSpace = io.of("/chat");
