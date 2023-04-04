@@ -69,7 +69,7 @@ export default class Player {
         this.socket.on("setID", (setID) => {});
 
         this.socket.on("playerData", (playerData) => {
-            // console.log(playerData);
+            console.log(playerData);
             for (let player of playerData) {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
@@ -126,7 +126,6 @@ export default class Player {
 
         this.socket.on("removePlayer", (id) => {
             this.disconnectedPlayerId = id;
-            console.log("REMOVED PLAYER");
 
             this.otherPlayers[id]["nametag"].material.dispose();
             this.otherPlayers[id]["nametag"].geometry.dispose();
@@ -145,6 +144,7 @@ export default class Player {
             delete this.otherPlayers[id]["nametag"];
             delete this.otherPlayers[id]["body"];
             delete this.otherPlayers[id]["model"];
+            delete this.otherPlayers[id];
         });
     }
 
@@ -398,11 +398,11 @@ export default class Player {
         this.updatePlayerSocket();
         // this.updateRaycaster();
 
-        if (this.otherPlayers[this.disconnectedPlayerId]) {
-            console.log(this.otherPlayers[this.disconnectedPlayerId]["model"]);
-        }
+        // if (this.otherPlayers[this.disconnectedPlayerId]) {
+        //     console.log(this.otherPlayers[this.disconnectedPlayerId]["model"]);
+        // }
 
         // console.log(this.socket.id);
-        console.log(this.disconnectedPlayerId);
+        // console.log(this.disconnectedPlayerId);
     }
 }

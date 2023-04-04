@@ -60,6 +60,7 @@ updateNameSpace.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log(`${socket.id} has disconnected`);
+        connectedSockets.delete(socket.id);
         updateNameSpace.emit("removePlayer", socket.id);
     });
 
