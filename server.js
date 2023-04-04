@@ -48,7 +48,7 @@ updateNameSpace.on("connection", (socket) => {
     console.log(`${socket.id} has connected to update namespace`);
 
     socket.on("setID", () => {
-        socket.emit("setID", socket.id);
+        updateNameSpace.emit("setID", socket.id);
     });
 
     connectedSockets.set(socket.id, socket);
@@ -60,7 +60,7 @@ updateNameSpace.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         console.log(`${socket.id} has disconnected`);
-        socket.emit("removePlayer", socket.id);
+        updateNameSpace.emit("removePlayer", socket.id);
     });
 
     socket.on("initPlayer", (player) => {

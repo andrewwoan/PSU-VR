@@ -125,9 +125,26 @@ export default class Player {
         });
 
         this.socket.on("removePlayer", (id) => {
-            this.otherPlayers[id]["nametag"].remove();
-            this.otherPlayers[id]["body"].remove();
-            this.otherPlayers[id]["model"].remove();
+            this.disconnectedPlayerId = id;
+            console.log("REMOVED PLAYER");
+
+            this.otherPlayers[id]["nametag"].material.dispose();
+            this.otherPlayers[id]["nametag"].geometry.dispose();
+            this.scene.remove(this.otherPlayers[id]["nametag"]);
+
+            this.otherPlayers[id]["body"].material.dispose();
+            this.otherPlayers[id]["body"].geometry.dispose();
+            this.scene.remove(this.otherPlayers[id]["body"]);
+
+            this.otherPlayers[id]["model"].material.forEach((material) =>
+                material.dispose()
+            );
+            this.otherPlayers[id]["model"].geometry.dispose();
+            this.scene.remove(this.otherPlayers[id]["model"]);
+
+            delete this.otherPlayers[id]["nametag"];
+            delete this.otherPlayers[id]["body"];
+            delete this.otherPlayers[id]["model"];
         });
     }
 
@@ -380,5 +397,12 @@ export default class Player {
         // this.updateAvatar();
         this.updatePlayerSocket();
         // this.updateRaycaster();
+
+        if (this.otherPlayers[this.disconnectedPlayerId]) {
+            console.log(this.otherPlayers[this.disconnectedPlayerId]["model"]);
+        }
+
+        // console.log(this.socket.id);
+        console.log(this.disconnectedPlayerId);
     }
 }
