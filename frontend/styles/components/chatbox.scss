@@ -6,6 +6,9 @@
     height: 200px;
     background-color: $color-base-black-transparent;
     color: $color-base-white;
+    @include media("<=tablet") {
+        display: none;
+    }
 }
 
 .chat-container {

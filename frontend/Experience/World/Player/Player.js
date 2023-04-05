@@ -1,7 +1,9 @@
 import * as THREE from "three";
 import Experience from "../../Experience.js";
-
 import { Capsule } from "three/examples/jsm/math/Capsule";
+
+import nipplejs from "nipplejs";
+import elements from "../../Utils/functions/elements.js";
 
 import Avatar from "./Avatar.js";
 
@@ -16,9 +18,15 @@ export default class Player {
         this.avatar = new Avatar();
         this.socket = this.experience.socket;
 
+        this.domElements = elements({
+            joystickArea: ".joystick-area",
+        });
+
         this.initPlayer();
         this.initControls();
         this.setPlayerSocket();
+
+        this.setJoyStick();
 
         this.addEventListeners();
     }
@@ -65,11 +73,30 @@ export default class Player {
         this.actions = {};
     }
 
+    setJoyStick() {
+        this.options = {
+            zone: this.domElements.joystickArea,
+            mode: "dynamic",
+        };
+        this.joystick = nipplejs.create(this.options);
+
+        this.joystick.on("move", (e, data) => {
+            // console.log(data.vector);
+            this.actions.movingJoyStick = true;
+            this.joystickVector.z = -data.vector.y;
+            this.joystickVector.x = data.vector.x;
+        });
+
+        this.joystick.on("end", () => {
+            this.actions.movingJoyStick = false;
+        });
+    }
+
     setPlayerSocket() {
         this.socket.on("setID", (setID) => {});
 
         this.socket.on("playerData", (playerData) => {
-            console.log(playerData);
+            // console.log(playerData);
             for (let player of playerData) {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
