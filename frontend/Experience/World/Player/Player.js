@@ -71,6 +71,8 @@ export default class Player {
 
     initControls() {
         this.actions = {};
+
+        this.joystickVector = new THREE.Vector3();
     }
 
     setJoyStick() {
@@ -292,6 +294,17 @@ export default class Player {
         return this.player.direction;
     }
 
+    getJoyStickDirectionalVector() {
+        let returnVector = new THREE.Vector3();
+        returnVector.copy(this.joystickVector);
+
+        returnVector.applyQuaternion(this.camera.perspectiveCamera.quaternion);
+        returnVector.y = 0;
+        returnVector.multiplyScalar(1.5);
+
+        return returnVector;
+    }
+
     addEventListeners() {
         document.addEventListener("keydown", this.onKeyDown);
         document.addEventListener("keyup", this.onKeyUp);
@@ -323,6 +336,11 @@ export default class Player {
 
         //The amount of distance we travel between each frame
         let speedDelta = this.time.delta * speed;
+
+        if (this.actions.movingJoyStick) {
+            // console.log(this.getJoyStickDirectionalVector());
+            this.player.velocity.add(this.getJoyStickDirectionalVector());
+        }
 
         if (this.actions.run) {
             speedDelta *= 1.7;
