@@ -1,11 +1,12 @@
 .joystick-area {
-    width: 40px;
-    height: 40px;
+    width: 100px;
+    height: 100px;
     position: absolute;
-    left: 40px;
-    bottom: 40px;
+    left: 10px;
+    bottom: 0;
     background: $color-base-white-transparent;
     z-index: 40;
+    border-radius: 50% 50%;
 }
 
 .mobile-overlay {
