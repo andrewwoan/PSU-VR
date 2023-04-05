@@ -6,6 +6,7 @@
     height: 200px;
     background-color: $color-base-black-transparent;
     color: $color-base-white;
+    z-index: 50;
     @include media("<=tablet") {
         display: none;
     }

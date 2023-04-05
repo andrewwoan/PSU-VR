@@ -20,6 +20,7 @@ export default class Player {
 
         this.domElements = elements({
             joystickArea: ".joystick-area",
+            mobileOverlay: ".mobile-overlay",
         });
 
         this.initPlayer();
@@ -33,6 +34,7 @@ export default class Player {
 
     initPlayer() {
         this.player = {};
+
         this.player.body = this.camera.perspectiveCamera;
 
         this.player.onFloor = false;
@@ -71,6 +73,13 @@ export default class Player {
 
     initControls() {
         this.actions = {};
+
+        this.coords = {
+            previousX: 0,
+            previousY: 0,
+            currentX: 0,
+            currentY: 0,
+        };
 
         this.joystickVector = new THREE.Vector3();
     }
@@ -262,6 +271,9 @@ export default class Player {
             document.body.requestPointerLock();
             return;
         }
+
+        this.coords.previousX = e.screenX;
+        this.coords.previousY = e.screenY;
     };
 
     playerCollisions() {
@@ -305,13 +317,45 @@ export default class Player {
         return returnVector;
     }
 
+    onMobilePointerMove = (e) => {
+        e.preventDefault();
+        if (e.pointerType === "mouse") return;
+
+        this.coords.currentX = e.screenX;
+        this.coords.currentY = e.screenY;
+
+        let diffX = this.coords.currentX - this.coords.previousX;
+        let diffY = this.coords.currentY - this.coords.previousY;
+
+        this.player.body.rotation.order = "YXZ";
+
+        this.player.body.rotation.x -=
+            diffY / this.camera.perspectiveCamera.zoom / 200;
+
+        this.player.body.rotation.y -=
+            diffX / this.camera.perspectiveCamera.zoom / 200;
+
+        this.player.body.rotation.x = THREE.MathUtils.clamp(
+            this.player.body.rotation.x,
+            -Math.PI / 2 + 0.001,
+            Math.PI / 2 - 0.001
+        );
+
+        this.player.body.rotation.order = "YXZ";
+
+        this.coords.previousX = e.screenX;
+        this.coords.previousY = e.screenY;
+    };
+
     addEventListeners() {
         document.addEventListener("keydown", this.onKeyDown);
         document.addEventListener("keyup", this.onKeyUp);
         document.addEventListener("pointermove", this.onDesktopPointerMove);
-        this.experience.canvas.addEventListener(
-            "pointerdown",
-            this.onPointerDown
+        document.addEventListener("pointerdown", this.onPointerDown);
+
+        this.domElements.mobileOverlay.addEventListener(
+            "pointermove",
+            this.onMobilePointerMove
         );
     }
 
@@ -338,7 +382,6 @@ export default class Player {
         let speedDelta = this.time.delta * speed;
 
         if (this.actions.movingJoyStick) {
-            // console.log(this.getJoyStickDirectionalVector());
             this.player.velocity.add(this.getJoyStickDirectionalVector());
         }
 

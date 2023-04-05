@@ -5,4 +5,14 @@
     left: 40px;
     bottom: 40px;
     background: $color-base-white-transparent;
+    z-index: 40;
+}
+
+.mobile-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    touch-action: none;
+    z-index: 25;
 }
