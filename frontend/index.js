@@ -11,6 +11,8 @@ const domElements = elements({
     messageSubmitButton: "#chat-message-button",
     messageInput: "#chat-message-input",
     inputWrapper: ".message-input-wrapper",
+    nameInputButton: "#name-input-button",
+    nameInput: "#name-input",
 });
 
 // Frontend Server ----------------------------------
@@ -33,8 +35,14 @@ chatSocket.on("connect", () => {
 });
 
 domElements.messageSubmitButton.addEventListener("click", handleMessageSubmit);
-// domElements.messageInput.addEventListener("keydown", handleMessageSubmit);
+domElements.nameInputButton.addEventListener("click", handleNameSubmit);
 document.addEventListener("keydown", handleMessageSubmit);
+
+function handleNameSubmit() {
+    console.log("clicked");
+    chatSocket.emit("setName", domElements.nameInput.value);
+    updateSocket.emit("setName", domElements.nameInput.value);
+}
 
 function handleMessageSubmit(event) {
     if (event.type === "click" || event.key === "Enter") {

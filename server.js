@@ -28,14 +28,27 @@ app.get("*", (req, res) => {
 const chatNameSpace = io.of("/chat");
 
 chatNameSpace.on("connection", (socket) => {
+    socket.userData = {
+        name: "",
+    };
     console.log(`${socket.id} has connected to chat namespace`);
 
     socket.on("disconnect", () => {
         console.log(`${socket.id} has disconnected`);
     });
 
+    socket.on("setName", (name) => {
+        console.log("name set on chat");
+        socket.userData.name = name;
+    });
+
     socket.on("send-message", (message, time) => {
-        socket.broadcast.emit("recieved-message", message, time);
+        socket.broadcast.emit(
+            "recieved-message",
+            message,
+            time,
+            socket.userData.name
+        );
     });
 });
 
@@ -45,18 +58,23 @@ const updateNameSpace = io.of("/update");
 const connectedSockets = new Map();
 
 updateNameSpace.on("connection", (socket) => {
+    socket.userData = {
+        position: { x: 0, y: -500, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        name: "",
+    };
+    connectedSockets.set(socket.id, socket);
+
     console.log(`${socket.id} has connected to update namespace`);
 
     socket.on("setID", () => {
         updateNameSpace.emit("setID", socket.id);
     });
 
-    connectedSockets.set(socket.id, socket);
-
-    socket.userData = {
-        position: { x: 0, y: 0, z: 0 },
-        rotation: { x: 0, y: 0, z: 0 },
-    };
+    socket.on("setName", (name) => {
+        console.log("name set on update");
+        socket.userData.name = name;
+    });
 
     socket.on("disconnect", () => {
         console.log(`${socket.id} has disconnected`);
@@ -80,6 +98,7 @@ updateNameSpace.on("connection", (socket) => {
         for (const socket of connectedSockets.values()) {
             playerData.push({
                 id: socket.id,
+                name: socket.userData.name,
                 position_x: socket.userData.position.x,
                 position_y: socket.userData.position.y,
                 position_z: socket.userData.position.z,
@@ -89,6 +108,7 @@ updateNameSpace.on("connection", (socket) => {
             });
         }
 
+        if (socket.userData.name === "") return;
         updateNameSpace.emit("playerData", playerData);
     });
 });
