@@ -139,11 +139,11 @@ export default [
                         "textures/environment/nz.png",
                     ],
                 },
-                {
-                    name: "video",
-                    type: "videoTexture",
-                    path: "/videos/like.mp4",
-                },
+                // {
+                //     name: "video",
+                //     type: "videoTexture",
+                //     path: "/videos/like.mp4",
+                // },
             ],
         },
     },

@@ -33,6 +33,16 @@ chatSocket.on("connect", () => {
 
 domElements.messageSubmitButton.addEventListener("click", handleMessageSubmit);
 domElements.messageInput.addEventListener("keydown", handleMessageSubmit);
+document.addEventListener("keydown", handleEnter);
+
+function handleEnter(event) {
+    if (
+        event.key === "Enter" &&
+        document.activeElement !== domElements.messageInput
+    ) {
+        domElements.messageInput.focus();
+    }
+}
 
 function handleMessageSubmit(event) {
     if (

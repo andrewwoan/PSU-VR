@@ -21,6 +21,7 @@ export default class Player {
         this.domElements = elements({
             joystickArea: ".joystick-area",
             mobileOverlay: ".mobile-overlay",
+            messageInput: "#chat-message-input",
         });
 
         this.initPlayer();
@@ -209,28 +210,30 @@ export default class Player {
 
     onKeyDown = (e) => {
         if (document.pointerLockElement !== document.body) return;
+        if (document.activeElement === this.domElements.messageInput) return;
 
-        if (e.code === "KeyW") {
+        if (e.code === "KeyW" || e.code === "ArrowUp") {
             this.actions.forward = true;
         }
-        if (e.code === "KeyS") {
+        if (e.code === "KeyS" || e.code === "ArrowDown") {
             this.actions.backward = true;
         }
-        if (e.code === "KeyA") {
+        if (e.code === "KeyA" || e.code === "ArrowLeft") {
             this.actions.left = true;
         }
-        if (e.code === "KeyD") {
+        if (e.code === "KeyD" || e.code === "ArrowRight") {
             this.actions.right = true;
         }
-        if (e.code === "KeyM") {
-            if (this.resources.items.video.source.data.paused) {
-                this.resources.items.video.source.data.play();
-            } else {
-                this.resources.items.video.source.data.pause();
-            }
-            this.resources.items.video.source.data.muted =
-                !this.resources.items.video.source.data.muted;
-        }
+
+        // if (e.code === "KeyM") {
+        //     if (this.resources.items.video.source.data.paused) {
+        //         this.resources.items.video.source.data.play();
+        //     } else {
+        //         this.resources.items.video.source.data.pause();
+        //     }
+        //     this.resources.items.video.source.data.muted =
+        //         !this.resources.items.video.source.data.muted;
+        // }
 
         if (e.code === "ShiftLeft") {
             this.actions.run = true;
@@ -244,16 +247,16 @@ export default class Player {
     onKeyUp = (e) => {
         if (document.pointerLockElement !== document.body) return;
 
-        if (e.code === "KeyW") {
+        if (e.code === "KeyW" || e.code === "ArrowUp") {
             this.actions.forward = false;
         }
-        if (e.code === "KeyS") {
+        if (e.code === "KeyS" || e.code === "ArrowDown") {
             this.actions.backward = false;
         }
-        if (e.code === "KeyA") {
+        if (e.code === "KeyA" || e.code === "ArrowLeft") {
             this.actions.left = false;
         }
-        if (e.code === "KeyD") {
+        if (e.code === "KeyD" || e.code === "ArrowRight") {
             this.actions.right = false;
         }
 
