@@ -19,9 +19,9 @@
 
     // letter-spacing: 2px;
     // text-transform: uppercase;
-    // @include media("<=tablet") {
-    //     font-size: 70px;
-    // }
+    @include media("<=tablet") {
+        bottom: 14%;
+    }
 }
 
 .preloader-wrapper {
@@ -41,6 +41,10 @@
     @extend %center;
     position: absolute;
     bottom: 10%;
+
+    @include media("<=tablet") {
+        bottom: 20%;
+    }
 }
 
 .preloader-wrapper {
