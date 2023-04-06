@@ -177,8 +177,8 @@ export default class Preloader {
                 .to(
                     this.domElements.preloader,
                     {
-                        duration: 1.2,
-                        top: "-100%",
+                        duration: 1.7,
+                        top: "-150%",
                         ease: "power3.out",
                         onComplete: () => {
                             this.domElements.preloader.remove();
