@@ -10,6 +10,7 @@ const domElements = elements({
     chatContainer: ".chat-container",
     messageSubmitButton: "#chat-message-button",
     messageInput: "#chat-message-input",
+    inputWrapper: ".message-input-wrapper",
 });
 
 // Frontend Server ----------------------------------
@@ -32,24 +33,15 @@ chatSocket.on("connect", () => {
 });
 
 domElements.messageSubmitButton.addEventListener("click", handleMessageSubmit);
-domElements.messageInput.addEventListener("keydown", handleMessageSubmit);
-document.addEventListener("keydown", handleEnter);
-
-function handleEnter(event) {
-    if (
-        event.key === "Enter" &&
-        document.activeElement !== domElements.messageInput
-    ) {
-        domElements.messageInput.focus();
-    }
-}
+// domElements.messageInput.addEventListener("keydown", handleMessageSubmit);
+document.addEventListener("keydown", handleMessageSubmit);
 
 function handleMessageSubmit(event) {
-    if (
-        event.type === "click" ||
-        (event.key === "Enter" &&
-            document.activeElement === domElements.messageInput)
-    ) {
+    if (event.type === "click" || event.key === "Enter") {
+        domElements.inputWrapper.classList.toggle("hidden");
+        domElements.messageInput.focus();
+
+        if (domElements.messageInput.value === "") return;
         displayMessage(domElements.messageInput.value, getTime());
         chatSocket.emit(
             "send-message",
@@ -79,11 +71,10 @@ function displayMessage(message, time) {
 // Get data from server ----------------------------------
 
 chatSocket.on("recieved-message", (message, time) => {
-    console.log(message, time);
     displayMessage(message, time);
 });
 
 // Update Socket ----------------------------------------------------
 updateSocket.on("connect", () => {
-    console.log("update socket" + updateSocket.id);
+    console.log("Joined Update" + updateSocket.id);
 });
