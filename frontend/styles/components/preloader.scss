@@ -118,7 +118,7 @@
     // text-transform: uppercase;
     letter-spacing: 2px;
     @include media("<=phone") {
-        font-size: 24px;
+        font-size: 28px;
     }
 }
 
@@ -141,7 +141,8 @@
     outline: none;
     background-color: transparent;
     @include media("<=phone") {
-        width: 200px;
+        width: 250px;
+        font-size: 16px;
     }
 }
 
