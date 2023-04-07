@@ -29,6 +29,7 @@ export default class Preloader {
             preloaderWrapper: ".preloader-wrapper",
             welcomeTitle: ".welcome-title",
             nameForm: ".name-form",
+            nameInput: "#name-input",
             nameInputButton: "#name-input-button",
         });
 
@@ -140,7 +141,7 @@ export default class Preloader {
     }
 
     onNameInput = () => {
-        console.log("youclicked me");
+        if (this.domElements.nameInput.value === "") return;
         this.preloaderOutro();
     };
 
