@@ -209,12 +209,18 @@ export default class Preloader {
                 this.domElements.text2.innerText = Math.round(
                     this.counter % 10
                 );
+                this.flag = false;
             } else {
                 this.domElements.text2.innerText = 0;
+                this.flag = true;
             }
 
             this.domElements.progressBar.style.width =
                 Math.round(this.counter) + "%";
+
+            if (this.flag) {
+                this.domElements.progressBar.style.width = "100%";
+            }
         }
     }
 }
