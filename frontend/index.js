@@ -18,7 +18,6 @@ const domElements = elements({
 // Frontend Server ----------------------------------
 
 const socketUrl = new URL("/", window.location.href);
-// console.log(socketUrl.toString());
 
 // const socket = io(socketUrl.toString());
 const chatSocket = io(socketUrl.toString() + "chat");
