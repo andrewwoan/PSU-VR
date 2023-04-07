@@ -202,7 +202,15 @@ export default class Preloader {
         if (this.counter < this.amountDone) {
             this.counter++;
             this.domElements.text1.innerText = Math.round(this.counter / 10);
-            this.domElements.text2.innerText = Math.round(this.counter % 10);
+
+            if (Math.round(this.counter / 10) !== 10) {
+                this.domElements.text2.innerText = Math.round(
+                    this.counter % 10
+                );
+            } else {
+                this.domElements.text2.innerText = 0;
+            }
+
             this.domElements.progressBar.style.width =
                 Math.round(this.counter) + "%";
         }
