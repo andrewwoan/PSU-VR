@@ -38,7 +38,7 @@ export default class Avatar {
         head.rotation.order = "YXZ";
         head.userData = id;
 
-        const nametag = this.nametag.createNametag(32, 150, name);
+        const nametag = this.nametag.createNametag(24, 165, name);
 
         const bodyGeometry = new THREE.BoxGeometry(0.5, 1, 0.5);
         const bodyMaterial = new THREE.MeshBasicMaterial({

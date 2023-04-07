@@ -117,9 +117,11 @@ export default class Player {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
                                 if (player.name === "") return;
 
+                                const name = player.name.substring(0, 25);
+
                                 const newAvatar = this.avatar.createAvatar(
                                     player.id,
-                                    player.name
+                                    name
                                 );
 
                                 player["model"] = newAvatar.head;
