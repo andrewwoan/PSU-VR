@@ -38,7 +38,6 @@ chatNameSpace.on("connection", (socket) => {
     });
 
     socket.on("setName", (name) => {
-        console.log("name set on chat");
         socket.userData.name = name;
     });
 
@@ -72,7 +71,6 @@ updateNameSpace.on("connection", (socket) => {
     });
 
     socket.on("setName", (name) => {
-        console.log("name set on update");
         socket.userData.name = name;
     });
 

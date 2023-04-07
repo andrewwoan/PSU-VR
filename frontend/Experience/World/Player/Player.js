@@ -115,9 +115,11 @@ export default class Player {
                         if (child.userData.id === player.id) {
                         } else {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
+                                if (player.name === "") return;
+
                                 const newAvatar = this.avatar.createAvatar(
                                     player.id,
-                                    "john doe"
+                                    player.name
                                 );
 
                                 player["model"] = newAvatar.head;
