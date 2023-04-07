@@ -23,6 +23,7 @@ const socketUrl = new URL("/", window.location.href);
 // const socket = io(socketUrl.toString());
 const chatSocket = io(socketUrl.toString() + "chat");
 const updateSocket = io(socketUrl.toString() + "update");
+let userName = "";
 
 // Experience ----------------------------------
 
@@ -40,8 +41,9 @@ document.addEventListener("keydown", handleMessageSubmit);
 
 function handleNameSubmit() {
     // console.log("clicked");
-    chatSocket.emit("setName", domElements.nameInput.value);
-    updateSocket.emit("setName", domElements.nameInput.value);
+    userName = domElements.nameInput.value;
+    chatSocket.emit("setName", userName);
+    updateSocket.emit("setName", userName);
 }
 
 function handleMessageSubmit(event) {
@@ -50,7 +52,7 @@ function handleMessageSubmit(event) {
         domElements.messageInput.focus();
 
         if (domElements.messageInput.value === "") return;
-        displayMessage(domElements.messageInput.value, getTime());
+        displayMessage(userName, domElements.messageInput.value, getTime());
         chatSocket.emit(
             "send-message",
             domElements.messageInput.value,
@@ -68,9 +70,9 @@ function getTime() {
     return time;
 }
 
-function displayMessage(message, time) {
+function displayMessage(name, message, time) {
     const messageDiv = document.createElement("div");
-    messageDiv.textContent = `[${time}]: ${message}`;
+    messageDiv.textContent = `[${time}] ${name}: ${message}`;
     domElements.chatContainer.append(messageDiv);
     domElements.chatContainer.scrollTop =
         domElements.chatContainer.scrollHeight;
@@ -78,8 +80,8 @@ function displayMessage(message, time) {
 
 // Get data from server ----------------------------------
 
-chatSocket.on("recieved-message", (message, time) => {
-    displayMessage(message, time);
+chatSocket.on("recieved-message", (name, message, time) => {
+    displayMessage(name, message, time);
 });
 
 // Update Socket ----------------------------------------------------

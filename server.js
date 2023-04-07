@@ -44,9 +44,9 @@ chatNameSpace.on("connection", (socket) => {
     socket.on("send-message", (message, time) => {
         socket.broadcast.emit(
             "recieved-message",
+            socket.userData.name,
             message,
-            time,
-            socket.userData.name
+            time
         );
     });
 });
