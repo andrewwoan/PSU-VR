@@ -57,10 +57,14 @@ function handleMessageSubmit(event) {
         domElements.messageInput.focus();
 
         if (domElements.messageInput.value === "") return;
-        displayMessage(userName, domElements.messageInput.value, getTime());
+        displayMessage(
+            userName,
+            domElements.messageInput.value.substring(0, 500),
+            getTime()
+        );
         chatSocket.emit(
             "send-message",
-            domElements.messageInput.value,
+            domElements.messageInput.value.substring(0, 500),
             getTime()
         );
         domElements.messageInput.value = "";
@@ -77,7 +81,7 @@ function getTime() {
 
 function displayMessage(name, message, time) {
     const messageDiv = document.createElement("div");
-    messageDiv.textContent = `[${time}] ${name}: ${message}`;
+    messageDiv.innerHTML = `<span class="different-color">[${time}] ${name}:</span> ${message}`;
     domElements.chatContainer.append(messageDiv);
     domElements.chatContainer.scrollTop =
         domElements.chatContainer.scrollHeight;

@@ -8,6 +8,7 @@
     color: $color-base-white;
     z-index: 50;
     font-size: 14px;
+    word-wrap: break-word;
     @include media("<=tablet") {
         display: none;
     }
@@ -16,6 +17,7 @@
 .chat-container {
     width: 400px;
     height: 200px;
+    word-wrap: break-word;
     overflow-y: auto;
 }
 
@@ -29,7 +31,7 @@
 #chat-message-button {
     @extend %center;
     width: 50px;
-    height: 30px;
+    height: 24px;
     background-color: transparent;
     color: $color-base-white;
     position: absolute;
@@ -57,4 +59,8 @@
 #chat-message-input:focus {
     background-color: $color-base-black-translucent;
     outline: none;
+}
+
+.different-color {
+    color: $color-base-lightest-blue;
 }
