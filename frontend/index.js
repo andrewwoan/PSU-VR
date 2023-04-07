@@ -37,10 +37,15 @@ chatSocket.on("connect", () => {
 
 domElements.messageSubmitButton.addEventListener("click", handleMessageSubmit);
 domElements.nameInputButton.addEventListener("click", handleNameSubmit);
+domElements.chatContainer.addEventListener("click", handleChatClick);
 document.addEventListener("keydown", handleMessageSubmit);
 
+function handleChatClick() {
+    if (domElements.inputWrapper.classList.contains("hidden"))
+        domElements.inputWrapper.classList.remove("hidden");
+}
+
 function handleNameSubmit() {
-    // console.log("clicked");
     userName = domElements.nameInput.value;
     chatSocket.emit("setName", userName);
     updateSocket.emit("setName", userName);
