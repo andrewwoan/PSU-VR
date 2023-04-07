@@ -26,9 +26,9 @@ export default class Westgate {
         this.glass = this.resources.items.glass.scene;
         this.screen = this.resources.items.screen.scene;
 
-        this.screen.children[0].material = new THREE.MeshBasicMaterial({
-            map: this.resources.items.video,
-        });
+        // this.screen.children[0].material = new THREE.MeshBasicMaterial({
+        //     map: this.resources.items.video,
+        // });
 
         this.screen.children[0].material.flipY = false;
 

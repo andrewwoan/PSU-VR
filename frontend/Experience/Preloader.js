@@ -11,6 +11,8 @@ export default class Preloader {
         this.experience = new Experience();
         this.resources = this.experience.resources;
 
+        this.matchmedia = gsap.matchMedia();
+
         this.loaded = 0;
         this.queue = 0;
 
@@ -75,7 +77,7 @@ export default class Preloader {
                     {
                         opacity: 0,
                         duration: 1.2,
-                        bottom: "14%",
+                        bottom: "21%",
                         ease: "power4.out",
                     },
                     "-=1.05"
@@ -85,7 +87,7 @@ export default class Preloader {
                     {
                         opacity: 0,
                         duration: 1.2,
-                        bottom: "10%",
+                        bottom: "18%",
                         ease: "power4.out",
                         onUpdate: () => {
                             this.domElements.preloaderTitle.classList.remove(

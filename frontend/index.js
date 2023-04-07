@@ -18,7 +18,7 @@ const domElements = elements({
 // Frontend Server ----------------------------------
 
 const socketUrl = new URL("/", window.location.href);
-console.log(socketUrl.toString());
+// console.log(socketUrl.toString());
 
 // const socket = io(socketUrl.toString());
 const chatSocket = io(socketUrl.toString() + "chat");
@@ -31,7 +31,7 @@ const experience = new Experience(domElements.canvas, updateSocket);
 // Sockets ----------------------------------
 
 chatSocket.on("connect", () => {
-    console.log("Connected to server with ID" + chatSocket.id);
+    // console.log("Connected to server with ID" + chatSocket.id);
 });
 
 domElements.messageSubmitButton.addEventListener("click", handleMessageSubmit);
@@ -39,7 +39,7 @@ domElements.nameInputButton.addEventListener("click", handleNameSubmit);
 document.addEventListener("keydown", handleMessageSubmit);
 
 function handleNameSubmit() {
-    console.log("clicked");
+    // console.log("clicked");
     chatSocket.emit("setName", domElements.nameInput.value);
     updateSocket.emit("setName", domElements.nameInput.value);
 }
@@ -84,5 +84,5 @@ chatSocket.on("recieved-message", (message, time) => {
 
 // Update Socket ----------------------------------------------------
 updateSocket.on("connect", () => {
-    console.log("Joined Update" + updateSocket.id);
+    // console.log("Joined Update" + updateSocket.id);
 });

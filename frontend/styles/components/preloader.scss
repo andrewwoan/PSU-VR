@@ -14,14 +14,11 @@
     @extend %light-font;
     color: $color-base-gray;
     position: absolute;
-    bottom: 7%;
+    bottom: 14%;
     width: 250px;
 
     // letter-spacing: 2px;
     // text-transform: uppercase;
-    @include media("<=tablet") {
-        bottom: 14%;
-    }
 }
 
 .preloader-wrapper {
@@ -40,11 +37,7 @@
 .progress-wrapper {
     @extend %center;
     position: absolute;
-    bottom: 10%;
-
-    @include media("<=tablet") {
-        bottom: 18%;
-    }
+    bottom: 17%;
 }
 
 .preloader-wrapper {
