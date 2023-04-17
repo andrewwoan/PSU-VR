@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import Experience from "./Experience.js";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { OrbitControls } from "../Experience/Utils/CustomOrbitControls.js";
 
 export default class Camera {
     constructor() {
