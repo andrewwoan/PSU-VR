@@ -48,19 +48,26 @@ export default class Player {
         this.player.avatar = this.avatar.createAvatar();
         this.player.firstPersonFlag = true;
         this.player.avatar.body.rotation.order = "YXZ";
+        this.player.avatar.head.rotation.order = "YXZ";
+        this.player.avatar.body.material.opacity = 0;
+        this.player.avatar.head.material.forEach((face) => {
+            face.opacity = 0;
+        });
+        this.player.avatar.body.rotation.y = Math.PI / 2;
+        this.player.avatar.head.rotation.y = Math.PI / 2;
+
+        this.camera.controls.maxPolarAngle = Math.PI;
+        this.camera.controls.minDistance = 1e-4;
+        this.camera.controls.maxDistance = 1e-4;
+
+        this.player.body.position
+            .sub(this.camera.controls.target)
+            .normalize()
+            .multiplyScalar(10)
+            .add(this.camera.controls.target);
+
         this.scene.add(this.player.avatar.body);
         this.scene.add(this.player.avatar.head);
-
-        this.player.thirdPersonParams = {
-            distance: 0.3,
-            goal: new THREE.Object3D(),
-            follow: new THREE.Object3D(),
-        };
-
-        // this.player.params = {
-        //     currentPosition: new THREE.Vector3(),
-        //     currentLookat: new THREE.Vector3(),
-        // };
 
         this.player.onFloor = false;
         this.player.gravity = 60;
@@ -360,8 +367,6 @@ export default class Player {
                 -Math.PI / 2 + 0.001,
                 Math.PI / 2 - 0.001
             );
-
-            this.player.body.rotation.order = "YXZ";
         } else {
             this.player.avatar.body.rotation.order = "YXZ";
             this.player.avatar.head.rotation.order = "YXZ";
@@ -378,6 +383,35 @@ export default class Player {
 
     onCameraChange = () => {
         this.player.firstPersonFlag = !this.player.firstPersonFlag;
+        if (this.player.firstPersonFlag) {
+            this.camera.controls.enableZoom = false;
+
+            this.camera.controls.maxPolarAngle = Math.PI;
+            this.camera.controls.minDistance = 1e-4;
+            this.camera.controls.maxDistance = 1e-4;
+
+            this.player.avatar.body.material.opacity = 0;
+            this.player.avatar.head.material.forEach((face) => {
+                face.opacity = 0;
+            });
+
+            this.player.body.position
+                .sub(this.camera.controls.target)
+                .normalize()
+                .multiplyScalar(10)
+                .add(this.camera.controls.target);
+        } else {
+            this.camera.controls.enableZoom = true;
+
+            this.camera.controls.maxPolarAngle = Math.PI / 2;
+            this.camera.controls.minDistance = 1;
+            this.camera.controls.maxDistance = 20;
+
+            this.player.avatar.body.material.opacity = 1;
+            this.player.avatar.head.material.forEach((face) => {
+                face.opacity = 1;
+            });
+        }
     };
 
     addEventListeners() {
@@ -387,19 +421,19 @@ export default class Player {
             "click",
             this.onCameraChange
         );
-        this.domElements.controlOverlay.addEventListener(
-            "pointerdown",
-            this.onPointerDown
-        );
-        this.domElements.controlOverlay.addEventListener(
-            "pointerup",
-            this.onPointerUp
-        );
+        // this.domElements.controlOverlay.addEventListener(
+        //     "pointerdown",
+        //     this.onPointerDown
+        // );
+        // this.domElements.controlOverlay.addEventListener(
+        //     "pointerup",
+        //     this.onPointerUp
+        // );
 
-        this.domElements.controlOverlay.addEventListener(
-            "pointermove",
-            this.onPointerMove
-        );
+        // this.domElements.controlOverlay.addEventListener(
+        //     "pointermove",
+        //     this.onPointerMove
+        // );
     }
 
     resize() {}
@@ -473,38 +507,17 @@ export default class Player {
         this.player.collider.translate(deltaPosition);
         this.playerCollisions();
 
+        this.player.body.position.sub(this.camera.controls.target);
+        this.camera.controls.target.copy(this.player.collider.end);
+        this.player.body.position.add(this.player.collider.end);
+
         if (this.player.firstPersonFlag === false) {
-            // let offset = this.player.collider.end.clone();
-            // let offset = new THREE.Vector3(-2, 0, -5);
-            // offset.applyQuaternion(this.getgetCameraLookAtDirectionalVector());
-            // this.player.body.position.copy(offset);
-
-            // const idealOffset = this.calculateIdealOffset();
-
-            // this.player.body.position.copy(idealOffset);
-            // this.player.body.lookAt(this.player.collider.end);
-            let offset = this.player.collider.end.clone();
-            offset.y += 1;
-            offset.x += 3;
-
-            // offset.applyQuaternion(this.player.avatar.body.quaternion);
-
-            this.player.body.position.copy(offset);
-
-            this.player.body.lookAt(this.player.avatar.body.position);
         } else {
-            // this.player.body.lookAt(new THREE.Vector3());
-            this.player.body.position.copy(this.player.collider.end);
-            // let cloneLook = this.player.collider.end.clone();
-            // cloneLook.x = Math.floor(cloneLook.x);
-            // cloneLook.y = Math.floor(Math.abs(cloneLook.y));
-            // cloneLook.z = Math.floor(cloneLook.z);
-            // console.log(this.player.collider.end);
+            // this.player.body.position.sub(this.camera.controls.target);
+            // this.camera.controls.target.copy(this.player.collider.end);
+            // this.player.body.position.add(this.player.collider.end);
         }
 
-        // console.log(this.player.body.position);
-
-        // this.player.body.position.copy(this.player.collider.end);
         this.player.body.updateMatrixWorld();
 
         if (this.player.body.position.y < -20) {

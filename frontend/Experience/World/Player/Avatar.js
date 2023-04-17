@@ -14,10 +14,13 @@ export default class Avatar {
         const headGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
         const headMaterial = new THREE.MeshBasicMaterial({
             color: 0x002a83,
-            // transparent: true,
+            transparent: true,
             // opacity: 0.5,
         });
-        const faceMaterial = new THREE.MeshBasicMaterial({ color: 0x0e56ee });
+        const faceMaterial = new THREE.MeshBasicMaterial({
+            color: 0x0e56ee,
+            transparent: true,
+        });
 
         const materials = [
             headMaterial,
@@ -41,7 +44,7 @@ export default class Avatar {
         const bodyGeometry = new THREE.BoxGeometry(0.5, 1, 0.5);
         const bodyMaterial = new THREE.MeshBasicMaterial({
             color: 0x002a83,
-            // transparent: true,
+            transparent: true,
             // opacity: 0.5,
         });
         const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
