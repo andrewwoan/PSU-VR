@@ -39,7 +39,8 @@ export default class Camera {
         this.controls.enableDamping = true;
         this.controls.enableZoom = false;
         this.controls.enablePan = false;
-        this.controls.dampingFactor = 0.09;
+
+        this.controls.dampingFactor = 0.1;
     }
 
     enableOrbitControls() {
