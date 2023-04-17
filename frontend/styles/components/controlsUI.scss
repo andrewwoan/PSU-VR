@@ -12,10 +12,11 @@
     }
 }
 
-.mobile-overlay {
+.control-overlay {
     position: fixed;
     width: 100vw;
     height: 100vh;
+    cursor: grab;
     overflow: hidden;
     touch-action: none;
     z-index: 25;

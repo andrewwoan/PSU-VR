@@ -5,6 +5,12 @@ import { Capsule } from "three/examples/jsm/math/Capsule";
 import nipplejs from "nipplejs";
 import elements from "../../Utils/functions/elements.js";
 
+import {
+    MeshBVH,
+    MeshBVHVisualizer,
+    StaticGeometryGenerator,
+} from "three-mesh-bvh";
+
 import Avatar from "./Avatar.js";
 
 export default class Player {
@@ -20,8 +26,9 @@ export default class Player {
 
         this.domElements = elements({
             joystickArea: ".joystick-area",
-            mobileOverlay: ".mobile-overlay",
+            controlOverlay: ".control-overlay",
             messageInput: "#chat-message-input",
+            switchViewButton: ".switch-camera-view",
         });
 
         this.initPlayer();
@@ -37,6 +44,16 @@ export default class Player {
         this.player = {};
 
         this.player.body = this.camera.perspectiveCamera;
+
+        this.player.avatar = this.avatar.createAvatar();
+        this.player.firstPersonFlag = true;
+        this.player.avatar.body.rotation.order = "YXZ";
+        this.scene.add(this.player.avatar.body);
+
+        this.player.params = {
+            currentPosition: new THREE.Vector3(),
+            currentLookat: new THREE.Vector3(),
+        };
 
         this.player.onFloor = false;
         this.player.gravity = 60;
@@ -199,7 +216,7 @@ export default class Player {
     }
 
     onDesktopPointerMove = (e) => {
-        if (document.pointerLockElement !== document.body) return;
+        // if (document.pointerLockElement !== document.body) return;
         this.player.body.rotation.order = this.player.rotation.order;
 
         this.player.body.rotation.x -= e.movementY / 500;
@@ -213,7 +230,7 @@ export default class Player {
     };
 
     onKeyDown = (e) => {
-        if (document.pointerLockElement !== document.body) return;
+        // if (document.pointerLockElement !== document.body) return;
         if (document.activeElement === this.domElements.messageInput) return;
 
         if (e.code === "KeyW" || e.code === "ArrowUp") {
@@ -249,7 +266,7 @@ export default class Player {
     };
 
     onKeyUp = (e) => {
-        if (document.pointerLockElement !== document.body) return;
+        // if (document.pointerLockElement !== document.body) return;
 
         if (e.code === "KeyW" || e.code === "ArrowUp") {
             this.actions.forward = false;
@@ -274,13 +291,14 @@ export default class Player {
     };
 
     onPointerDown = (e) => {
-        if (e.pointerType === "mouse") {
-            document.body.requestPointerLock();
-            return;
-        }
+        this.actions.down = true;
 
         this.coords.previousX = e.screenX;
         this.coords.previousY = e.screenY;
+    };
+
+    onPointerUp = (e) => {
+        this.actions.down = false;
     };
 
     playerCollisions() {
@@ -324,9 +342,10 @@ export default class Player {
         return returnVector;
     }
 
-    onMobilePointerMove = (e) => {
+    onPointerMove = (e) => {
         e.preventDefault();
-        if (e.pointerType === "mouse") return;
+
+        if (!this.actions.down) return;
 
         this.coords.currentX = e.screenX;
         this.coords.currentY = e.screenY;
@@ -354,18 +373,33 @@ export default class Player {
         this.coords.previousY = e.screenY;
     };
 
+    onCameraChange = () => {
+        // if (this.camera.controls === null) {
+        //     this.camera.setOrbitControls();
+        // }
+        this.player.firstPersonFlag = !this.player.firstPersonFlag;
+        // this.camera.controls.enabled = !this.camera.controls.enabled;
+    };
+
     addEventListeners() {
         document.addEventListener("keydown", this.onKeyDown);
         document.addEventListener("keyup", this.onKeyUp);
-        document.addEventListener("pointermove", this.onDesktopPointerMove);
-        this.domElements.mobileOverlay.addEventListener(
+        this.domElements.switchViewButton.addEventListener(
+            "click",
+            this.onCameraChange
+        );
+        this.domElements.controlOverlay.addEventListener(
             "pointerdown",
             this.onPointerDown
         );
+        this.domElements.controlOverlay.addEventListener(
+            "pointerup",
+            this.onPointerUp
+        );
 
-        this.domElements.mobileOverlay.addEventListener(
+        this.domElements.controlOverlay.addEventListener(
             "pointermove",
-            this.onMobilePointerMove
+            this.onPointerMove
         );
     }
 
@@ -374,7 +408,6 @@ export default class Player {
     spawnPlayerOutOfBounds() {
         const spawnPos = new THREE.Vector3(17.8838, 1.7 + 5, -3.72508);
         this.player.velocity = this.player.spawn.velocity;
-        this.player.body.position.copy(spawnPos);
 
         this.player.collider.start.copy(spawnPos);
         this.player.collider.end.copy(spawnPos);
@@ -441,12 +474,61 @@ export default class Player {
         this.player.collider.translate(deltaPosition);
         this.playerCollisions();
 
-        this.player.body.position.copy(this.player.collider.end);
+        if (this.player.firstPersonFlag === false) {
+            // let offset = this.player.collider.end.clone();
+            // let offset = new THREE.Vector3(-2, 0, -5);
+            // offset.applyQuaternion(this.getgetCameraLookAtDirectionalVector());
+            // this.player.body.position.copy(offset);
+
+            // const idealOffset = this.calculateIdealOffset();
+
+            // this.player.body.position.copy(idealOffset);
+            // this.player.body.lookAt(this.player.collider.end);
+            let offset = this.player.collider.end.clone();
+            offset.y += 1;
+            offset.x += 3;
+
+            this.player.body.position.copy(offset);
+
+            // this.player.body.lookAt(this.player.collider.end);
+        } else {
+            // this.player.body.lookAt(new THREE.Vector3());
+            this.player.body.position.copy(this.player.collider.end);
+            // let cloneLook = this.player.collider.end.clone();
+            // cloneLook.x = Math.floor(cloneLook.x);
+            // cloneLook.y = Math.floor(Math.abs(cloneLook.y));
+            // cloneLook.z = Math.floor(cloneLook.z);
+            // console.log(this.player.collider.end);
+        }
+
+        // console.log(this.player.body.position);
+
+        // this.player.body.position.copy(this.player.collider.end);
         this.player.body.updateMatrixWorld();
 
         if (this.player.body.position.y < -20) {
             this.spawnPlayerOutOfBounds();
         }
+    }
+
+    // calculateIdealOffset() {
+    //     const idealOffset = new THREE.Vector3(-1, 2, -8);
+    //     idealOffset.applyQuaternion(this.player.avatar.body.quaternion);
+    //     idealOffset.add(this.player.avatar.body.position);
+    //     return idealOffset;
+    // }
+    calculateIdealOffset() {
+        const idealOffset = new THREE.Vector3(0, 2, -8);
+        idealOffset.applyQuaternion(this.player.avatar.body.quaternion);
+        idealOffset.add(this.player.collider.end);
+        return idealOffset;
+    }
+
+    calculateIdealLookat() {
+        const idealLookat = new THREE.Vector3(0, 10, 50);
+        idealLookat.applyQuaternion(this.player.avatar.body.quaternion);
+        idealLookat.add(this.player.collider.end);
+        return idealLookat;
     }
 
     setInteractionObjects(interactionObjects) {
@@ -485,15 +567,24 @@ export default class Player {
     }
 
     updateAvatar() {
-        const playerPos = this.player.body.position.clone();
-        playerPos.z -= 1;
-        this.avatar.position.copy(playerPos);
+        this.player.avatar.body.position.copy(this.player.collider.start);
+        const cloneVector = this.player.body.rotation.clone();
+        cloneVector.order = "YXZ";
+        cloneVector.x = 0;
+        cloneVector.y = cloneVector.y;
+        cloneVector.z = 0;
+        this.player.avatar.body.rotation.copy(cloneVector);
+        // console.log(this.player.body.rotation);
+
+        if (!this.player.firstPersonFlag) {
+            this.player.avatar.body.position.y += 0.5;
+        }
     }
 
     update() {
         this.updateMovement();
-        // this.updateAvatar();
         this.updatePlayerSocket();
+        this.updateAvatar();
         // this.updateRaycaster();
 
         // if (this.otherPlayers[this.disconnectedPlayerId]) {

@@ -10,7 +10,7 @@ export default class Avatar {
         this.scene = this.experience.scene;
     }
 
-    createAvatar(id, name = "anonymous") {
+    createAvatar(id = "self", name = "Anonymous") {
         const headGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
         const headMaterial = new THREE.MeshBasicMaterial({
             color: 0x002a83,
@@ -27,8 +27,6 @@ export default class Avatar {
             headMaterial,
             faceMaterial,
         ];
-
-        console.log(headGeometry.groups);
 
         headGeometry.groups.forEach((face, i) => {
             face.materialIndex = i;

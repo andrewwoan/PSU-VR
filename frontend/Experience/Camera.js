@@ -14,6 +14,7 @@ export default class Camera {
             near: 0.01,
             far: 1000,
         };
+        this.controls = null;
 
         this.setPerspectiveCamera();
         // this.setOrbitControls();
@@ -38,12 +39,23 @@ export default class Camera {
         this.controls.enableDamping = true;
     }
 
+    enableOrbitControls() {
+        this.controls.enabled = true;
+    }
+
+    disableOrbitControls() {
+        this.controls.enabled = false;
+    }
+
     onResize() {
         this.perspectiveCamera.aspect = this.sizes.aspect;
         this.perspectiveCamera.updateProjectionMatrix();
     }
 
     update() {
-        // this.controls.update();
+        if (!this.controls) return;
+        if (this.controls.enabled === true) {
+            this.controls.update();
+        }
     }
 }
