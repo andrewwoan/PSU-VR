@@ -50,10 +50,16 @@ export default class Player {
         this.player.avatar.body.rotation.order = "YXZ";
         this.scene.add(this.player.avatar.body);
 
-        this.player.params = {
-            currentPosition: new THREE.Vector3(),
-            currentLookat: new THREE.Vector3(),
+        this.player.thirdPersonParams = {
+            distance: 0.3,
+            goal: new THREE.Object3D(),
+            follow: new THREE.Object3D(),
         };
+
+        // this.player.params = {
+        //     currentPosition: new THREE.Vector3(),
+        //     currentLookat: new THREE.Vector3(),
+        // };
 
         this.player.onFloor = false;
         this.player.gravity = 60;
@@ -215,20 +221,6 @@ export default class Player {
         });
     }
 
-    onDesktopPointerMove = (e) => {
-        // if (document.pointerLockElement !== document.body) return;
-        this.player.body.rotation.order = this.player.rotation.order;
-
-        this.player.body.rotation.x -= e.movementY / 500;
-        this.player.body.rotation.y -= e.movementX / 500;
-
-        this.player.body.rotation.x = THREE.MathUtils.clamp(
-            this.player.body.rotation.x,
-            -Math.PI / 2,
-            Math.PI / 2
-        );
-    };
-
     onKeyDown = (e) => {
         // if (document.pointerLockElement !== document.body) return;
         if (document.activeElement === this.domElements.messageInput) return;
@@ -353,32 +345,37 @@ export default class Player {
         let diffX = this.coords.currentX - this.coords.previousX;
         let diffY = this.coords.currentY - this.coords.previousY;
 
-        this.player.body.rotation.order = "YXZ";
+        if (this.player.firstPersonFlag) {
+            this.player.body.rotation.order = "YXZ";
 
-        this.player.body.rotation.x -=
-            diffY / this.camera.perspectiveCamera.zoom / 200;
+            this.player.body.rotation.x -=
+                diffY / this.camera.perspectiveCamera.zoom / 200;
 
-        this.player.body.rotation.y -=
-            diffX / this.camera.perspectiveCamera.zoom / 200;
+            this.player.body.rotation.y -=
+                diffX / this.camera.perspectiveCamera.zoom / 200;
 
-        this.player.body.rotation.x = THREE.MathUtils.clamp(
-            this.player.body.rotation.x,
-            -Math.PI / 2 + 0.001,
-            Math.PI / 2 - 0.001
-        );
+            this.player.body.rotation.x = THREE.MathUtils.clamp(
+                this.player.body.rotation.x,
+                -Math.PI / 2 + 0.001,
+                Math.PI / 2 - 0.001
+            );
 
-        this.player.body.rotation.order = "YXZ";
+            this.player.body.rotation.order = "YXZ";
+        } else {
+            this.player.avatar.body.rotation.order = "YXZ";
+
+            this.player.avatar.body.rotation.y -=
+                diffX / this.camera.perspectiveCamera.zoom / 200;
+
+            this.player.body.rotation.order = "YXZ";
+        }
 
         this.coords.previousX = e.screenX;
         this.coords.previousY = e.screenY;
     };
 
     onCameraChange = () => {
-        // if (this.camera.controls === null) {
-        //     this.camera.setOrbitControls();
-        // }
         this.player.firstPersonFlag = !this.player.firstPersonFlag;
-        // this.camera.controls.enabled = !this.camera.controls.enabled;
     };
 
     addEventListeners() {
@@ -490,7 +487,7 @@ export default class Player {
 
             this.player.body.position.copy(offset);
 
-            // this.player.body.lookAt(this.player.collider.end);
+            this.player.body.lookAt(this.player.collider.end);
         } else {
             // this.player.body.lookAt(new THREE.Vector3());
             this.player.body.position.copy(this.player.collider.end);
@@ -568,13 +565,6 @@ export default class Player {
 
     updateAvatar() {
         this.player.avatar.body.position.copy(this.player.collider.start);
-        const cloneVector = this.player.body.rotation.clone();
-        cloneVector.order = "YXZ";
-        cloneVector.x = 0;
-        cloneVector.y = cloneVector.y;
-        cloneVector.z = 0;
-        this.player.avatar.body.rotation.copy(cloneVector);
-        // console.log(this.player.body.rotation);
 
         if (!this.player.firstPersonFlag) {
             this.player.avatar.body.position.y += 0.5;
