@@ -18,6 +18,9 @@ export default class Environment {
 
         this.scene.background = this.environmentMap.texture;
 
+        const light = new THREE.AmbientLight(0x404040); // soft white light
+        this.scene.add(light);
+
         // this.scene.environment = this.environmentMap.texture;
 
         // console.log(this.scene);
@@ -41,16 +44,6 @@ export default class Environment {
         //     });
         // };
         // this.environmentMap.updateMaterials();
-
-        // if (this.debug.active) {
-        //     this.debugFolder
-        //         .add(this.environmentMap, "intensity")
-        //         .name("envMapIntensity")
-        //         .min(0)
-        //         .max(4)
-        //         .step(0.001)
-        //         .onChange(this.environmentMap.updateMaterials);
-        // }
     }
 
     update() {}

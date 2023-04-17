@@ -3,6 +3,11 @@ export default [
         westgate: {
             assets: [
                 {
+                    name: "asian_male",
+                    type: "glbModel",
+                    path: "/models/asian_male_animated.glb",
+                },
+                {
                     name: "boxes",
                     type: "glbModel",
                     path: "/models/Boxes.glb",

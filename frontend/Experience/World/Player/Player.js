@@ -405,7 +405,7 @@ export default class Player {
 
             this.camera.controls.maxPolarAngle = Math.PI / 2;
             this.camera.controls.minDistance = 2;
-            this.camera.controls.maxDistance = 7;
+            this.camera.controls.maxDistance = 6;
 
             this.player.avatar.body.material.opacity = 1;
             this.player.avatar.head.material.forEach((face) => {
