@@ -49,6 +49,7 @@ export default class Player {
         this.player.firstPersonFlag = true;
         this.player.avatar.body.rotation.order = "YXZ";
         this.scene.add(this.player.avatar.body);
+        this.scene.add(this.player.avatar.head);
 
         this.player.thirdPersonParams = {
             distance: 0.3,
@@ -363,11 +364,12 @@ export default class Player {
             this.player.body.rotation.order = "YXZ";
         } else {
             this.player.avatar.body.rotation.order = "YXZ";
+            this.player.avatar.head.rotation.order = "YXZ";
 
             this.player.avatar.body.rotation.y -=
                 diffX / this.camera.perspectiveCamera.zoom / 200;
-
-            this.player.body.rotation.order = "YXZ";
+            this.player.avatar.head.rotation.y -=
+                diffX / this.camera.perspectiveCamera.zoom / 200;
         }
 
         this.coords.previousX = e.screenX;
@@ -485,9 +487,11 @@ export default class Player {
             offset.y += 1;
             offset.x += 3;
 
+            // offset.applyQuaternion(this.player.avatar.body.quaternion);
+
             this.player.body.position.copy(offset);
 
-            this.player.body.lookAt(this.player.collider.end);
+            this.player.body.lookAt(this.player.avatar.body.position);
         } else {
             // this.player.body.lookAt(new THREE.Vector3());
             this.player.body.position.copy(this.player.collider.end);
@@ -506,26 +510,6 @@ export default class Player {
         if (this.player.body.position.y < -20) {
             this.spawnPlayerOutOfBounds();
         }
-    }
-
-    // calculateIdealOffset() {
-    //     const idealOffset = new THREE.Vector3(-1, 2, -8);
-    //     idealOffset.applyQuaternion(this.player.avatar.body.quaternion);
-    //     idealOffset.add(this.player.avatar.body.position);
-    //     return idealOffset;
-    // }
-    calculateIdealOffset() {
-        const idealOffset = new THREE.Vector3(0, 2, -8);
-        idealOffset.applyQuaternion(this.player.avatar.body.quaternion);
-        idealOffset.add(this.player.collider.end);
-        return idealOffset;
-    }
-
-    calculateIdealLookat() {
-        const idealLookat = new THREE.Vector3(0, 10, 50);
-        idealLookat.applyQuaternion(this.player.avatar.body.quaternion);
-        idealLookat.add(this.player.collider.end);
-        return idealLookat;
     }
 
     setInteractionObjects(interactionObjects) {
@@ -565,9 +549,10 @@ export default class Player {
 
     updateAvatar() {
         this.player.avatar.body.position.copy(this.player.collider.start);
+        this.player.avatar.head.position.copy(this.player.collider.end);
 
         if (!this.player.firstPersonFlag) {
-            this.player.avatar.body.position.y += 0.5;
+            this.player.avatar.body.position.y += 0.2;
         }
     }
 
