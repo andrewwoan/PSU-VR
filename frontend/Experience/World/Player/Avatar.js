@@ -6,11 +6,13 @@ export default class Avatar {
     constructor() {
         this.experience = new Experience();
         this.nametag = new Nametag();
+        this.time = this.experience.time;
         this.resources = this.experience.resources;
         this.scene = this.experience.scene;
 
         this.resource = this.resources.items.asian_male;
         this.avatar = this.resource.scene;
+        console.log(this.avatar);
         this.avatar.scale.set(1.1, 1.1, 1.1);
         this.scene.add(this.avatar);
 
@@ -63,24 +65,30 @@ export default class Avatar {
         this.animation = {};
 
         // Mixer
-        console.log(this.avatar);
+        console.log(this.resource);
         this.animation.mixer = new THREE.AnimationMixer(this.avatar);
         console.log(this.animation.mixer);
 
         // Actions
         this.animation.actions = {};
 
-        this.animation.actions.idle = this.animation.mixer.clipAction(
+        this.animation.actions.dancing = this.animation.mixer.clipAction(
             this.resource.animations[0]
         );
-        this.animation.actions.walking = this.animation.mixer.clipAction(
+        this.animation.actions.idle = this.animation.mixer.clipAction(
             this.resource.animations[1]
         );
         this.animation.actions.running = this.animation.mixer.clipAction(
             this.resource.animations[2]
         );
+        this.animation.actions.walking = this.animation.mixer.clipAction(
+            this.resource.animations[3]
+        );
+        this.animation.actions.waving = this.animation.mixer.clipAction(
+            this.resource.animations[4]
+        );
 
-        this.animation.actions.current = this.animation.actions.idle;
+        this.animation.actions.current = this.animation.actions.walking;
         this.animation.actions.current.play();
 
         // Play the action
@@ -94,11 +102,10 @@ export default class Avatar {
 
             this.animation.actions.current = newAction;
         };
-
-        this.animation.play("idle");
     }
 
     update() {
-        this.animation.mixer.update(this.time.delta * 0.001);
+        // this.animation.mixer.update(this.time.delta * 0.001);
+        this.animation.mixer.update(this.time.delta);
     }
 }

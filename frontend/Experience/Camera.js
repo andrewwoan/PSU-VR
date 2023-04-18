@@ -11,7 +11,7 @@ export default class Camera {
         this.params = {
             fov: 75,
             aspect: this.sizes.aspect,
-            near: 0.01,
+            near: 0.001,
             far: 1000,
         };
         this.controls = null;

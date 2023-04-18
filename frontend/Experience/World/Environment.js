@@ -21,6 +21,11 @@ export default class Environment {
         const light = new THREE.AmbientLight(0x404040); // soft white light
         this.scene.add(light);
 
+        this.sunLight = new THREE.DirectionalLight("#ffffff", 1);
+
+        this.sunLight.position.set(-1.5, 7, 3);
+        this.scene.add(this.sunLight);
+
         // this.scene.environment = this.environmentMap.texture;
 
         // console.log(this.scene);

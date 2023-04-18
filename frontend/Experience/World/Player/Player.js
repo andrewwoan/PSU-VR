@@ -66,8 +66,8 @@ export default class Player {
             .multiplyScalar(10)
             .add(this.camera.controls.target);
 
-        this.scene.add(this.player.avatar.body);
-        this.scene.add(this.player.avatar.head);
+        // this.scene.add(this.player.avatar.body);
+        // this.scene.add(this.player.avatar.head);
 
         this.player.onFloor = false;
         this.player.gravity = 60;
@@ -402,10 +402,11 @@ export default class Player {
                 .add(this.camera.controls.target);
         } else {
             this.camera.controls.enableZoom = true;
+            // this.camera.controls.zoomSpeed = 0.5;
 
             this.camera.controls.maxPolarAngle = Math.PI / 2;
-            this.camera.controls.minDistance = 2;
-            this.camera.controls.maxDistance = 6;
+            this.camera.controls.minDistance = 4;
+            this.camera.controls.maxDistance = 8;
 
             this.player.avatar.body.material.opacity = 1;
             this.player.avatar.head.material.forEach((face) => {
@@ -563,6 +564,9 @@ export default class Player {
     updateAvatar() {
         this.player.avatar.body.position.copy(this.player.collider.start);
         this.player.avatar.head.position.copy(this.player.collider.end);
+        this.avatar.avatar.position.copy(this.player.collider.end);
+        this.avatar.avatar.position.y -= 1.56;
+        this.avatar.update();
 
         if (!this.player.firstPersonFlag) {
             this.player.avatar.body.position.y += 0.2;
@@ -573,6 +577,21 @@ export default class Player {
         this.updateMovement();
         this.updatePlayerSocket();
         this.updateAvatar();
+
+        const direction = new THREE.Vector3();
+        this.camera.controls.target
+            .clone()
+            .sub(this.player.body.position)
+            .normalize()
+            .negate(direction);
+
+        // Set the character's rotation to face in that direction
+        this.avatar.avatar.rotation.y = Math.atan2(
+            this.getForwardVector().x,
+            this.getForwardVector().z
+        );
+
+        // this.avatar.avatar.quaternion.copy(this.getForwardVector());
         // this.updateRaycaster();
 
         // if (this.otherPlayers[this.disconnectedPlayerId]) {
