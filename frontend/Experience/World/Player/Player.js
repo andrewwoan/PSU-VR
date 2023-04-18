@@ -230,7 +230,6 @@ export default class Player {
     }
 
     onKeyDown = (e) => {
-        // if (document.pointerLockElement !== document.body) return;
         if (document.activeElement === this.domElements.messageInput) return;
 
         this.avatar.avatar.rotation.y = THREE.MathUtils.lerp(
@@ -279,7 +278,6 @@ export default class Player {
     };
 
     onKeyUp = (e) => {
-        // if (document.pointerLockElement !== document.body) return;
         if (
             this.avatar.animation.actions.current !==
             this.avatar.animation.actions.idle
@@ -601,17 +599,5 @@ export default class Player {
             this.getForwardVector().x,
             this.getForwardVector().z
         );
-
-        // Set the character's rotation to face in that direction
-
-        // this.avatar.avatar.quaternion.copy(this.getForwardVector());
-        // this.updateRaycaster();
-
-        // if (this.otherPlayers[this.disconnectedPlayerId]) {
-        //     console.log(this.otherPlayers[this.disconnectedPlayerId]["model"]);
-        // }
-
-        // console.log(this.socket.id);
-        // console.log(this.disconnectedPlayerId);
     }
 }

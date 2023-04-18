@@ -12,7 +12,6 @@ export default class Avatar {
 
         this.resource = this.resources.items.asian_male;
         this.avatar = this.resource.scene;
-        console.log(this.avatar);
         this.avatar.scale.set(1.1, 1.1, 1.1);
         this.scene.add(this.avatar);
 
@@ -64,12 +63,9 @@ export default class Avatar {
     setAnimation() {
         this.animation = {};
 
-        // Mixer
-        console.log(this.resource);
+        // console.log(this.resource);
         this.animation.mixer = new THREE.AnimationMixer(this.avatar);
-        console.log(this.animation.mixer);
 
-        // Actions
         this.animation.actions = {};
 
         this.animation.actions.dancing = this.animation.mixer.clipAction(
@@ -91,7 +87,6 @@ export default class Avatar {
         this.animation.actions.current = this.animation.actions.idle;
         this.animation.actions.current.play();
 
-        // Play the action
         this.animation.play = (name) => {
             const newAction = this.animation.actions[name];
             const oldAction = this.animation.actions.current;
@@ -105,7 +100,6 @@ export default class Avatar {
     }
 
     update() {
-        // this.animation.mixer.update(this.time.delta * 0.001);
         this.animation.mixer.update(this.time.delta);
     }
 }
