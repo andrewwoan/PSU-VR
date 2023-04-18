@@ -88,7 +88,7 @@ export default class Avatar {
             this.resource.animations[4]
         );
 
-        this.animation.actions.current = this.animation.actions.walking;
+        this.animation.actions.current = this.animation.actions.idle;
         this.animation.actions.current.play();
 
         // Play the action

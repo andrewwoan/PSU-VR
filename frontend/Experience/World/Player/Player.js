@@ -89,7 +89,7 @@ export default class Player {
         this.player.velocity = new THREE.Vector3();
         this.player.direction = new THREE.Vector3();
 
-        this.player.speedMultiplier = 0.8;
+        this.player.speedMultiplier = 0.35;
 
         this.player.collider = new Capsule(
             new THREE.Vector3(),
@@ -233,6 +233,19 @@ export default class Player {
         // if (document.pointerLockElement !== document.body) return;
         if (document.activeElement === this.domElements.messageInput) return;
 
+        this.avatar.avatar.rotation.y = THREE.MathUtils.lerp(
+            this.avatar.avatar.rotation.y,
+            this.targetRotation,
+            0.3
+        );
+
+        if (
+            this.avatar.animation.actions.current !==
+            this.avatar.animation.actions.walking
+        ) {
+            this.avatar.animation.play("walking");
+        }
+
         if (e.code === "KeyW" || e.code === "ArrowUp") {
             this.actions.forward = true;
         }
@@ -267,6 +280,12 @@ export default class Player {
 
     onKeyUp = (e) => {
         // if (document.pointerLockElement !== document.body) return;
+        if (
+            this.avatar.animation.actions.current !==
+            this.avatar.animation.actions.idle
+        ) {
+            this.avatar.animation.play("idle");
+        }
 
         if (e.code === "KeyW" || e.code === "ArrowUp") {
             this.actions.forward = false;
@@ -463,7 +482,7 @@ export default class Player {
         }
 
         if (this.actions.run) {
-            speedDelta *= 1.7;
+            speedDelta *= 2.5;
         }
         if (this.actions.forward) {
             this.player.velocity.add(
@@ -578,18 +597,12 @@ export default class Player {
         this.updatePlayerSocket();
         this.updateAvatar();
 
-        const direction = new THREE.Vector3();
-        this.camera.controls.target
-            .clone()
-            .sub(this.player.body.position)
-            .normalize()
-            .negate(direction);
-
-        // Set the character's rotation to face in that direction
-        this.avatar.avatar.rotation.y = Math.atan2(
+        this.targetRotation = Math.atan2(
             this.getForwardVector().x,
             this.getForwardVector().z
         );
+
+        // Set the character's rotation to face in that direction
 
         // this.avatar.avatar.quaternion.copy(this.getForwardVector());
         // this.updateRaycaster();
