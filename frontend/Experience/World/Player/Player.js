@@ -47,14 +47,7 @@ export default class Player {
 
         this.player.avatar = this.avatar.createAvatar();
         this.player.firstPersonFlag = true;
-        this.player.avatar.body.rotation.order = "YXZ";
-        this.player.avatar.head.rotation.order = "YXZ";
-        this.player.avatar.body.material.opacity = 0;
-        this.player.avatar.head.material.forEach((face) => {
-            face.opacity = 0;
-        });
-        this.player.avatar.body.rotation.y = Math.PI / 2;
-        this.player.avatar.head.rotation.y = Math.PI / 2;
+        this.player.avatar.children[0].material.opacity = 0;
 
         this.camera.controls.maxPolarAngle = Math.PI;
         this.camera.controls.minDistance = 1e-4;
@@ -65,9 +58,6 @@ export default class Player {
             .normalize()
             .multiplyScalar(10)
             .add(this.camera.controls.target);
-
-        // this.scene.add(this.player.avatar.body);
-        // this.scene.add(this.player.avatar.head);
 
         this.player.onFloor = false;
         this.player.gravity = 60;
@@ -124,7 +114,6 @@ export default class Player {
         this.joystick = nipplejs.create(this.options);
 
         this.joystick.on("move", (e, data) => {
-            // console.log(data.vector);
             this.actions.movingJoyStick = true;
             this.joystickVector.z = -data.vector.y;
             this.joystickVector.x = data.vector.x;
@@ -472,7 +461,6 @@ export default class Player {
             this.player.gravity *
             this.player.speedMultiplier;
 
-        //The amount of distance we travel between each frame
         let speedDelta = this.time.delta * speed;
 
         if (this.actions.movingJoyStick) {
@@ -529,12 +517,12 @@ export default class Player {
         this.camera.controls.target.copy(this.player.collider.end);
         this.player.body.position.add(this.player.collider.end);
 
-        if (this.player.firstPersonFlag === false) {
-        } else {
-            // this.player.body.position.sub(this.camera.controls.target);
-            // this.camera.controls.target.copy(this.player.collider.end);
-            // this.player.body.position.add(this.player.collider.end);
-        }
+        // if (this.player.firstPersonFlag === false) {
+        // } else {
+        // this.player.body.position.sub(this.camera.controls.target);
+        // this.camera.controls.target.copy(this.player.collider.end);
+        // this.player.body.position.add(this.player.collider.end);
+        // }
 
         this.player.body.updateMatrixWorld();
 
@@ -579,8 +567,6 @@ export default class Player {
     }
 
     updateAvatar() {
-        this.player.avatar.body.position.copy(this.player.collider.start);
-        this.player.avatar.head.position.copy(this.player.collider.end);
         this.avatar.avatar.position.copy(this.player.collider.end);
         this.avatar.avatar.position.y -= 1.56;
         this.avatar.update();
