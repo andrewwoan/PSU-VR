@@ -16,6 +16,7 @@ export default class Renderer {
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
             antialias: true,
+            logarithmicDepthBuffer: true,
         });
         this.renderer.outputEncoding = THREE.sRGBEncoding;
         this.renderer.toneMapping = THREE.CineonToneMapping;
