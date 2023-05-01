@@ -47,7 +47,7 @@ export default class Player {
 
         this.player.avatar = this.avatar.createAvatar();
         this.player.firstPersonFlag = true;
-        this.player.avatar.children[0].material.opacity = 0;
+        // this.player.avatar.children[0].material.opacity = 0;
 
         this.camera.controls.maxPolarAngle = Math.PI;
         this.camera.controls.minDistance = 1e-4;
