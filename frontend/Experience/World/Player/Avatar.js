@@ -63,7 +63,6 @@ export default class Avatar {
     setAnimation() {
         this.animation = {};
 
-        console.log(this.avatar);
         this.animation.mixer = new THREE.AnimationMixer(this.avatar);
 
         this.animation.actions = {};

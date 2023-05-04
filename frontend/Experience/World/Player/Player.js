@@ -19,7 +19,6 @@ export default class Player {
         this.time = this.experience.time;
         this.scene = this.experience.scene;
         this.camera = this.experience.camera;
-        this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
         this.avatar = new Avatar();
         this.socket = this.experience.socket;
@@ -307,18 +306,7 @@ export default class Player {
         this.actions.down = false;
     };
 
-    playerCollisions() {
-        const result = this.octree.capsuleIntersect(this.player.collider);
-        this.player.onFloor = false;
-
-        if (result) {
-            this.player.onFloor = result.normal.y > 0;
-
-            this.player.collider.translate(
-                result.normal.multiplyScalar(result.depth)
-            );
-        }
-    }
+    playerCollisions() {}
 
     getForwardVector() {
         this.camera.perspectiveCamera.getWorldDirection(this.player.direction);
