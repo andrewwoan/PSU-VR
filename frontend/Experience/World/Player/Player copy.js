@@ -46,7 +46,7 @@ export default class Player {
         this.player.body = this.camera.perspectiveCamera;
 
         this.player.avatar = this.avatar.createAvatar();
-        this.player.firstPersonFlag = true;
+        // this.player.firstPersonFlag = true;
         // this.player.avatar.children[0].material.opacity = 0;
 
         this.camera.controls.maxPolarAngle = Math.PI;
