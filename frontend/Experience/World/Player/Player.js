@@ -227,7 +227,7 @@ export default class Player {
         if (e.code === "KeyD" || e.code === "ArrowRight") {
             this.actions.right = true;
         }
-        if (!this.actions.run) {
+        if (!this.actions.run && !this.actions.jump) {
             this.player.animation = "walking";
         }
 
@@ -341,7 +341,7 @@ export default class Player {
 
     updateMovement() {
         const speed =
-            (this.player.onFloor ? 1.75 : 0.2) *
+            (this.player.onFloor ? 1.75 : 0.1) *
             this.player.gravity *
             this.player.speedMultiplier;
 
@@ -354,6 +354,7 @@ export default class Player {
         if (this.actions.run) {
             speedDelta *= 2.5;
         }
+
         if (this.actions.forward) {
             this.player.velocity.add(
                 this.getForwardVector().multiplyScalar(speedDelta)
@@ -377,7 +378,7 @@ export default class Player {
 
         if (this.player.onFloor) {
             if (this.actions.jump) {
-                this.player.velocity.y = 20;
+                this.player.velocity.y = 24;
             }
         }
 
@@ -480,6 +481,30 @@ export default class Player {
         if (this.actions.backward && this.actions.right) {
             this.player.directionOffset = Math.PI / 4;
         }
+
+        // Extras
+        if (this.actions.forward && this.actions.left && this.actions.right) {
+            this.player.directionOffset = Math.PI;
+        }
+        if (this.actions.backward && this.actions.left && this.actions.right) {
+            this.player.directionOffset = 0;
+        }
+
+        if (
+            this.actions.right &&
+            this.actions.backward &&
+            this.actions.forward
+        ) {
+            this.player.directionOffset = Math.PI / 2;
+        }
+
+        if (
+            this.actions.left &&
+            this.actions.backward &&
+            this.actions.forward
+        ) {
+            this.player.directionOffset = -Math.PI / 2;
+        }
     }
 
     update() {
@@ -487,6 +512,8 @@ export default class Player {
         this.updatePlayerSocket();
         this.updateAvatar();
         this.updateRotation();
+
+        console.log(this.player.body.position);
 
         if (this.player.animation !== this.avatar.animation) {
             this.avatar.animation.play(this.player.animation);
