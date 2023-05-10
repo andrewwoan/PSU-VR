@@ -28,9 +28,7 @@ export default class Player {
         this.initPlayer();
         this.initControls();
         this.setPlayerSocket();
-
         this.setJoyStick();
-
         this.addEventListeners();
     }
 
