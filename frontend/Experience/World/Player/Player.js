@@ -61,6 +61,10 @@ export default class Player {
         this.player.position = new THREE.Vector3();
         this.player.quaternion = new THREE.Euler();
         this.player.directionOffset = 0;
+        this.targetRotation = new THREE.Quaternion();
+
+        this.upVector = new THREE.Vector3(0, 1, 0);
+
         // this.player.quaternion.order = "YXZ";
 
         this.player.velocity = new THREE.Vector3();
@@ -208,20 +212,20 @@ export default class Player {
     onKeyDown = (e) => {
         if (document.activeElement === this.domElements.messageInput) return;
 
+        console.log("firiting");
+        this.player.directionOffset = Math.PI;
+
         if (e.code === "KeyW" || e.code === "ArrowUp") {
             this.actions.forward = true;
         }
         if (e.code === "KeyS" || e.code === "ArrowDown") {
             this.actions.backward = true;
-            this.player.directionOffset += Math.PI;
         }
         if (e.code === "KeyA" || e.code === "ArrowLeft") {
             this.actions.left = true;
-            this.player.directionOffset -= Math.PI / 2;
         }
         if (e.code === "KeyD" || e.code === "ArrowRight") {
             this.actions.right = true;
-            this.player.directionOffset = Math.PI / 2;
         }
         if (!this.actions.run) {
             this.player.animation = "walking";
@@ -357,17 +361,17 @@ export default class Player {
         }
         if (this.actions.backward) {
             this.player.velocity.add(
-                this.getForwardVector().multiplyScalar(-speedDelta * 0.5)
+                this.getForwardVector().multiplyScalar(-speedDelta)
             );
         }
         if (this.actions.left) {
             this.player.velocity.add(
-                this.getSideVector().multiplyScalar(-speedDelta * 0.75)
+                this.getSideVector().multiplyScalar(-speedDelta)
             );
         }
         if (this.actions.right) {
             this.player.velocity.add(
-                this.getSideVector().multiplyScalar(speedDelta * 0.75)
+                this.getSideVector().multiplyScalar(speedDelta)
             );
         }
 
@@ -447,25 +451,63 @@ export default class Player {
         this.player.avatar.body.position.y += 0.2;
     }
 
+    updateRotation() {
+        if (this.actions.forward) {
+            this.player.directionOffset = Math.PI;
+        }
+        if (this.actions.backward) {
+            this.player.directionOffset = 0;
+        }
+
+        if (this.actions.left) {
+            this.player.directionOffset = -Math.PI / 2;
+        }
+
+        if (this.actions.forward && this.actions.left) {
+            this.player.directionOffset = Math.PI + Math.PI / 4;
+        }
+        if (this.actions.backward && this.actions.left) {
+            this.player.directionOffset = -Math.PI / 4;
+        }
+
+        if (this.actions.right) {
+            this.player.directionOffset = Math.PI / 2;
+        }
+
+        if (this.actions.forward && this.actions.right) {
+            this.player.directionOffset = Math.PI - Math.PI / 4;
+        }
+        if (this.actions.backward && this.actions.right) {
+            this.player.directionOffset = Math.PI / 4;
+        }
+    }
+
     update() {
         this.updateMovement();
         this.updatePlayerSocket();
         this.updateAvatar();
+        this.updateRotation();
 
         if (this.player.animation !== this.avatar.animation) {
-            const cameraAngleFromPlayer = Math.atan2(
-                this.camera.position.x - this.model.position.x,
-                this.camera.position.z - this.model.position.z
-            );
-
             this.avatar.animation.play(this.player.animation);
         } else {
             this.avatar.animation.play("idle");
         }
 
-        this.targetRotation = Math.atan2(
-            this.getForwardVector().x,
-            this.getForwardVector().z
-        );
+        if (this.player.animation !== "idle") {
+            const cameraAngleFromPlayer = Math.atan2(
+                this.player.body.position.x - this.avatar.avatar.position.x,
+                this.player.body.position.z - this.avatar.avatar.position.z
+            );
+
+            this.targetRotation.setFromAxisAngle(
+                this.upVector,
+                cameraAngleFromPlayer + this.player.directionOffset
+            );
+            this.avatar.avatar.quaternion.rotateTowards(
+                this.targetRotation,
+                0.1
+            );
+        }
     }
 }
