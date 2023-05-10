@@ -59,8 +59,9 @@ export default class Player {
 
         this.player.height = 1.2;
         this.player.position = new THREE.Vector3();
-        this.player.rotation = new THREE.Euler();
-        this.player.rotation.order = "YXZ";
+        this.player.quaternion = new THREE.Euler();
+        this.player.directionOffset = 0;
+        // this.player.quaternion.order = "YXZ";
 
         this.player.velocity = new THREE.Vector3();
         this.player.direction = new THREE.Vector3();
@@ -212,12 +213,15 @@ export default class Player {
         }
         if (e.code === "KeyS" || e.code === "ArrowDown") {
             this.actions.backward = true;
+            this.player.directionOffset += Math.PI;
         }
         if (e.code === "KeyA" || e.code === "ArrowLeft") {
             this.actions.left = true;
+            this.player.directionOffset -= Math.PI / 2;
         }
         if (e.code === "KeyD" || e.code === "ArrowRight") {
             this.actions.right = true;
+            this.player.directionOffset = Math.PI / 2;
         }
         if (!this.actions.run) {
             this.player.animation = "walking";
@@ -449,23 +453,15 @@ export default class Player {
         this.updateAvatar();
 
         if (this.player.animation !== this.avatar.animation) {
+            const cameraAngleFromPlayer = Math.atan2(
+                this.camera.position.x - this.model.position.x,
+                this.camera.position.z - this.model.position.z
+            );
+
             this.avatar.animation.play(this.player.animation);
         } else {
             this.avatar.animation.play("idle");
         }
-
-        // if (this.actions.run) {
-        //     this.avatar.animation.play("running");
-        // } else if (
-        //     this.actions.forward ||
-        //     this.actions.left ||
-        //     this.actions.right ||
-        //     this.actions.backward
-        // ) {
-        //     this.avatar.animation.play("walking");
-        // } else {
-        //     this.avatar.animation.play("idle");
-        // }
 
         this.targetRotation = Math.atan2(
             this.getForwardVector().x,
