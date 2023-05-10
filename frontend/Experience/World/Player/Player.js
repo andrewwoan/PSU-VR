@@ -212,9 +212,6 @@ export default class Player {
     onKeyDown = (e) => {
         if (document.activeElement === this.domElements.messageInput) return;
 
-        console.log("firiting");
-        this.player.directionOffset = Math.PI;
-
         if (e.code === "KeyW" || e.code === "ArrowUp") {
             this.actions.forward = true;
         }
@@ -513,9 +510,34 @@ export default class Player {
         this.updateAvatar();
         this.updateRotation();
 
-        console.log(this.player.body.position);
-
         if (this.player.animation !== this.avatar.animation) {
+            if (
+                this.actions.left &&
+                this.actions.right &&
+                !this.actions.forward &&
+                !this.actions.backward
+            ) {
+                this.player.animation = "idle";
+            }
+
+            if (
+                !this.actions.left &&
+                !this.actions.right &&
+                this.actions.forward &&
+                this.actions.backward
+            ) {
+                this.player.animation = "idle";
+            }
+
+            if (
+                this.actions.left &&
+                this.actions.right &&
+                this.actions.forward &&
+                this.actions.backward
+            ) {
+                this.player.animation = "idle";
+            }
+
             this.avatar.animation.play(this.player.animation);
         } else {
             this.avatar.animation.play("idle");
@@ -526,6 +548,8 @@ export default class Player {
                 this.player.body.position.x - this.avatar.avatar.position.x,
                 this.player.body.position.z - this.avatar.avatar.position.z
             );
+
+            console.log(this.player.directionOffset);
 
             this.targetRotation.setFromAxisAngle(
                 this.upVector,
