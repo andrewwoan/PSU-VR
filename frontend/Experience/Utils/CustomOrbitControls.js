@@ -362,6 +362,7 @@ class OrbitControls extends EventDispatcher {
 
         function rotateLeft(angle) {
             sphericalDelta.theta -= angle;
+            
         }
 
         function rotateUp(angle) {
