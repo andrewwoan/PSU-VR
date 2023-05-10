@@ -37,12 +37,21 @@ export default class Player {
         this.addEventListeners();
     }
 
+    addEventListeners() {}
+
     initPlayer() {
         this.player = {};
 
         this.player.body = this.camera.perspectiveCamera;
 
         this.player.avatar = this.avatar.createAvatar();
+        this.player.capsuleInfo = {
+            radius: 0.5,
+            segment: new THREE.Line3(
+                new THREE.Vector3(),
+                new THREE.Vector3(0, -1.0, 0.0)
+            ),
+        };
         // this.player.avatar.children[0].material.opacity = 0;
 
         this.camera.controls.maxPolarAngle = Math.PI;
@@ -95,6 +104,57 @@ export default class Player {
 
         this.joystickVector = new THREE.Vector3();
     }
+
+    onKeyDown = (e) => {
+        if (document.activeElement === this.domElements.messageInput) return;
+
+        if (e.code === "KeyW" || e.code === "ArrowUp") {
+            this.actions.forward = true;
+        }
+        if (e.code === "KeyS" || e.code === "ArrowDown") {
+            this.actions.backward = true;
+        }
+        if (e.code === "KeyA" || e.code === "ArrowLeft") {
+            this.actions.left = true;
+        }
+        if (e.code === "KeyD" || e.code === "ArrowRight") {
+            this.actions.right = true;
+        }
+
+        if (e.code === "KeyM") {
+        }
+
+        if (e.code === "ShiftLeft") {
+            this.actions.run = true;
+        }
+
+        if (e.code === "Space") {
+            this.actions.jump = true;
+        }
+    };
+
+    onKeyUp = (e) => {
+        if (e.code === "KeyW" || e.code === "ArrowUp") {
+            this.actions.forward = false;
+        }
+        if (e.code === "KeyS" || e.code === "ArrowDown") {
+            this.actions.backward = false;
+        }
+        if (e.code === "KeyA" || e.code === "ArrowLeft") {
+            this.actions.left = false;
+        }
+        if (e.code === "KeyD" || e.code === "ArrowRight") {
+            this.actions.right = false;
+        }
+
+        if (e.code === "ShiftLeft") {
+            this.actions.run = false;
+        }
+
+        if (e.code === "Space") {
+            this.actions.jump = false;
+        }
+    };
 
     setJoyStick() {
         this.options = {
