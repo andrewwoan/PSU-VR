@@ -90,15 +90,19 @@ export default class Avatar {
             const newAction = this.animation.actions[name];
             const oldAction = this.animation.actions.current;
 
+            if (oldAction === newAction) {
+                return;
+            }
+
             newAction.reset();
             newAction.play();
-            newAction.crossFadeFrom(oldAction, 1);
+            newAction.crossFadeFrom(oldAction, 0.2);
 
             this.animation.actions.current = newAction;
         };
     }
 
     update() {
-        this.animation.mixer.update(this.time.delta);
+        this.animation.mixer.update(this.time.delta * 1.05);
     }
 }

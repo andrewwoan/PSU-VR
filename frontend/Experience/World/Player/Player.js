@@ -40,6 +40,7 @@ export default class Player {
         this.player.body = this.camera.perspectiveCamera;
 
         this.player.avatar = this.avatar.createAvatar();
+        this.player.animation = "idle";
         // this.player.avatar.children[0].material.opacity = 0;
 
         // this.camera.controls.maxPolarAngle = Math.PI;
@@ -220,16 +221,21 @@ export default class Player {
         if (e.code === "KeyD" || e.code === "ArrowRight") {
             this.actions.right = true;
         }
+        if (!this.actions.run) {
+            this.player.animation = "walking";
+        }
 
         // if (e.code === "KeyE") {
         // }
 
         if (e.code === "ShiftLeft") {
             this.actions.run = true;
+            this.player.animation = "running";
         }
 
         if (e.code === "Space") {
             this.actions.jump = true;
+            this.player.animation = "waving";
         }
     };
 
@@ -251,20 +257,22 @@ export default class Player {
             this.actions.run = false;
         }
 
+        if (this.actions.run) {
+            this.player.animation = "running";
+        } else if (
+            this.actions.forward ||
+            this.actions.backward ||
+            this.actions.left ||
+            this.actions.right
+        ) {
+            this.player.animation = "walking";
+        } else {
+            this.player.animation = "idle";
+        }
+
         if (e.code === "Space") {
             this.actions.jump = false;
         }
-    };
-
-    onPointerDown = (e) => {
-        this.actions.down = true;
-
-        this.coords.previousX = e.screenX;
-        this.coords.previousY = e.screenY;
-    };
-
-    onPointerUp = (e) => {
-        this.actions.down = false;
     };
 
     playerCollisions() {
@@ -441,6 +449,25 @@ export default class Player {
         this.updateMovement();
         this.updatePlayerSocket();
         this.updateAvatar();
+
+        if (this.player.animation !== this.avatar.animation) {
+            this.avatar.animation.play(this.player.animation);
+        } else {
+            this.avatar.animation.play("idle");
+        }
+
+        // if (this.actions.run) {
+        //     this.avatar.animation.play("running");
+        // } else if (
+        //     this.actions.forward ||
+        //     this.actions.left ||
+        //     this.actions.right ||
+        //     this.actions.backward
+        // ) {
+        //     this.avatar.animation.play("walking");
+        // } else {
+        //     this.avatar.animation.play("idle");
+        // }
 
         this.targetRotation = Math.atan2(
             this.getForwardVector().x,
