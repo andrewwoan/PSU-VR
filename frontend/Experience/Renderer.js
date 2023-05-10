@@ -18,7 +18,7 @@ export default class Renderer {
             antialias: true,
             logarithmicDepthBuffer: true, // Get rid of z-fighting
         });
-        this.renderer.outputEncoding = THREE.sRGBEncoding;
+        this.renderer.outputColorSpace = THREE.SRGBColorSpace;
         this.renderer.toneMapping = THREE.CineonToneMapping;
         this.renderer.toneMappingExposure = 1.75;
         this.renderer.setSize(this.sizes.width, this.sizes.height);

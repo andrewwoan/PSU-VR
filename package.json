@@ -27,7 +27,7 @@
         "nipplejs": "^0.10.1",
         "socket.io": "^4.6.1",
         "socket.io-client": "^4.6.1",
-        "three": "^0.150.1",
+        "three": "^0.152.2",
         "three-mesh-bvh": "^0.5.23"
     }
 }

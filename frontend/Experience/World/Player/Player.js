@@ -1,14 +1,9 @@
 import * as THREE from "three";
 import Experience from "../../Experience.js";
+import { Capsule } from "three/examples/jsm/math/Capsule";
 
 import nipplejs from "nipplejs";
 import elements from "../../Utils/functions/elements.js";
-
-import {
-    MeshBVH,
-    MeshBVHVisualizer,
-    StaticGeometryGenerator,
-} from "three-mesh-bvh";
 
 import Avatar from "./Avatar.js";
 
@@ -18,6 +13,7 @@ export default class Player {
         this.time = this.experience.time;
         this.scene = this.experience.scene;
         this.camera = this.experience.camera;
+        this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
         this.avatar = new Avatar();
         this.socket = this.experience.socket;
@@ -32,12 +28,11 @@ export default class Player {
         this.initPlayer();
         this.initControls();
         this.setPlayerSocket();
+
         this.setJoyStick();
 
         this.addEventListeners();
     }
-
-    addEventListeners() {}
 
     initPlayer() {
         this.player = {};
@@ -45,24 +40,11 @@ export default class Player {
         this.player.body = this.camera.perspectiveCamera;
 
         this.player.avatar = this.avatar.createAvatar();
-        this.player.capsuleInfo = {
-            radius: 0.5,
-            segment: new THREE.Line3(
-                new THREE.Vector3(),
-                new THREE.Vector3(0, -1.0, 0.0)
-            ),
-        };
         // this.player.avatar.children[0].material.opacity = 0;
 
-        this.camera.controls.maxPolarAngle = Math.PI;
-        this.camera.controls.minDistance = 1e-4;
-        this.camera.controls.maxDistance = 1e-4;
-
-        this.player.body.position
-            .sub(this.camera.controls.target)
-            .normalize()
-            .multiplyScalar(10)
-            .add(this.camera.controls.target);
+        // this.camera.controls.maxPolarAngle = Math.PI;
+        // this.camera.controls.minDistance = 1e-4;
+        // this.camera.controls.maxDistance = 1e-4;
 
         this.player.onFloor = false;
         this.player.gravity = 60;
@@ -86,6 +68,12 @@ export default class Player {
 
         this.player.speedMultiplier = 0.35;
 
+        this.player.collider = new Capsule(
+            new THREE.Vector3(),
+            new THREE.Vector3(),
+            0.35
+        );
+
         this.otherPlayers = {};
 
         this.socket.emit("setID");
@@ -104,57 +92,6 @@ export default class Player {
 
         this.joystickVector = new THREE.Vector3();
     }
-
-    onKeyDown = (e) => {
-        if (document.activeElement === this.domElements.messageInput) return;
-
-        if (e.code === "KeyW" || e.code === "ArrowUp") {
-            this.actions.forward = true;
-        }
-        if (e.code === "KeyS" || e.code === "ArrowDown") {
-            this.actions.backward = true;
-        }
-        if (e.code === "KeyA" || e.code === "ArrowLeft") {
-            this.actions.left = true;
-        }
-        if (e.code === "KeyD" || e.code === "ArrowRight") {
-            this.actions.right = true;
-        }
-
-        if (e.code === "KeyM") {
-        }
-
-        if (e.code === "ShiftLeft") {
-            this.actions.run = true;
-        }
-
-        if (e.code === "Space") {
-            this.actions.jump = true;
-        }
-    };
-
-    onKeyUp = (e) => {
-        if (e.code === "KeyW" || e.code === "ArrowUp") {
-            this.actions.forward = false;
-        }
-        if (e.code === "KeyS" || e.code === "ArrowDown") {
-            this.actions.backward = false;
-        }
-        if (e.code === "KeyA" || e.code === "ArrowLeft") {
-            this.actions.left = false;
-        }
-        if (e.code === "KeyD" || e.code === "ArrowRight") {
-            this.actions.right = false;
-        }
-
-        if (e.code === "ShiftLeft") {
-            this.actions.run = false;
-        }
-
-        if (e.code === "Space") {
-            this.actions.jump = false;
-        }
-    };
 
     setJoyStick() {
         this.options = {
@@ -268,7 +205,246 @@ export default class Player {
         });
     }
 
+    onKeyDown = (e) => {
+        if (document.activeElement === this.domElements.messageInput) return;
+
+        if (e.code === "KeyW" || e.code === "ArrowUp") {
+            this.actions.forward = true;
+        }
+        if (e.code === "KeyS" || e.code === "ArrowDown") {
+            this.actions.backward = true;
+        }
+        if (e.code === "KeyA" || e.code === "ArrowLeft") {
+            this.actions.left = true;
+        }
+        if (e.code === "KeyD" || e.code === "ArrowRight") {
+            this.actions.right = true;
+        }
+
+        // if (e.code === "KeyE") {
+        // }
+
+        if (e.code === "ShiftLeft") {
+            this.actions.run = true;
+        }
+
+        if (e.code === "Space") {
+            this.actions.jump = true;
+        }
+    };
+
+    onKeyUp = (e) => {
+        if (e.code === "KeyW" || e.code === "ArrowUp") {
+            this.actions.forward = false;
+        }
+        if (e.code === "KeyS" || e.code === "ArrowDown") {
+            this.actions.backward = false;
+        }
+        if (e.code === "KeyA" || e.code === "ArrowLeft") {
+            this.actions.left = false;
+        }
+        if (e.code === "KeyD" || e.code === "ArrowRight") {
+            this.actions.right = false;
+        }
+
+        if (e.code === "ShiftLeft") {
+            this.actions.run = false;
+        }
+
+        if (e.code === "Space") {
+            this.actions.jump = false;
+        }
+    };
+
+    onPointerDown = (e) => {
+        this.actions.down = true;
+
+        this.coords.previousX = e.screenX;
+        this.coords.previousY = e.screenY;
+    };
+
+    onPointerUp = (e) => {
+        this.actions.down = false;
+    };
+
+    playerCollisions() {
+        const result = this.octree.capsuleIntersect(this.player.collider);
+        this.player.onFloor = false;
+
+        if (result) {
+            this.player.onFloor = result.normal.y > 0;
+
+            this.player.collider.translate(
+                result.normal.multiplyScalar(result.depth)
+            );
+        }
+    }
+
+    getForwardVector() {
+        this.camera.perspectiveCamera.getWorldDirection(this.player.direction);
+        this.player.direction.y = 0;
+        this.player.direction.normalize();
+
+        return this.player.direction;
+    }
+
+    getSideVector() {
+        this.camera.perspectiveCamera.getWorldDirection(this.player.direction);
+        this.player.direction.y = 0;
+        this.player.direction.normalize();
+        this.player.direction.cross(this.camera.perspectiveCamera.up);
+
+        return this.player.direction;
+    }
+
+    getJoyStickDirectionalVector() {
+        let returnVector = new THREE.Vector3();
+        returnVector.copy(this.joystickVector);
+
+        returnVector.applyQuaternion(this.camera.perspectiveCamera.quaternion);
+        returnVector.y = 0;
+        returnVector.multiplyScalar(1.5);
+
+        return returnVector;
+    }
+
+    addEventListeners() {
+        document.addEventListener("keydown", this.onKeyDown);
+        document.addEventListener("keyup", this.onKeyUp);
+    }
+
     resize() {}
 
-    update() {}
+    spawnPlayerOutOfBounds() {
+        const spawnPos = new THREE.Vector3(17.8838, 1.7 + 5, -3.72508);
+        this.player.velocity = this.player.spawn.velocity;
+
+        this.player.collider.start.copy(spawnPos);
+        this.player.collider.end.copy(spawnPos);
+
+        this.player.collider.end.y += this.player.height;
+    }
+
+    updateMovement() {
+        const speed =
+            (this.player.onFloor ? 1.75 : 0.2) *
+            this.player.gravity *
+            this.player.speedMultiplier;
+
+        let speedDelta = this.time.delta * speed;
+
+        if (this.actions.movingJoyStick) {
+            this.player.velocity.add(this.getJoyStickDirectionalVector());
+        }
+
+        if (this.actions.run) {
+            speedDelta *= 2.5;
+        }
+        if (this.actions.forward) {
+            this.player.velocity.add(
+                this.getForwardVector().multiplyScalar(speedDelta)
+            );
+        }
+        if (this.actions.backward) {
+            this.player.velocity.add(
+                this.getForwardVector().multiplyScalar(-speedDelta * 0.5)
+            );
+        }
+        if (this.actions.left) {
+            this.player.velocity.add(
+                this.getSideVector().multiplyScalar(-speedDelta * 0.75)
+            );
+        }
+        if (this.actions.right) {
+            this.player.velocity.add(
+                this.getSideVector().multiplyScalar(speedDelta * 0.75)
+            );
+        }
+
+        if (this.player.onFloor) {
+            if (this.actions.jump) {
+                this.player.velocity.y = 20;
+            }
+        }
+
+        let damping = Math.exp(-15 * this.time.delta) - 1;
+
+        if (!this.player.onFloor) {
+            this.player.velocity.y -= this.player.gravity * this.time.delta;
+            damping *= 0.1;
+        }
+
+        this.player.velocity.addScaledVector(this.player.velocity, damping);
+
+        const deltaPosition = this.player.velocity
+            .clone()
+            .multiplyScalar(this.time.delta);
+
+        this.player.collider.translate(deltaPosition);
+        this.playerCollisions();
+
+        this.player.body.position.sub(this.camera.controls.target);
+        this.camera.controls.target.copy(this.player.collider.end);
+        this.player.body.position.add(this.player.collider.end);
+
+        this.player.body.updateMatrixWorld();
+
+        if (this.player.body.position.y < -20) {
+            this.spawnPlayerOutOfBounds();
+        }
+    }
+
+    setInteractionObjects(interactionObjects) {
+        this.player.interactionObjects = interactionObjects;
+    }
+
+    getgetCameraLookAtDirectionalVector() {
+        const direction = new THREE.Vector3(0, 0, -1);
+        return direction.applyQuaternion(
+            this.camera.perspectiveCamera.quaternion
+        );
+    }
+
+    updateRaycaster() {
+        this.player.raycaster.ray.origin.copy(
+            this.camera.perspectiveCamera.position
+        );
+
+        this.player.raycaster.ray.direction.copy(
+            this.getgetCameraLookAtDirectionalVector()
+        );
+
+        const intersects = this.player.raycaster.intersectObjects(
+            this.player.interactionObjects.children
+        );
+
+        if (intersects.length === 0) {
+            this.currentIntersectObject = "";
+        } else {
+            this.currentIntersectObject = intersects[0].object.name;
+        }
+
+        if (this.currentIntersectObject !== this.previousIntersectObject) {
+            this.previousIntersectObject = this.currentIntersectObject;
+        }
+    }
+
+    updateAvatar() {
+        this.avatar.avatar.position.copy(this.player.collider.end);
+        this.avatar.avatar.position.y -= 1.56;
+        this.avatar.update();
+
+        this.player.avatar.body.position.y += 0.2;
+    }
+
+    update() {
+        this.updateMovement();
+        this.updatePlayerSocket();
+        this.updateAvatar();
+
+        this.targetRotation = Math.atan2(
+            this.getForwardVector().x,
+            this.getForwardVector().z
+        );
+    }
 }

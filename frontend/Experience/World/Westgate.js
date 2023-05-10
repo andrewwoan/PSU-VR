@@ -37,7 +37,7 @@ export default class Westgate {
 
         this.door.children.forEach((child) => {
             this.resources.items.doorTexture.flipY = false;
-            this.resources.items.doorTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.doorTexture.ColorSpace = THREE.SRGBColorSpace;
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.doorTexture,
             });
@@ -53,14 +53,15 @@ export default class Westgate {
 
         this.boxes.children.forEach((child) => {
             this.resources.items.boxesTexture.flipY = false;
-            this.resources.items.boxesTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.boxesTexture.ColorSpace = THREE.SRGBColorSpace;
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.boxesTexture,
             });
         });
         this.chairs.children.forEach((child) => {
             this.resources.items.chairsTexture.flipY = false;
-            this.resources.items.chairsTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.chairsTexture.ColorSpace =
+                THREE.SRGBColorSpace;
 
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.chairsTexture,
@@ -68,7 +69,8 @@ export default class Westgate {
         });
         this.extras.children.forEach((child) => {
             this.resources.items.extrasTexture.flipY = false;
-            this.resources.items.extrasTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.extrasTexture.ColorSpace =
+                THREE.SRGBColorSpace;
 
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.extrasTexture,
@@ -78,7 +80,7 @@ export default class Westgate {
         });
         this.floor.children.forEach((child) => {
             this.resources.items.floorTexture.flipY = false;
-            this.resources.items.floorTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.floorTexture.ColorSpace = THREE.SRGBColorSpace;
 
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.floorTexture,
@@ -86,7 +88,7 @@ export default class Westgate {
         });
         this.gates.children.forEach((child) => {
             this.resources.items.gatesTexture.flipY = false;
-            this.resources.items.gatesTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.gatesTexture.ColorSpace = THREE.SRGBColorSpace;
 
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.gatesTexture,
@@ -94,7 +96,8 @@ export default class Westgate {
         });
         this.outside.children.forEach((child) => {
             this.resources.items.outsideTexture.flipY = false;
-            this.resources.items.outsideTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.outsideTexture.ColorSpace =
+                THREE.SRGBColorSpace;
 
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.outsideTexture,
@@ -102,7 +105,7 @@ export default class Westgate {
         });
         this.signs.children.forEach((child) => {
             this.resources.items.signsTexture.flipY = false;
-            this.resources.items.signsTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.signsTexture.ColorSpace = THREE.SRGBColorSpace;
 
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.signsTexture,
@@ -110,7 +113,8 @@ export default class Westgate {
         });
         this.stairs.children.forEach((child) => {
             this.resources.items.stairsTexture.flipY = false;
-            this.resources.items.stairsTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.stairsTexture.ColorSpace =
+                THREE.SRGBColorSpace;
 
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.stairsTexture,
@@ -118,7 +122,8 @@ export default class Westgate {
         });
         this.tables.children.forEach((child) => {
             this.resources.items.tablesTexture.flipY = false;
-            this.resources.items.tablesTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.tablesTexture.ColorSpace =
+                THREE.SRGBColorSpace;
 
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.tablesTexture,
@@ -126,7 +131,7 @@ export default class Westgate {
         });
         this.walls.children.forEach((child) => {
             this.resources.items.wallsTexture.flipY = false;
-            this.resources.items.wallsTexture.encoding = THREE.sRGBEncoding;
+            this.resources.items.wallsTexture.ColorSpace = THREE.SRGBColorSpace;
 
             child.material = new THREE.MeshBasicMaterial({
                 map: this.resources.items.wallsTexture,
