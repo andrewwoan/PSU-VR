@@ -525,63 +525,80 @@ export default class Player {
         this.updateRotation();
 
         if (this.player.animation !== this.avatar.animation) {
-            if (this.player.animation !== "dancing") {
-                if (
-                    this.actions.left &&
-                    this.actions.right &&
-                    !this.actions.forward &&
-                    !this.actions.backward
-                ) {
-                    this.player.animation = "idle";
-                }
+            if (
+                this.actions.left &&
+                this.actions.right &&
+                !this.actions.forward &&
+                !this.actions.backward
+            ) {
+                this.player.animation = "idle";
+            }
 
-                if (
-                    !this.actions.left &&
-                    !this.actions.right &&
-                    this.actions.forward &&
-                    this.actions.backward
-                ) {
-                    this.player.animation = "idle";
-                }
+            if (
+                !this.actions.left &&
+                !this.actions.right &&
+                this.actions.forward &&
+                this.actions.backward
+            ) {
+                this.player.animation = "idle";
+            }
 
-                if (
-                    this.actions.left &&
-                    this.actions.right &&
-                    this.actions.forward &&
-                    this.actions.backward
-                ) {
-                    this.player.animation = "idle";
-                }
+            if (
+                this.actions.left &&
+                this.actions.right &&
+                this.actions.forward &&
+                this.actions.backward
+            ) {
+                this.player.animation = "idle";
+            }
 
-                if (
-                    !this.actions.left &&
-                    !this.actions.right &&
-                    !this.actions.forward &&
-                    !this.actions.backward &&
-                    this.actions.run
-                ) {
-                    this.player.animation = "idle";
-                }
+            if (
+                !this.actions.left &&
+                !this.actions.right &&
+                !this.actions.forward &&
+                !this.actions.backward &&
+                this.actions.run
+            ) {
+                this.player.animation = "idle";
+            }
 
-                if (
-                    this.actions.run &&
-                    this.actions.left &&
-                    this.actions.right &&
-                    this.actions.forward &&
-                    !this.actions.backward
-                ) {
-                    this.player.animation = "running";
-                }
+            if (
+                this.actions.run &&
+                this.actions.left &&
+                this.actions.right &&
+                this.actions.forward &&
+                !this.actions.backward
+            ) {
+                this.player.animation = "running";
+            }
 
-                if (
-                    this.actions.run &&
-                    this.actions.left &&
-                    this.actions.right &&
-                    this.actions.backward &&
-                    !this.actions.forward
-                ) {
-                    this.player.animation = "running";
-                }
+            if (
+                this.actions.run &&
+                this.actions.left &&
+                this.actions.right &&
+                this.actions.backward &&
+                !this.actions.forward
+            ) {
+                this.player.animation = "running";
+            }
+            if (
+                this.actions.run &&
+                !this.actions.left &&
+                !this.actions.right &&
+                this.actions.forward &&
+                !this.actions.backward
+            ) {
+                this.player.animation = "running";
+            }
+
+            if (
+                this.actions.run &&
+                !this.actions.left &&
+                !this.actions.right &&
+                this.actions.backward &&
+                !this.actions.forward
+            ) {
+                this.player.animation = "running";
             }
 
             if (this.player.animation === "jumping" && !this.jumpOnce) {
