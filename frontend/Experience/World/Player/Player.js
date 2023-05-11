@@ -551,10 +551,37 @@ export default class Player {
                 this.player.animation = "idle";
             }
 
-            // console.log(this.player.animation);
-            // console.log(this.actions.jump);
+            if (
+                !this.actions.left &&
+                !this.actions.right &&
+                !this.actions.forward &&
+                !this.actions.backward &&
+                this.actions.run
+            ) {
+                this.player.animation = "idle";
+            }
 
-            // console.log(this.actions.jump);
+            console.log(this.actions);
+
+            if (
+                this.actions.run &&
+                this.actions.left &&
+                this.actions.right &&
+                this.actions.forward &&
+                !this.actions.backward
+            ) {
+                this.player.animation = "running";
+            }
+
+            if (
+                this.actions.run &&
+                this.actions.left &&
+                this.actions.right &&
+                this.actions.backward &&
+                !this.actions.forward
+            ) {
+                this.player.animation = "running";
+            }
 
             if (this.player.animation === "jumping" && !this.jumpOnce) {
                 if (this.player.onFloor) {
