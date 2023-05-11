@@ -12,10 +12,11 @@ export default class Avatar {
 
         this.resource = this.resources.items.asian_male;
         this.avatar = this.resource.scene;
-        this.avatar.scale.set(1.1, 1.1, 1.1);
+        this.avatar.scale.set(0.99, 0.99, 0.99);
         this.scene.add(this.avatar);
 
         this.setAnimation();
+        this.addEventListeners();
     }
 
     createAvatar(id = "self", name = "Anonymous") {
@@ -55,6 +56,7 @@ export default class Avatar {
             transparent: true,
             // opacity: 0.5,
         });
+        this.speedAdjustment = 1.05;
         const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
 
         return { head, nametag, body };
@@ -73,14 +75,18 @@ export default class Avatar {
         this.animation.actions.idle = this.animation.mixer.clipAction(
             this.resource.animations[1]
         );
-        this.animation.actions.running = this.animation.mixer.clipAction(
+        this.animation.actions.jumping = this.animation.mixer.clipAction(
             this.resource.animations[2]
         );
-        this.animation.actions.walking = this.animation.mixer.clipAction(
+
+        this.animation.actions.running = this.animation.mixer.clipAction(
             this.resource.animations[3]
         );
-        this.animation.actions.waving = this.animation.mixer.clipAction(
+        this.animation.actions.walking = this.animation.mixer.clipAction(
             this.resource.animations[4]
+        );
+        this.animation.actions.waving = this.animation.mixer.clipAction(
+            this.resource.animations[5]
         );
 
         this.animation.actions.current = this.animation.actions.idle;
@@ -94,6 +100,12 @@ export default class Avatar {
                 return;
             }
 
+            if (name === "jumping") {
+                this.speedAdjustment = 1.5;
+            } else {
+                this.speedAdjustment = 1.05;
+            }
+
             newAction.reset();
             newAction.play();
             newAction.crossFadeFrom(oldAction, 0.2);
@@ -102,7 +114,13 @@ export default class Avatar {
         };
     }
 
+    addEventListeners() {
+        this.animation.mixer.addEventListener("finished", (e) => {
+            this.animation.play("idle");
+        });
+    }
+
     update() {
-        this.animation.mixer.update(this.time.delta * 1.05);
+        this.animation.mixer.update(this.time.delta * this.speedAdjustment);
     }
 }

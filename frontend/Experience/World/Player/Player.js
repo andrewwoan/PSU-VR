@@ -35,6 +35,8 @@ export default class Player {
     initPlayer() {
         this.player = {};
 
+        this.jumpOnceBoolean = false;
+
         this.player.body = this.camera.perspectiveCamera;
 
         this.player.avatar = this.avatar.createAvatar();
@@ -43,7 +45,6 @@ export default class Player {
 
         // this.camera.controls.maxPolarAngle = Math.PI;
         // this.camera.controls.minDistance = 1e-4;
-        // this.camera.controls.maxDistance = 1e-4;
 
         this.player.onFloor = false;
         this.player.gravity = 60;
@@ -236,9 +237,10 @@ export default class Player {
             this.player.animation = "running";
         }
 
-        if (e.code === "Space") {
+        if (e.code === "Space" && !this.actions.jump && this.player.onFloor) {
             this.actions.jump = true;
-            this.player.animation = "waving";
+            console.log("firing");
+            this.player.animation = "jumping";
         }
     };
 
@@ -260,17 +262,19 @@ export default class Player {
             this.actions.run = false;
         }
 
-        if (this.actions.run) {
-            this.player.animation = "running";
-        } else if (
-            this.actions.forward ||
-            this.actions.backward ||
-            this.actions.left ||
-            this.actions.right
-        ) {
-            this.player.animation = "walking";
-        } else {
-            this.player.animation = "idle";
+        if (this.player.onFloor) {
+            if (this.actions.run) {
+                this.player.animation = "running";
+            } else if (
+                this.actions.forward ||
+                this.actions.backward ||
+                this.actions.left ||
+                this.actions.right
+            ) {
+                this.player.animation = "walking";
+            } else {
+                this.player.animation = "idle";
+            }
         }
 
         if (e.code === "Space") {
@@ -375,7 +379,8 @@ export default class Player {
 
         if (this.player.onFloor) {
             if (this.actions.jump) {
-                this.player.velocity.y = 24;
+                console.log("FRICK");
+                this.player.velocity.y = 15;
             }
         }
 
@@ -536,6 +541,25 @@ export default class Player {
                 this.actions.backward
             ) {
                 this.player.animation = "idle";
+            }
+
+            console.log(this.player.animation);
+
+            if (this.player.animation === "jumping") {
+                if (!this.actions.jump && this.player.onFloor) {
+                    if (this.actions.run) {
+                        this.player.animation = "running";
+                    } else if (
+                        this.actions.forward ||
+                        this.actions.backward ||
+                        this.actions.left ||
+                        this.actions.right
+                    ) {
+                        this.player.animation = "walking";
+                    } else {
+                        this.player.animation = "idle";
+                    }
+                }
             }
 
             this.avatar.animation.play(this.player.animation);

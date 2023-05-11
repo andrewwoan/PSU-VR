@@ -23,7 +23,7 @@ export default class Environment {
 
         this.sunLight = new THREE.DirectionalLight("#ffffff", 1.5);
 
-        this.sunLight.position.set(-1.5, 7, 3);
+        this.sunLight.position.set(1.5, 7, -3);
         this.scene.add(this.sunLight);
 
         // this.scene.environment = this.environmentMap.texture;
