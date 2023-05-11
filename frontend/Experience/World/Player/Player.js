@@ -582,6 +582,28 @@ export default class Player {
                 this.player.animation = "running";
             }
 
+            if (
+                this.actions.run &&
+                !this.actions.left &&
+                !this.actions.right &&
+                this.actions.forward &&
+                !this.actions.backward &&
+                this.player.animation !== "jumping"
+            ) {
+                this.player.animation = "running";
+            }
+
+            if (
+                this.actions.run &&
+                !this.actions.left &&
+                !this.actions.right &&
+                this.actions.backward &&
+                !this.actions.forward &&
+                this.player.animation !== "jumping"
+            ) {
+                this.player.animation = "running";
+            }
+
             if (this.player.animation === "jumping" && !this.jumpOnce) {
                 if (this.player.onFloor) {
                     if (this.actions.run) {
