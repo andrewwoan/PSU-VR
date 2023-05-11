@@ -229,8 +229,9 @@ export default class Player {
             this.player.animation = "walking";
         }
 
-        // if (e.code === "KeyE") {
-        // }
+        if (e.code === "KeyO") {
+            this.player.animation = "dancing";
+        }
 
         if (e.code === "ShiftLeft") {
             this.actions.run = true;
@@ -524,63 +525,63 @@ export default class Player {
         this.updateRotation();
 
         if (this.player.animation !== this.avatar.animation) {
-            if (
-                this.actions.left &&
-                this.actions.right &&
-                !this.actions.forward &&
-                !this.actions.backward
-            ) {
-                this.player.animation = "idle";
-            }
+            if (this.player.animation !== "dancing") {
+                if (
+                    this.actions.left &&
+                    this.actions.right &&
+                    !this.actions.forward &&
+                    !this.actions.backward
+                ) {
+                    this.player.animation = "idle";
+                }
 
-            if (
-                !this.actions.left &&
-                !this.actions.right &&
-                this.actions.forward &&
-                this.actions.backward
-            ) {
-                this.player.animation = "idle";
-            }
+                if (
+                    !this.actions.left &&
+                    !this.actions.right &&
+                    this.actions.forward &&
+                    this.actions.backward
+                ) {
+                    this.player.animation = "idle";
+                }
 
-            if (
-                this.actions.left &&
-                this.actions.right &&
-                this.actions.forward &&
-                this.actions.backward
-            ) {
-                this.player.animation = "idle";
-            }
+                if (
+                    this.actions.left &&
+                    this.actions.right &&
+                    this.actions.forward &&
+                    this.actions.backward
+                ) {
+                    this.player.animation = "idle";
+                }
 
-            if (
-                !this.actions.left &&
-                !this.actions.right &&
-                !this.actions.forward &&
-                !this.actions.backward &&
-                this.actions.run
-            ) {
-                this.player.animation = "idle";
-            }
+                if (
+                    !this.actions.left &&
+                    !this.actions.right &&
+                    !this.actions.forward &&
+                    !this.actions.backward &&
+                    this.actions.run
+                ) {
+                    this.player.animation = "idle";
+                }
 
-            console.log(this.actions);
+                if (
+                    this.actions.run &&
+                    this.actions.left &&
+                    this.actions.right &&
+                    this.actions.forward &&
+                    !this.actions.backward
+                ) {
+                    this.player.animation = "running";
+                }
 
-            if (
-                this.actions.run &&
-                this.actions.left &&
-                this.actions.right &&
-                this.actions.forward &&
-                !this.actions.backward
-            ) {
-                this.player.animation = "running";
-            }
-
-            if (
-                this.actions.run &&
-                this.actions.left &&
-                this.actions.right &&
-                this.actions.backward &&
-                !this.actions.forward
-            ) {
-                this.player.animation = "running";
+                if (
+                    this.actions.run &&
+                    this.actions.left &&
+                    this.actions.right &&
+                    this.actions.backward &&
+                    !this.actions.forward
+                ) {
+                    this.player.animation = "running";
+                }
             }
 
             if (this.player.animation === "jumping" && !this.jumpOnce) {
@@ -605,7 +606,10 @@ export default class Player {
             this.avatar.animation.play("idle");
         }
 
-        if (this.player.animation !== "idle") {
+        if (
+            this.player.animation !== "idle" &&
+            this.player.animation !== "dancing"
+        ) {
             const cameraAngleFromPlayer = Math.atan2(
                 this.player.body.position.x - this.avatar.avatar.position.x,
                 this.player.body.position.z - this.avatar.avatar.position.z
