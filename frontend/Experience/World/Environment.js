@@ -14,14 +14,14 @@ export default class Environment {
         this.environmentMap = {};
         this.environmentMap.intensity = 0;
         this.environmentMap.texture = this.resources.items.environment;
-        this.environmentMap.texture.ColorSpace = THREE.SRGBColorSpace;
+        this.environmentMap.texture.outputColorSpace = THREE.SRGBColorSpace;
 
         this.scene.background = this.environmentMap.texture;
 
-        const light = new THREE.AmbientLight(0x404040); // soft white light
+        const light = new THREE.AmbientLight(0x404040, 4); // soft white light
         this.scene.add(light);
 
-        this.sunLight = new THREE.DirectionalLight("#ffffff", 1);
+        this.sunLight = new THREE.DirectionalLight("#ffffff", 1.5);
 
         this.sunLight.position.set(-1.5, 7, 3);
         this.scene.add(this.sunLight);

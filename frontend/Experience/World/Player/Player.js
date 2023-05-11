@@ -549,15 +549,13 @@ export default class Player {
                 this.player.body.position.z - this.avatar.avatar.position.z
             );
 
-            console.log(this.player.directionOffset);
-
             this.targetRotation.setFromAxisAngle(
                 this.upVector,
                 cameraAngleFromPlayer + this.player.directionOffset
             );
             this.avatar.avatar.quaternion.rotateTowards(
                 this.targetRotation,
-                0.1
+                0.15
             );
         }
     }
