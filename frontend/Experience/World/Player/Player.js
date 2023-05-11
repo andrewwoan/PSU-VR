@@ -556,7 +556,7 @@ export default class Player {
 
             // console.log(this.actions.jump);
 
-            if (!this.jumpOnce) {
+            if (this.player.animation === "jumping" && !this.jumpOnce) {
                 if (this.player.onFloor) {
                     if (this.actions.run) {
                         this.player.animation = "running";
