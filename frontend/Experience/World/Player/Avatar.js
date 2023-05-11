@@ -116,7 +116,7 @@ export default class Avatar {
 
     addEventListeners() {
         this.animation.mixer.addEventListener("finished", (e) => {
-            this.animation.play("idle");
+            console.log(e);
         });
     }
 

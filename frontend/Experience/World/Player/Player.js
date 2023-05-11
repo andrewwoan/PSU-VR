@@ -35,7 +35,7 @@ export default class Player {
     initPlayer() {
         this.player = {};
 
-        this.jumpOnceBoolean = false;
+        this.jumpOnce = false;
 
         this.player.body = this.camera.perspectiveCamera;
 
@@ -241,6 +241,8 @@ export default class Player {
             this.actions.jump = true;
             console.log("firing");
             this.player.animation = "jumping";
+            this.jumpOnce = true;
+            // this.jumpOnce = true;
         }
     };
 
@@ -377,17 +379,23 @@ export default class Player {
             );
         }
 
+        // console.log(this.jumpOnce);
         if (this.player.onFloor) {
-            if (this.actions.jump) {
-                console.log("FRICK");
-                this.player.velocity.y = 15;
+            if (this.actions.jump && this.jumpOnce) {
+                this.player.velocity.y = 12;
             }
+            this.jumpOnce = false;
         }
 
         let damping = Math.exp(-15 * this.time.delta) - 1;
 
         if (!this.player.onFloor) {
-            this.player.velocity.y -= this.player.gravity * this.time.delta;
+            if (this.player.animation === "jumping") {
+                this.player.velocity.y -=
+                    this.player.gravity * 0.7 * this.time.delta;
+            } else {
+                this.player.velocity.y -= this.player.gravity * this.time.delta;
+            }
             damping *= 0.1;
         }
 
@@ -543,10 +551,13 @@ export default class Player {
                 this.player.animation = "idle";
             }
 
-            console.log(this.player.animation);
+            // console.log(this.player.animation);
+            // console.log(this.actions.jump);
 
-            if (this.player.animation === "jumping") {
-                if (!this.actions.jump && this.player.onFloor) {
+            // console.log(this.actions.jump);
+
+            if (!this.jumpOnce) {
+                if (this.player.onFloor) {
                     if (this.actions.run) {
                         this.player.animation = "running";
                     } else if (
