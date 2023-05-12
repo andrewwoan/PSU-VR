@@ -240,10 +240,8 @@ export default class Player {
 
         if (e.code === "Space" && !this.actions.jump && this.player.onFloor) {
             this.actions.jump = true;
-            console.log("firing");
             this.player.animation = "jumping";
             this.jumpOnce = true;
-            // this.jumpOnce = true;
         }
     };
 
@@ -624,6 +622,28 @@ export default class Player {
                 this.player.animation !== "jumping"
             ) {
                 this.player.animation = "idle";
+            }
+
+            if (
+                this.actions.run &&
+                !this.actions.left &&
+                this.actions.right &&
+                !this.actions.backward &&
+                this.actions.forward &&
+                this.player.animation !== "jumping"
+            ) {
+                this.player.animation = "running";
+            }
+
+            if (
+                this.actions.run &&
+                this.actions.left &&
+                !this.actions.right &&
+                this.actions.backward &&
+                !this.actions.forward &&
+                this.player.animation !== "jumping"
+            ) {
+                this.player.animation = "running";
             }
 
             if (this.player.animation === "jumping" && !this.jumpOnce) {
