@@ -15,8 +15,8 @@ export default class Player {
         this.camera = this.experience.camera;
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
-        this.avatar = new Avatar();
         this.socket = this.experience.socket;
+        this.upVector = new THREE.Vector3(0, 1, 0);
 
         this.domElements = elements({
             joystickArea: ".joystick-area",
@@ -34,18 +34,9 @@ export default class Player {
 
     initPlayer() {
         this.player = {};
-
         this.jumpOnce = false;
-
         this.player.body = this.camera.perspectiveCamera;
-
-        this.player.avatar = this.avatar.createAvatar();
         this.player.animation = "idle";
-        // this.player.avatar.children[0].material.opacity = 0;
-
-        // this.camera.controls.maxPolarAngle = Math.PI;
-        // this.camera.controls.minDistance = 1e-4;
-
         this.player.onFloor = false;
         this.player.gravity = 60;
 
@@ -60,13 +51,8 @@ export default class Player {
 
         this.player.height = 1.2;
         this.player.position = new THREE.Vector3();
-        this.player.quaternion = new THREE.Euler();
         this.player.directionOffset = 0;
         this.targetRotation = new THREE.Quaternion();
-
-        this.upVector = new THREE.Vector3(0, 1, 0);
-
-        // this.player.quaternion.order = "YXZ";
 
         this.player.velocity = new THREE.Vector3();
         this.player.direction = new THREE.Vector3();
@@ -117,10 +103,27 @@ export default class Player {
     }
 
     setPlayerSocket() {
-        this.socket.on("setID", (setID) => {});
+        this.socket.on("setID", (setID) => {
+            const createMain = new Avatar();
+            this.avatar = createMain.createAvatar(setID, "Anonymous");
+            console.log(this.avatar.avatar);
+            this.scene.add(this.avatar.avatar);
+
+            // const createSecond = new Avatar();
+            // const newBruh = createSecond.createAvatar("bro", "Anonymous");
+            // this.scene.add(newBruh);
+
+            // newBruh.position.set(
+            //     17.297998894810863,
+            //     0.0049119608104084556,
+            //     -3.5137431496712552
+            // );
+
+            // console.log(this.avatar.userData.id);
+            // console.log(newBruh.userData.id);
+        });
 
         this.socket.on("playerData", (playerData) => {
-            // console.log(playerData);
             for (let player of playerData) {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
@@ -131,19 +134,18 @@ export default class Player {
 
                                 const name = player.name.substring(0, 25);
 
-                                // const newAvatar = this.avatar.createAvatar(
-                                //     player.id,
-                                //     name
-                                // );
+                                // const newAvatar =
+                                //     this.characterCreation.createAvatar(
+                                //         player.id,
+                                //         name
+                                //     );
 
-                                player["model"] = newAvatar.head;
-                                player["nametag"] = newAvatar.nametag;
-                                player["body"] = newAvatar.body;
-                                this.scene.add(newAvatar.head);
-                                this.scene.add(newAvatar.nametag);
-                                this.scene.add(newAvatar.body);
+                                // this.scene.add(newAvatar);
+
+                                player["model"] = newAvatar;
                                 this.otherPlayers[player.id] = player;
                             } else {
+                                // this.otherPlayers[player.id]["model"].position;
                                 this.otherPlayers[player.id][
                                     "model"
                                 ].position.set(
@@ -151,27 +153,21 @@ export default class Player {
                                     player.position_y,
                                     player.position_z
                                 );
-                                this.otherPlayers[player.id][
-                                    "model"
-                                ].rotation.set(
-                                    player.rotation_x,
-                                    player.rotation_y,
-                                    player.rotation_z
-                                );
-                                this.otherPlayers[player.id][
-                                    "nametag"
-                                ].position.set(
-                                    player.position_x,
-                                    player.position_y + 0.6,
-                                    player.position_z
-                                );
-                                this.otherPlayers[player.id][
-                                    "body"
-                                ].position.set(
-                                    player.position_x,
-                                    player.position_y - 0.9,
-                                    player.position_z
-                                );
+                                // this.otherPlayers[player.id][
+                                //     "model"
+                                // ].quaternion.set(
+                                //     player.quaternion_x,
+                                //     player.quaternion_y,
+                                //     player.quaternion_z,
+                                //     player.quaternion_z
+                                // );
+                                // this.otherPlayers[player.id][
+                                //     "nametag"
+                                // ].position.set(
+                                //     player.position_x,
+                                //     player.position_y + 0.6,
+                                //     player.position_z
+                                // );
                             }
                         }
                     });
@@ -180,26 +176,15 @@ export default class Player {
         });
 
         this.socket.on("removePlayer", (id) => {
-            this.disconnectedPlayerId = id;
-
-            this.otherPlayers[id]["nametag"].material.dispose();
-            this.otherPlayers[id]["nametag"].geometry.dispose();
-            this.scene.remove(this.otherPlayers[id]["nametag"]);
-
-            this.otherPlayers[id]["body"].material.dispose();
-            this.otherPlayers[id]["body"].geometry.dispose();
-            this.scene.remove(this.otherPlayers[id]["body"]);
-
-            this.otherPlayers[id]["model"].material.forEach((material) =>
-                material.dispose()
-            );
-            this.otherPlayers[id]["model"].geometry.dispose();
-            this.scene.remove(this.otherPlayers[id]["model"]);
-
-            delete this.otherPlayers[id]["nametag"];
-            delete this.otherPlayers[id]["body"];
-            delete this.otherPlayers[id]["model"];
-            delete this.otherPlayers[id];
+            // this.disconnectedPlayerId = id;
+            // this.otherPlayers[id]["nametag"].material.dispose();
+            // this.otherPlayers[id]["nametag"].geometry.dispose();
+            // this.scene.remove(this.otherPlayers[id]["nametag"]);
+            // this.otherPlayers[id]["model"].geometry.dispose();
+            // this.scene.remove(this.otherPlayers[id]["model"]);
+            // delete this.otherPlayers[id]["nametag"];
+            // delete this.otherPlayers[id]["model"];
+            // delete this.otherPlayers[id];
         });
     }
 
@@ -207,6 +192,7 @@ export default class Player {
         this.socket.emit("updatePlayer", {
             position: this.avatar.avatar.position,
             quaternion: this.avatar.avatar.quaternion,
+            animation: this.player.animation,
         });
     }
 
@@ -453,15 +439,13 @@ export default class Player {
         }
     }
 
-    updateAvatar() {
+    updateAvatarPosition() {
         this.avatar.avatar.position.copy(this.player.collider.end);
         this.avatar.avatar.position.y -= 1.56;
-        this.avatar.update();
-
-        this.player.avatar.body.position.y += 0.2;
+        this.avatar.avatar.animation.updateFunc(this.time.delta);
     }
 
-    updateRotation() {
+    updateAvatarRotation() {
         if (this.actions.forward) {
             this.player.directionOffset = Math.PI;
         }
@@ -516,13 +500,8 @@ export default class Player {
         }
     }
 
-    update() {
-        this.updateMovement();
-        this.updatePlayerSocket();
-        this.updateAvatar();
-        this.updateRotation();
-
-        if (this.player.animation !== this.avatar.animation) {
+    updateAvatarAnimation() {
+        if (this.player.animation !== this.avatar.avatar.animation) {
             if (
                 this.actions.left &&
                 this.actions.right &&
@@ -683,11 +662,13 @@ export default class Player {
                 }
             }
 
-            this.avatar.animation.play(this.player.animation);
+            this.avatar.avatar.animation.play(this.player.animation);
         } else {
-            this.avatar.animation.play("idle");
+            this.avatar.avatar.animation.play("idle");
         }
+    }
 
+    updateCamera() {
         if (
             this.player.animation !== "idle" &&
             this.player.animation !== "dancing"
@@ -705,6 +686,17 @@ export default class Player {
                 this.targetRotation,
                 0.15
             );
+        }
+    }
+
+    update() {
+        if (this.avatar) {
+            this.updateMovement();
+            this.updatePlayerSocket();
+            this.updateAvatarPosition();
+            this.updateAvatarRotation();
+            this.updateAvatarAnimation();
+            this.updateCamera();
         }
     }
 }

@@ -59,7 +59,8 @@ const connectedSockets = new Map();
 updateNameSpace.on("connection", (socket) => {
     socket.userData = {
         position: { x: 0, y: -500, z: 0 },
-        rotation: { x: 0, y: 0, z: 0 },
+        quaternion: { x: 0, y: 0, z: 0, w: 0 },
+        animation: "idle",
         name: "",
     };
     connectedSockets.set(socket.id, socket);
@@ -88,9 +89,11 @@ updateNameSpace.on("connection", (socket) => {
         socket.userData.position.x = player.position.x;
         socket.userData.position.y = player.position.y;
         socket.userData.position.z = player.position.z;
-        socket.userData.rotation.x = player.rotation._x;
-        socket.userData.rotation.y = player.rotation._y;
-        socket.userData.rotation.z = player.rotation._z;
+        socket.userData.quaternion.x = player.quaternion._x;
+        socket.userData.quaternion.y = player.quaternion._y;
+        socket.userData.quaternion.z = player.quaternion._z;
+        socket.userData.quaternion.w = player.quaternion._w;
+        socket.userData.animation = player.animation;
 
         const playerData = [];
         for (const socket of connectedSockets.values()) {
@@ -100,9 +103,11 @@ updateNameSpace.on("connection", (socket) => {
                 position_x: socket.userData.position.x,
                 position_y: socket.userData.position.y,
                 position_z: socket.userData.position.z,
-                rotation_x: socket.userData.rotation.x,
-                rotation_y: socket.userData.rotation.y,
-                rotation_z: socket.userData.rotation.z,
+                quaternion_x: socket.userData.quaternion.x,
+                quaternion_y: socket.userData.quaternion.y,
+                quaternion_z: socket.userData.quaternion.z,
+                quaternion_z: socket.userData.quaternion.w,
+                animation: socket.userData.animation,
             });
         }
 
