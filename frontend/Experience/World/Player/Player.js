@@ -146,19 +146,16 @@ export default class Player {
                                 ].animation.play(player.animation);
                                 this.otherPlayers[player.id][
                                     "model"
-                                ].animation.update(
-                                    0.0016,
-                                    this.otherPlayers[player.id]["model"]
-                                        .speedAdjustment
-                                );
+                                ].animation.update(this.time.delta / 400);
 
-                                // this.otherPlayers[player.id][
-                                //     "model"
-                                // ].rotation.set(
-                                //     player.rotation_x,
-                                //     player.rotation_y,
-                                //     player.rotation_z
-                                // );
+                                this.otherPlayers[player.id][
+                                    "model"
+                                ].avatar.quaternion.set(
+                                    player.quaternion_x,
+                                    player.quaternion_y,
+                                    player.quaternion_z,
+                                    player.quaternion_w
+                                );
                                 // this.otherPlayers[player.id][
                                 //     "nametag"
                                 // ].position.set(
@@ -445,13 +442,7 @@ export default class Player {
         this.avatar.avatar.position.copy(this.player.collider.end);
         this.avatar.avatar.position.y -= 1.56;
 
-        if (this.player.animation === "jumping") {
-            this.speedAdjustment = 1.5;
-        } else {
-            this.speedAdjustment = 1.05;
-        }
-
-        this.avatar.animation.update(this.time.delta, this.speedAdjustment);
+        this.avatar.animation.update(this.time.delta);
     }
 
     updateAvatarRotation() {

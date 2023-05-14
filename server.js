@@ -90,10 +90,10 @@ updateNameSpace.on("connection", (socket) => {
         socket.userData.position.x = player.position.x;
         socket.userData.position.y = player.position.y;
         socket.userData.position.z = player.position.z;
-        socket.userData.quaternion.x = player.quaternion._x;
-        socket.userData.quaternion.y = player.quaternion._y;
-        socket.userData.quaternion.z = player.quaternion._z;
-        socket.userData.quaternion.w = player.quaternion._w;
+        socket.userData.quaternion.x = player.quaternion[0];
+        socket.userData.quaternion.y = player.quaternion[1];
+        socket.userData.quaternion.z = player.quaternion[2];
+        socket.userData.quaternion.w = player.quaternion[3];
         socket.userData.animation = player.animation;
 
         const playerData = [];
@@ -107,7 +107,7 @@ updateNameSpace.on("connection", (socket) => {
                 quaternion_x: socket.userData.quaternion.x,
                 quaternion_y: socket.userData.quaternion.y,
                 quaternion_z: socket.userData.quaternion.z,
-                quaternion_z: socket.userData.quaternion.w,
+                quaternion_w: socket.userData.quaternion.w,
                 animation: socket.userData.animation,
             });
         }

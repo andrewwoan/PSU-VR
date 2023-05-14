@@ -64,6 +64,12 @@ export default class Avatar {
                 return;
             }
 
+            if (this.animation.actions.current === "jumping") {
+                this.speedAdjustment = 1.5;
+            } else {
+                this.speedAdjustment = 1.05;
+            }
+
             newAction.reset();
             newAction.play();
             newAction.crossFadeFrom(oldAction, 0.2);
@@ -71,8 +77,8 @@ export default class Avatar {
             this.animation.actions.current = newAction;
         };
 
-        this.animation.update = (time, speed) => {
-            this.animation.mixer.update(time * speed);
+        this.animation.update = (time) => {
+            this.animation.mixer.update(time * this.speedAdjustment);
         };
     }
 }
