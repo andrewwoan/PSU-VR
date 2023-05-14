@@ -119,7 +119,6 @@ export default class Player {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
                                 if (player.name === "") return;
 
-                                console.log("bro");
                                 const name = player.name.substring(0, 25);
 
                                 const newAvatar = new Avatar(
@@ -127,30 +126,27 @@ export default class Player {
                                     this.scene
                                 );
 
-                                player["model"] = newAvatar;
-                                // player["nametag"] = newAvatar.nametag;
+                                player.model = newAvatar;
                                 this.otherPlayers[player.id] = player;
                             } else {
-                                // console.log(
-                                //     this.otherPlayers[player.id]["model"]
-                                // );
-                                this.otherPlayers[player.id][
-                                    "model"
-                                ].avatar.position.set(
+                                this.otherPlayers[
+                                    player.id
+                                ].model.avatar.position.set(
                                     player.position_x,
                                     player.position_y,
                                     player.position_z
                                 );
-                                this.otherPlayers[player.id][
-                                    "model"
-                                ].animation.play(player.animation);
-                                this.otherPlayers[player.id][
-                                    "model"
-                                ].animation.update(this.time.delta / 400);
 
-                                this.otherPlayers[player.id][
-                                    "model"
-                                ].avatar.quaternion.set(
+                                this.otherPlayers[
+                                    player.id
+                                ].model.animation.play(player.animation);
+                                this.otherPlayers[
+                                    player.id
+                                ].model.animation.update(this.time.delta / 400);
+
+                                this.otherPlayers[
+                                    player.id
+                                ].model.avatar.quaternion.set(
                                     player.quaternion_x,
                                     player.quaternion_y,
                                     player.quaternion_z,
@@ -177,12 +173,30 @@ export default class Player {
             // this.otherPlayers[id]["nametag"].geometry.dispose();
             // this.scene.remove(this.otherPlayers[id]["nametag"]);
 
-            this.otherPlayers[id]["model"].material.dispose();
-            this.otherPlayers[id]["model"].geometry.dispose();
-            this.scene.remove(this.otherPlayers[id]["model"]);
+            console.log(this.otherPlayers[id].model.avatar.children[0]);
+
+            this.otherPlayers[id].model.avatar.traverse((child) => {
+                console.log(child);
+                if (child instanceof THREE.Mesh) {
+                    child.material.dispose();
+                    child.geometry.dispose();
+                }
+
+                if (child.material) {
+                    child.material.dispose();
+                }
+
+                if (child.geometry) {
+                    child.geometry.dispose();
+                }
+            });
+
+            // this.otherPlayers[id].model.avatar.material.dispose();
+            // this.otherPlayers[id].model.avatar.geometry.dispose();
+            this.scene.remove(this.otherPlayers[id].model.avatar);
 
             // delete this.otherPlayers[id]["nametag"];
-            delete this.otherPlayers[id]["model"];
+            delete this.otherPlayers[id].model;
             delete this.otherPlayers[id];
         });
     }

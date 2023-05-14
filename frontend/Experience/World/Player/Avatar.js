@@ -10,10 +10,7 @@ export default class Avatar {
             return clip.clone();
         });
 
-        this.avatar.animations = this.animationData;
-
         this.scene = scene;
-        console.log(this.animationData);
         this.nametag = new Nametag();
 
         this.setAvatar();
