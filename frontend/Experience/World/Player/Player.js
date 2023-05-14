@@ -15,7 +15,7 @@ export default class Player {
         this.camera = this.experience.camera;
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
-        this.avatar = new Avatar();
+        this.avatar = new Avatar(this.experience, this.scene);
         this.socket = this.experience.socket;
 
         this.domElements = elements({
@@ -35,16 +35,10 @@ export default class Player {
     initPlayer() {
         this.player = {};
 
-        this.jumpOnce = false;
-
         this.player.body = this.camera.perspectiveCamera;
-
         this.player.animation = "idle";
-        // this.player.avatar.children[0].material.opacity = 0;
 
-        // this.camera.controls.maxPolarAngle = Math.PI;
-        // this.camera.controls.minDistance = 1e-4;
-
+        this.jumpOnce = false;
         this.player.onFloor = false;
         this.player.gravity = 60;
 
@@ -58,19 +52,15 @@ export default class Player {
         this.player.raycaster.far = 5;
 
         this.player.height = 1.2;
+        this.player.speedMultiplier = 0.35;
         this.player.position = new THREE.Vector3();
         this.player.quaternion = new THREE.Euler();
         this.player.directionOffset = 0;
         this.targetRotation = new THREE.Quaternion();
 
         this.upVector = new THREE.Vector3(0, 1, 0);
-
-        // this.player.quaternion.order = "YXZ";
-
         this.player.velocity = new THREE.Vector3();
         this.player.direction = new THREE.Vector3();
-
-        this.player.speedMultiplier = 0.35;
 
         this.player.collider = new Capsule(
             new THREE.Vector3(),
@@ -188,9 +178,9 @@ export default class Player {
 
     updatePlayerSocket() {
         // this.socket.emit("updatePlayer", {
-        //     position: this.player.body.position,
-        //     quaternion: this.player.body.quaternion,
-        //     animation: this.player.animation,
+        //     position: this.avatar.avatar.position,
+        //     quaternion: this.avatar.avatar.quaternion,
+        //     animation: this.avatar.animation,
         // });
     }
 
@@ -440,7 +430,14 @@ export default class Player {
     updateAvatarPosition() {
         this.avatar.avatar.position.copy(this.player.collider.end);
         this.avatar.avatar.position.y -= 1.56;
-        this.avatar.update();
+
+        if (this.player.animation === "jumping") {
+            this.speedAdjustment = 1.5;
+        } else {
+            this.speedAdjustment = 1.05;
+        }
+
+        this.avatar.animation.update(this.time.delta, this.speedAdjustment);
     }
 
     updateAvatarRotation() {

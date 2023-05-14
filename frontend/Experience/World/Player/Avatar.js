@@ -1,26 +1,24 @@
 import * as THREE from "three";
-import Experience from "../../Experience.js";
 import Nametag from "./Nametag.js";
 
 export default class Avatar {
-    constructor() {
-        this.experience = new Experience();
+    constructor(experience, scene) {
+        this.experience = experience;
+        this.scene = scene;
         this.nametag = new Nametag();
-        this.time = this.experience.time;
         this.resources = this.experience.resources;
-        this.scene = this.experience.scene;
 
-        this.resource = this.resources.items.asian_male;
-        this.avatar = this.resource.scene;
-        this.avatar.scale.set(0.99, 0.99, 0.99);
-        this.scene.add(this.avatar);
-        this.speedAdjustment = 1.05;
-
+        this.setAvatar();
         this.setAnimation();
-        this.addEventListeners();
     }
 
-    createAvatar(id = "self", name = "Anonymous") {}
+    setAvatar() {
+        this.resource = this.resources.items.asian_male;
+        this.avatar = this.resource.scene;
+        this.speedAdjustment = 1.05;
+        this.avatar.scale.set(0.99, 0.99, 0.99);
+        this.scene.add(this.avatar);
+    }
 
     setAnimation() {
         this.animation = {};
@@ -60,27 +58,15 @@ export default class Avatar {
                 return;
             }
 
-            if (name === "jumping") {
-                this.speedAdjustment = 1.5;
-            } else {
-                this.speedAdjustment = 1.05;
-            }
-
             newAction.reset();
             newAction.play();
             newAction.crossFadeFrom(oldAction, 0.2);
 
             this.animation.actions.current = newAction;
         };
-    }
 
-    addEventListeners() {
-        this.animation.mixer.addEventListener("finished", (e) => {
-            console.log(e);
-        });
-    }
-
-    update() {
-        this.animation.mixer.update(this.time.delta * this.speedAdjustment);
+        this.animation.update = (time, speed) => {
+            this.animation.mixer.update(time * speed);
+        };
     }
 }
