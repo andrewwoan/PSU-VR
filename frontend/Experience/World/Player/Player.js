@@ -15,7 +15,8 @@ export default class Player {
         this.camera = this.experience.camera;
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
-        this.avatar = new Avatar(this.experience, this.scene);
+        this.avatar = new Avatar(this.resources.items.asian_male, this.scene);
+
         this.socket = this.experience.socket;
 
         this.domElements = elements({
@@ -120,24 +121,22 @@ export default class Player {
 
                                 const name = player.name.substring(0, 25);
 
-                                // const newAvatar = this.avatar.createAvatar(
-                                //     player.id,
-                                //     name
-                                // );
+                                const newAvatar = new Avatar(
+                                    this.resources.items.asian_male,
+                                    this.scene
+                                );
 
-                                // player["model"] = newAvatar.head;
+                                player["model"] = newAvatar.avatar;
                                 // player["nametag"] = newAvatar.nametag;
-                                // this.scene.add(newAvatar.head);
-                                // this.scene.add(newAvatar.nametag);
-                                // this.otherPlayers[player.id] = player;
+                                this.otherPlayers[player.id] = player;
                             } else {
-                                // this.otherPlayers[player.id][
-                                //     "model"
-                                // ].position.set(
-                                //     player.position_x,
-                                //     player.position_y,
-                                //     player.position_z
-                                // );
+                                this.otherPlayers[player.id][
+                                    "model"
+                                ].position.set(
+                                    player.position_x,
+                                    player.position_y,
+                                    player.position_z
+                                );
                                 // this.otherPlayers[player.id][
                                 //     "model"
                                 // ].rotation.set(
@@ -162,15 +161,15 @@ export default class Player {
         this.socket.on("removePlayer", (id) => {
             this.disconnectedPlayerId = id;
 
-            this.otherPlayers[id]["nametag"].material.dispose();
-            this.otherPlayers[id]["nametag"].geometry.dispose();
-            this.scene.remove(this.otherPlayers[id]["nametag"]);
+            // this.otherPlayers[id]["nametag"].material.dispose();
+            // this.otherPlayers[id]["nametag"].geometry.dispose();
+            // this.scene.remove(this.otherPlayers[id]["nametag"]);
 
             this.otherPlayers[id]["model"].material.dispose();
             this.otherPlayers[id]["model"].geometry.dispose();
             this.scene.remove(this.otherPlayers[id]["model"]);
 
-            delete this.otherPlayers[id]["nametag"];
+            // delete this.otherPlayers[id]["nametag"];
             delete this.otherPlayers[id]["model"];
             delete this.otherPlayers[id];
         });

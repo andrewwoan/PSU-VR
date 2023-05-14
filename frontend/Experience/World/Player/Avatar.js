@@ -1,22 +1,28 @@
 import * as THREE from "three";
+import * as SkeletonUtils from "three/addons/utils/SkeletonUtils.js";
 import Nametag from "./Nametag.js";
 
 export default class Avatar {
-    constructor(experience, scene) {
-        this.experience = experience;
+    constructor(avatar, scene) {
+        this.avatar = SkeletonUtils.clone(avatar.scene);
+
+        this.animationData = avatar.animations.map((clip) => {
+            return clip.clone();
+        });
+
+        this.avatar.animations = this.animationData;
+
         this.scene = scene;
+        console.log(this.animationData);
         this.nametag = new Nametag();
-        this.resources = this.experience.resources;
 
         this.setAvatar();
-        this.setAnimation();
     }
 
     setAvatar() {
-        this.resource = this.resources.items.asian_male;
-        this.avatar = this.resource.scene;
         this.speedAdjustment = 1.05;
         this.avatar.scale.set(0.99, 0.99, 0.99);
+        this.setAnimation();
         this.scene.add(this.avatar);
     }
 
@@ -28,23 +34,23 @@ export default class Avatar {
         this.animation.actions = {};
 
         this.animation.actions.dancing = this.animation.mixer.clipAction(
-            this.resource.animations[0]
+            this.animationData[0]
         );
         this.animation.actions.idle = this.animation.mixer.clipAction(
-            this.resource.animations[1]
+            this.animationData[1]
         );
         this.animation.actions.jumping = this.animation.mixer.clipAction(
-            this.resource.animations[2]
+            this.animationData[2]
         );
 
         this.animation.actions.running = this.animation.mixer.clipAction(
-            this.resource.animations[3]
+            this.animationData[3]
         );
         this.animation.actions.walking = this.animation.mixer.clipAction(
-            this.resource.animations[4]
+            this.animationData[4]
         );
         this.animation.actions.waving = this.animation.mixer.clipAction(
-            this.resource.animations[5]
+            this.animationData[5]
         );
 
         this.animation.actions.current = this.animation.actions.idle;
