@@ -172,12 +172,11 @@ export default class Player {
         this.socket.on("removePlayer", (id) => {
             this.disconnectedPlayerId = id;
 
-            this.otherPlayers[id].nametag.material.dispose();
-            this.otherPlayers[id].nametag.geometry.dispose();
-            this.scene.remove(this.otherPlayers[id].nametag);
+            this.otherPlayers[id].model.nametag.material.dispose();
+            this.otherPlayers[id].model.nametag.geometry.dispose();
+            this.scene.remove(this.otherPlayers[id].model.nametag);
 
             this.otherPlayers[id].model.avatar.traverse((child) => {
-                console.log(child);
                 if (child instanceof THREE.Mesh) {
                     child.material.dispose();
                     child.geometry.dispose();
@@ -192,8 +191,6 @@ export default class Player {
                 }
             });
 
-            // this.otherPlayers[id].model.avatar.material.dispose();
-            // this.otherPlayers[id].model.avatar.geometry.dispose();
             this.scene.remove(this.otherPlayers[id].model.avatar);
 
             // delete this.otherPlayers[id]["nametag"];
