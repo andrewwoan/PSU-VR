@@ -119,6 +119,7 @@ export default class Player {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
                                 if (player.name === "") return;
 
+                                console.log("bro");
                                 const name = player.name.substring(0, 25);
 
                                 const newAvatar = new Avatar(
@@ -126,17 +127,31 @@ export default class Player {
                                     this.scene
                                 );
 
-                                player["model"] = newAvatar.avatar;
+                                player["model"] = newAvatar;
                                 // player["nametag"] = newAvatar.nametag;
                                 this.otherPlayers[player.id] = player;
                             } else {
+                                // console.log(
+                                //     this.otherPlayers[player.id]["model"]
+                                // );
                                 this.otherPlayers[player.id][
                                     "model"
-                                ].position.set(
+                                ].avatar.position.set(
                                     player.position_x,
                                     player.position_y,
                                     player.position_z
                                 );
+                                this.otherPlayers[player.id][
+                                    "model"
+                                ].animation.play(player.animation);
+                                this.otherPlayers[player.id][
+                                    "model"
+                                ].animation.update(
+                                    0.0016,
+                                    this.otherPlayers[player.id]["model"]
+                                        .speedAdjustment
+                                );
+
                                 // this.otherPlayers[player.id][
                                 //     "model"
                                 // ].rotation.set(
