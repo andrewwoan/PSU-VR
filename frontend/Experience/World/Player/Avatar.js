@@ -18,7 +18,7 @@ export default class Avatar {
         this.setAnimation();
     }
 
-    createAvatar(id = "self", name = "Anonymous") {}
+    // createAvatar(id = "self", name = "Anonymous") {}
 
     setAnimation() {
         this.animation = {};
