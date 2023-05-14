@@ -177,11 +177,11 @@ export default class Player {
     }
 
     updatePlayerSocket() {
-        // this.socket.emit("updatePlayer", {
-        //     position: this.avatar.avatar.position,
-        //     quaternion: this.avatar.avatar.quaternion,
-        //     animation: this.avatar.animation,
-        // });
+        this.socket.emit("updatePlayer", {
+            position: this.avatar.avatar.position,
+            quaternion: this.avatar.avatar.quaternion,
+            animation: this.player.animation,
+        });
     }
 
     onKeyDown = (e) => {
@@ -686,10 +686,10 @@ export default class Player {
 
     update() {
         this.updateColliderMovement();
-        this.updatePlayerSocket();
         this.updateAvatarPosition();
         this.updateAvatarRotation();
         this.updateAvatarAnimation();
         this.updateCameraPosition();
+        this.updatePlayerSocket();
     }
 }
