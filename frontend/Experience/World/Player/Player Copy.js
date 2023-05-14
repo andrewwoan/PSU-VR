@@ -142,8 +142,8 @@ export default class Player {
 
                                 // this.scene.add(newAvatar);
 
-                                player["model"] = newAvatar;
-                                this.otherPlayers[player.id] = player;
+                                // player["model"] = newAvatar;
+                                // this.otherPlayers[player.id] = player;
                             } else {
                                 // this.otherPlayers[player.id]["model"].position;
                                 this.otherPlayers[player.id][

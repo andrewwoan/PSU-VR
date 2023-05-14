@@ -136,13 +136,13 @@ export default class Player {
                                 //     name
                                 // );
 
-                                player["model"] = newAvatar.head;
-                                player["nametag"] = newAvatar.nametag;
-                                player["body"] = newAvatar.body;
-                                this.scene.add(newAvatar.head);
-                                this.scene.add(newAvatar.nametag);
-                                this.scene.add(newAvatar.body);
-                                this.otherPlayers[player.id] = player;
+                                // player["model"] = newAvatar.head;
+                                // player["nametag"] = newAvatar.nametag;
+                                // player["body"] = newAvatar.body;
+                                // this.scene.add(newAvatar.head);
+                                // this.scene.add(newAvatar.nametag);
+                                // this.scene.add(newAvatar.body);
+                                // this.otherPlayers[player.id] = player;
                             } else {
                                 this.otherPlayers[player.id][
                                     "model"
@@ -163,13 +163,6 @@ export default class Player {
                                 ].position.set(
                                     player.position_x,
                                     player.position_y + 0.6,
-                                    player.position_z
-                                );
-                                this.otherPlayers[player.id][
-                                    "body"
-                                ].position.set(
-                                    player.position_x,
-                                    player.position_y - 0.9,
                                     player.position_z
                                 );
                             }
@@ -457,8 +450,6 @@ export default class Player {
         this.avatar.avatar.position.copy(this.player.collider.end);
         this.avatar.avatar.position.y -= 1.56;
         this.avatar.update();
-
-        this.player.avatar.body.position.y += 0.2;
     }
 
     updateRotation() {

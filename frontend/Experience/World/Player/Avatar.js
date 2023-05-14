@@ -16,51 +16,9 @@ export default class Avatar {
         this.scene.add(this.avatar);
 
         this.setAnimation();
-        this.addEventListeners();
     }
 
-    createAvatar(id = "self", name = "Anonymous") {
-        const headGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-        const headMaterial = new THREE.MeshBasicMaterial({
-            color: 0x002a83,
-            transparent: true,
-            // opacity: 0.5,
-        });
-        const faceMaterial = new THREE.MeshBasicMaterial({
-            color: 0x0e56ee,
-            transparent: true,
-        });
-
-        const materials = [
-            headMaterial,
-            headMaterial,
-            headMaterial,
-            headMaterial,
-            headMaterial,
-            faceMaterial,
-        ];
-
-        headGeometry.groups.forEach((face, i) => {
-            face.materialIndex = i;
-        });
-
-        const head = new THREE.Mesh(headGeometry, materials);
-        head.rotation.order = "YXZ";
-        head.userData = id;
-
-        const nametag = this.nametag.createNametag(24, 165, name);
-
-        const bodyGeometry = new THREE.BoxGeometry(0.5, 1, 0.5);
-        const bodyMaterial = new THREE.MeshBasicMaterial({
-            color: 0x002a83,
-            transparent: true,
-            // opacity: 0.5,
-        });
-        this.speedAdjustment = 1.05;
-        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-
-        return { head, nametag, body };
-    }
+    createAvatar(id = "self", name = "Anonymous") {}
 
     setAnimation() {
         this.animation = {};
@@ -112,12 +70,6 @@ export default class Avatar {
 
             this.animation.actions.current = newAction;
         };
-    }
-
-    addEventListeners() {
-        this.animation.mixer.addEventListener("finished", (e) => {
-            console.log(e);
-        });
     }
 
     update() {
