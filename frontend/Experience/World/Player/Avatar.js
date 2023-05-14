@@ -3,7 +3,7 @@ import * as SkeletonUtils from "three/addons/utils/SkeletonUtils.js";
 import Nametag from "./Nametag.js";
 
 export default class Avatar {
-    constructor(avatar, scene) {
+    constructor(avatar, scene, name) {
         this.avatar = SkeletonUtils.clone(avatar.scene);
 
         this.animationData = avatar.animations.map((clip) => {
@@ -11,7 +11,9 @@ export default class Avatar {
         });
 
         this.scene = scene;
-        this.nametag = new Nametag();
+        this.name = new Nametag();
+
+        this.nametag = this.name.createNametag(16, 150, name);
 
         this.setAvatar();
     }

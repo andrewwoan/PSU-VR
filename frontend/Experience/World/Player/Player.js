@@ -123,10 +123,12 @@ export default class Player {
 
                                 const newAvatar = new Avatar(
                                     this.resources.items.asian_male,
-                                    this.scene
+                                    this.scene,
+                                    player.name
                                 );
 
                                 player.model = newAvatar;
+                                this.scene.add(newAvatar.nametag);
                                 this.otherPlayers[player.id] = player;
                             } else {
                                 this.otherPlayers[
@@ -152,13 +154,14 @@ export default class Player {
                                     player.quaternion_z,
                                     player.quaternion_w
                                 );
-                                // this.otherPlayers[player.id][
-                                //     "nametag"
-                                // ].position.set(
-                                //     player.position_x,
-                                //     player.position_y + 0.6,
-                                //     player.position_z
-                                // );
+
+                                this.otherPlayers[
+                                    player.id
+                                ].model.nametag.position.set(
+                                    player.position_x,
+                                    player.position_y + 2.2,
+                                    player.position_z
+                                );
                             }
                         }
                     });
@@ -169,11 +172,9 @@ export default class Player {
         this.socket.on("removePlayer", (id) => {
             this.disconnectedPlayerId = id;
 
-            // this.otherPlayers[id]["nametag"].material.dispose();
-            // this.otherPlayers[id]["nametag"].geometry.dispose();
-            // this.scene.remove(this.otherPlayers[id]["nametag"]);
-
-            console.log(this.otherPlayers[id].model.avatar.children[0]);
+            this.otherPlayers[id].nametag.material.dispose();
+            this.otherPlayers[id].nametag.geometry.dispose();
+            this.scene.remove(this.otherPlayers[id].nametag);
 
             this.otherPlayers[id].model.avatar.traverse((child) => {
                 console.log(child);

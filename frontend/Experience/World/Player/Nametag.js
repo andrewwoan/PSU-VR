@@ -9,7 +9,7 @@ export default class Nametag {
         this.nametag = "";
     }
 
-    createNametag(size = 24, baseWidth = 150, name = "John Doe") {
+    createNametag(size = 16, baseWidth = 150, name = "John Doe") {
         const borderSize = 2;
         const fontSize = 12;
         const ctx = document.createElement("canvas").getContext("2d");
