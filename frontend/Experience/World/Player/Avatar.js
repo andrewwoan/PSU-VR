@@ -14,11 +14,13 @@ export default class Avatar {
         this.avatar = this.resource.scene;
         this.avatar.scale.set(0.99, 0.99, 0.99);
         this.scene.add(this.avatar);
+        this.speedAdjustment = 1.05;
 
         this.setAnimation();
+        this.addEventListeners();
     }
 
-    // createAvatar(id = "self", name = "Anonymous") {}
+    createAvatar(id = "self", name = "Anonymous") {}
 
     setAnimation() {
         this.animation = {};
@@ -70,6 +72,12 @@ export default class Avatar {
 
             this.animation.actions.current = newAction;
         };
+    }
+
+    addEventListeners() {
+        this.animation.mixer.addEventListener("finished", (e) => {
+            console.log(e);
+        });
     }
 
     update() {

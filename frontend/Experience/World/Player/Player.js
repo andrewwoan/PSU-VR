@@ -39,7 +39,6 @@ export default class Player {
 
         this.player.body = this.camera.perspectiveCamera;
 
-        this.player.avatar = this.avatar.createAvatar();
         this.player.animation = "idle";
         // this.player.avatar.children[0].material.opacity = 0;
 
@@ -138,33 +137,31 @@ export default class Player {
 
                                 // player["model"] = newAvatar.head;
                                 // player["nametag"] = newAvatar.nametag;
-                                // player["body"] = newAvatar.body;
                                 // this.scene.add(newAvatar.head);
                                 // this.scene.add(newAvatar.nametag);
-                                // this.scene.add(newAvatar.body);
                                 // this.otherPlayers[player.id] = player;
                             } else {
-                                this.otherPlayers[player.id][
-                                    "model"
-                                ].position.set(
-                                    player.position_x,
-                                    player.position_y,
-                                    player.position_z
-                                );
-                                this.otherPlayers[player.id][
-                                    "model"
-                                ].rotation.set(
-                                    player.rotation_x,
-                                    player.rotation_y,
-                                    player.rotation_z
-                                );
-                                this.otherPlayers[player.id][
-                                    "nametag"
-                                ].position.set(
-                                    player.position_x,
-                                    player.position_y + 0.6,
-                                    player.position_z
-                                );
+                                // this.otherPlayers[player.id][
+                                //     "model"
+                                // ].position.set(
+                                //     player.position_x,
+                                //     player.position_y,
+                                //     player.position_z
+                                // );
+                                // this.otherPlayers[player.id][
+                                //     "model"
+                                // ].rotation.set(
+                                //     player.rotation_x,
+                                //     player.rotation_y,
+                                //     player.rotation_z
+                                // );
+                                // this.otherPlayers[player.id][
+                                //     "nametag"
+                                // ].position.set(
+                                //     player.position_x,
+                                //     player.position_y + 0.6,
+                                //     player.position_z
+                                // );
                             }
                         }
                     });
@@ -179,28 +176,22 @@ export default class Player {
             this.otherPlayers[id]["nametag"].geometry.dispose();
             this.scene.remove(this.otherPlayers[id]["nametag"]);
 
-            this.otherPlayers[id]["body"].material.dispose();
-            this.otherPlayers[id]["body"].geometry.dispose();
-            this.scene.remove(this.otherPlayers[id]["body"]);
-
-            this.otherPlayers[id]["model"].material.forEach((material) =>
-                material.dispose()
-            );
+            this.otherPlayers[id]["model"].material.dispose();
             this.otherPlayers[id]["model"].geometry.dispose();
             this.scene.remove(this.otherPlayers[id]["model"]);
 
             delete this.otherPlayers[id]["nametag"];
-            delete this.otherPlayers[id]["body"];
             delete this.otherPlayers[id]["model"];
             delete this.otherPlayers[id];
         });
     }
 
     updatePlayerSocket() {
-        this.socket.emit("updatePlayer", {
-            position: this.avatar.avatar.position,
-            quaternion: this.avatar.avatar.quaternion,
-        });
+        // this.socket.emit("updatePlayer", {
+        //     position: this.player.body.position,
+        //     quaternion: this.player.body.quaternion,
+        //     animation: this.player.animation,
+        // });
     }
 
     onKeyDown = (e) => {
@@ -334,7 +325,7 @@ export default class Player {
         this.player.collider.end.y += this.player.height;
     }
 
-    updateMovement() {
+    updateColliderMovement() {
         const speed =
             (this.player.onFloor ? 1.75 : 0.1) *
             this.player.gravity *
@@ -446,13 +437,13 @@ export default class Player {
         }
     }
 
-    updateAvatar() {
+    updateAvatarPosition() {
         this.avatar.avatar.position.copy(this.player.collider.end);
         this.avatar.avatar.position.y -= 1.56;
         this.avatar.update();
     }
 
-    updateRotation() {
+    updateAvatarRotation() {
         if (this.actions.forward) {
             this.player.directionOffset = Math.PI;
         }
@@ -507,12 +498,7 @@ export default class Player {
         }
     }
 
-    update() {
-        this.updateMovement();
-        this.updatePlayerSocket();
-        this.updateAvatar();
-        this.updateRotation();
-
+    updateAvatarAnimation() {
         if (this.player.animation !== this.avatar.animation) {
             if (
                 this.actions.left &&
@@ -678,7 +664,9 @@ export default class Player {
         } else {
             this.avatar.animation.play("idle");
         }
+    }
 
+    updateCameraPosition() {
         if (
             this.player.animation !== "idle" &&
             this.player.animation !== "dancing"
@@ -697,5 +685,14 @@ export default class Player {
                 0.15
             );
         }
+    }
+
+    update() {
+        this.updateColliderMovement();
+        this.updatePlayerSocket();
+        this.updateAvatarPosition();
+        this.updateAvatarRotation();
+        this.updateAvatarAnimation();
+        this.updateCameraPosition();
     }
 }
