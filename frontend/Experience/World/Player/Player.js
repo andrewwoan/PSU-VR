@@ -112,7 +112,6 @@ export default class Player {
 
         this.socket.on("playerData", (playerData) => {
             // console.log(playerData);
-            const deltaTime = this.time.getDelta() / 200;
             for (let player of playerData) {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
@@ -132,44 +131,39 @@ export default class Player {
                                 player.model = newAvatar;
                                 this.scene.add(newAvatar.nametag);
                                 this.otherPlayers[player.id] = player;
-                            } else {
-                                console.log(player.id);
-                                console.log("---------------");
-                                this.otherPlayers[
-                                    player.id
-                                ].model.avatar.position.set(
-                                    player.position_x,
-                                    player.position_y,
-                                    player.position_z
-                                );
-
-                                this.otherPlayers[
-                                    player.id
-                                ].model.animation.play(player.animation);
-
-                                this.otherPlayers[
-                                    player.id
-                                ].model.animation.update(deltaTime);
-
-                                this.otherPlayers[
-                                    player.id
-                                ].model.avatar.quaternion.set(
-                                    player.quaternion_x,
-                                    player.quaternion_y,
-                                    player.quaternion_z,
-                                    player.quaternion_w
-                                );
-
-                                this.otherPlayers[
-                                    player.id
-                                ].model.nametag.position.set(
-                                    player.position_x,
-                                    player.position_y + 2.2,
-                                    player.position_z
-                                );
                             }
                         }
                     });
+                    if (this.otherPlayers[player.id]) {
+                        this.otherPlayers[player.id].model.avatar.position.set(
+                            player.position_x,
+                            player.position_y,
+                            player.position_z
+                        );
+
+                        this.otherPlayers[player.id].model.animation.play(
+                            player.animation
+                        );
+
+                        this.otherPlayers[player.id].model.animation.update(
+                            this.time.delta
+                        );
+
+                        this.otherPlayers[
+                            player.id
+                        ].model.avatar.quaternion.set(
+                            player.quaternion_x,
+                            player.quaternion_y,
+                            player.quaternion_z,
+                            player.quaternion_w
+                        );
+
+                        this.otherPlayers[player.id].model.nametag.position.set(
+                            player.position_x,
+                            player.position_y + 2.2,
+                            player.position_z
+                        );
+                    }
                 }
             }
         });
