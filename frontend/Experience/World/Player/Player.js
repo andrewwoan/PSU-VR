@@ -192,7 +192,7 @@ export default class Player {
 
             this.scene.remove(this.otherPlayers[id].model.avatar);
 
-            // delete this.otherPlayers[id]["nametag"];
+            delete this.otherPlayers[id].nametag;
             delete this.otherPlayers[id].model;
             delete this.otherPlayers[id];
         });
