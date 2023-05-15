@@ -15,6 +15,8 @@ export default class Player {
         this.camera = this.experience.camera;
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
+        // this.mixer = new THREE.AnimationMixer(this.scene);
+
         this.avatar = new Avatar(this.resources.items.asian_male, this.scene);
 
         this.socket = this.experience.socket;
@@ -112,10 +114,12 @@ export default class Player {
 
         this.socket.on("playerData", (playerData) => {
             // console.log(playerData);
+            const time = this.time.getDelta();
             for (let player of playerData) {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
                         if (child.userData.id === player.id) {
+                            return;
                         } else {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
                                 if (player.name === "") return;
@@ -125,7 +129,8 @@ export default class Player {
                                 const newAvatar = new Avatar(
                                     this.resources.items.asian_male,
                                     this.scene,
-                                    player.name
+                                    player.name,
+                                    player.id
                                 );
 
                                 player.model = newAvatar;
@@ -135,6 +140,7 @@ export default class Player {
                         }
                     });
                     if (this.otherPlayers[player.id]) {
+                        console.log(this.otherPlayers[player.id]);
                         this.otherPlayers[player.id].model.avatar.position.set(
                             player.position_x,
                             player.position_y,
@@ -146,7 +152,7 @@ export default class Player {
                         );
 
                         this.otherPlayers[player.id].model.animation.update(
-                            this.time.delta
+                            time
                         );
 
                         this.otherPlayers[

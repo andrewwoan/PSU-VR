@@ -3,8 +3,9 @@ import * as SkeletonUtils from "three/addons/utils/SkeletonUtils.js";
 import Nametag from "./Nametag.js";
 
 export default class Avatar {
-    constructor(avatar, scene, name) {
+    constructor(avatar, scene, name, id) {
         this.avatar = SkeletonUtils.clone(avatar.scene);
+        this.avatar.userData.id = id;
 
         this.animationData = avatar.animations.map((clip) => {
             return clip.clone();

@@ -11,6 +11,10 @@ export default class Time {
         this.delta = (currentTime - this.current) / 1000;
         this.current = currentTime;
         // this.elapsed = this.current - this.start;
+
+        if (this.delta > 60) {
+            this.delta = 60;
+        }
     }
 
     getDelta() {
