@@ -15,9 +15,12 @@ export default class Player {
         this.camera = this.experience.camera;
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
+        this.avatar = new Avatar(
+            this.resources.items.asian_male,
+            this.scene,
+            "frik"
+        );
         // this.mixer = new THREE.AnimationMixer(this.scene);
-
-        this.avatar = new Avatar(this.resources.items.asian_male, this.scene);
 
         this.socket = this.experience.socket;
 
@@ -110,7 +113,7 @@ export default class Player {
     }
 
     setPlayerSocket() {
-        this.socket.on("setID", (setID) => {});
+        this.socket.on("setID", (setID, name) => {});
 
         this.socket.on("playerData", (playerData) => {
             // console.log(playerData);
@@ -124,12 +127,14 @@ export default class Player {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
                                 if (player.name === "") return;
 
+                                console.log("YES THEY EQUAL BROSKY");
+
                                 const name = player.name.substring(0, 25);
 
                                 const newAvatar = new Avatar(
                                     this.resources.items.asian_male,
                                     this.scene,
-                                    player.name,
+                                    name,
                                     player.id
                                 );
 
@@ -141,6 +146,8 @@ export default class Player {
                     });
                     if (this.otherPlayers[player.id]) {
                         console.log(this.otherPlayers[player.id]);
+                        // console.log(time);
+                        // console.log(this.otherPlayers[player.id]);
                         this.otherPlayers[player.id].model.avatar.position.set(
                             player.position_x,
                             player.position_y,
@@ -721,10 +728,12 @@ export default class Player {
     }
 
     update() {
-        this.updateColliderMovement();
-        this.updateAvatarPosition();
-        this.updateAvatarRotation();
-        this.updateAvatarAnimation();
-        this.updateCameraPosition();
+        if (this.avatar) {
+            this.updateColliderMovement();
+            this.updateAvatarPosition();
+            this.updateAvatarRotation();
+            this.updateAvatarAnimation();
+            this.updateCameraPosition();
+        }
     }
 }
