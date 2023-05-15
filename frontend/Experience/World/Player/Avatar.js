@@ -19,7 +19,7 @@ export default class Avatar {
     }
 
     setAvatar() {
-        this.speedAdjustment = 1.05;
+        this.speedAdjustment = 1;
         this.avatar.scale.set(0.99, 0.99, 0.99);
         this.setAnimation();
         this.scene.add(this.avatar);
@@ -66,7 +66,7 @@ export default class Avatar {
             if (this.animation.actions.current === "jumping") {
                 this.speedAdjustment = 1.5;
             } else {
-                this.speedAdjustment = 1.05;
+                this.speedAdjustment = 1.0;
             }
 
             newAction.reset();
