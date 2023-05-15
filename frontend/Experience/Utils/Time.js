@@ -10,6 +10,10 @@ export default class Time {
         const currentTime = Date.now();
         this.delta = (currentTime - this.current) / 1000;
         this.current = currentTime;
-        this.elapsed = this.current - this.start;
+        // this.elapsed = this.current - this.start;
+    }
+
+    getDelta() {
+        return this.delta;
     }
 }

@@ -95,7 +95,9 @@ updateNameSpace.on("connection", (socket) => {
         socket.userData.quaternion.z = player.quaternion[2];
         socket.userData.quaternion.w = player.quaternion[3];
         socket.userData.animation = player.animation;
+    });
 
+    setInterval(() => {
         const playerData = [];
         for (const socket of connectedSockets.values()) {
             playerData.push({
@@ -114,7 +116,7 @@ updateNameSpace.on("connection", (socket) => {
 
         if (socket.userData.name === "") return;
         updateNameSpace.emit("playerData", playerData);
-    });
+    }, 30);
 });
 
 server.listen(port, () => {

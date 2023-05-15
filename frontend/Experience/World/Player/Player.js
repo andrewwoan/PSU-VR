@@ -31,6 +31,7 @@ export default class Player {
         this.setPlayerSocket();
         this.setJoyStick();
         this.addEventListeners();
+        this.updatePlayerSocket();
     }
 
     initPlayer() {
@@ -111,6 +112,7 @@ export default class Player {
 
         this.socket.on("playerData", (playerData) => {
             // console.log(playerData);
+            const deltaTime = this.time.getDelta() / 200;
             for (let player of playerData) {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
@@ -131,6 +133,8 @@ export default class Player {
                                 this.scene.add(newAvatar.nametag);
                                 this.otherPlayers[player.id] = player;
                             } else {
+                                console.log(player.id);
+                                console.log("---------------");
                                 this.otherPlayers[
                                     player.id
                                 ].model.avatar.position.set(
@@ -142,9 +146,10 @@ export default class Player {
                                 this.otherPlayers[
                                     player.id
                                 ].model.animation.play(player.animation);
+
                                 this.otherPlayers[
                                     player.id
-                                ].model.animation.update(this.time.delta / 400);
+                                ].model.animation.update(deltaTime);
 
                                 this.otherPlayers[
                                     player.id
@@ -200,11 +205,13 @@ export default class Player {
     }
 
     updatePlayerSocket() {
-        this.socket.emit("updatePlayer", {
-            position: this.avatar.avatar.position,
-            quaternion: this.avatar.avatar.quaternion,
-            animation: this.player.animation,
-        });
+        setInterval(() => {
+            this.socket.emit("updatePlayer", {
+                position: this.avatar.avatar.position,
+                quaternion: this.avatar.avatar.quaternion,
+                animation: this.player.animation,
+            });
+        }, 30);
     }
 
     onKeyDown = (e) => {
@@ -375,7 +382,6 @@ export default class Player {
             );
         }
 
-        // console.log(this.jumpOnce);
         if (this.player.onFloor) {
             if (this.actions.jump && this.jumpOnce) {
                 this.player.velocity.y = 12;
@@ -456,6 +462,8 @@ export default class Player {
 
         this.avatar.animation.update(this.time.delta);
     }
+
+    updateOtherPlayers() {}
 
     updateAvatarRotation() {
         if (this.actions.forward) {
@@ -718,6 +726,5 @@ export default class Player {
         this.updateAvatarRotation();
         this.updateAvatarAnimation();
         this.updateCameraPosition();
-        this.updatePlayerSocket();
     }
 }
