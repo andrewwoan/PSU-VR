@@ -20,8 +20,6 @@ export default class Player {
             this.scene,
             "frik"
         );
-        this.scene.add(this.avatar.avatar);
-        // this.mixer = new THREE.AnimationMixer(this.scene);
 
         this.socket = this.experience.socket;
 
@@ -138,8 +136,6 @@ export default class Player {
                                 );
 
                                 player.model = newAvatar;
-                                this.scene.add(newAvatar.avatar);
-                                this.scene.add(newAvatar.nametag);
                                 this.otherPlayers[player.id] = player;
                             }
                         }
@@ -201,7 +197,7 @@ export default class Player {
                 quaternion: this.avatar.avatar.quaternion,
                 animation: this.player.animation,
             });
-        }, 30);
+        }, 20);
     }
 
     onKeyDown = (e) => {

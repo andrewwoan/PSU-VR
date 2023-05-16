@@ -116,7 +116,7 @@ updateNameSpace.on("connection", (socket) => {
 
         if (socket.userData.name === "") return;
         updateNameSpace.emit("playerData", playerData);
-    }, 30);
+    }, 20);
 });
 
 server.listen(port, () => {

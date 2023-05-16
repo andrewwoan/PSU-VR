@@ -24,6 +24,8 @@ export default class Avatar {
         this.speedAdjustment = 1;
         this.avatar.scale.set(0.99, 0.99, 0.99);
         this.setAnimation();
+        this.scene.add(this.avatar);
+        this.scene.add(this.nametag);
     }
 
     setAnimation() {
