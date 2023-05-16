@@ -12,9 +12,6 @@ export default class Avatar {
             return clip.clone();
         });
 
-        console.log(this.animationData);
-        console.log(avatar.animations);
-
         this.scene = scene;
         this.name = new Nametag();
 
@@ -82,7 +79,6 @@ export default class Avatar {
 
         this.animation.update = (time) => {
             this.animation.mixer.update(time * this.speedAdjustment);
-            console.log(this.avatar.userData.id);
         };
     }
 }

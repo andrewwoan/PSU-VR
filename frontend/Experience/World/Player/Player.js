@@ -145,39 +145,20 @@ export default class Player {
                         }
                     });
                     if (this.otherPlayers[player.id]) {
-                        // console.log(this.otherPlayers);
-
-                        this.otherPlayers[player.id].model.avatar.position.set(
-                            player.position_x,
-                            player.position_y,
-                            player.position_z
-                        );
-
-                        this.otherPlayers[player.id].model.animation.play(
-                            player.animation
-                        );
-
-                        // this.otherPlayers[player.id].model.animation.update(
-                        //     this.time.delta
-                        // );
-                        this.otherPlayers[player.id].model.mixer.update(
-                            this.time.delta
-                        );
-
-                        this.otherPlayers[
-                            player.id
-                        ].model.avatar.quaternion.set(
-                            player.quaternion_x,
-                            player.quaternion_y,
-                            player.quaternion_z,
-                            player.quaternion_w
-                        );
-
-                        this.otherPlayers[player.id].model.nametag.position.set(
-                            player.position_x,
-                            player.position_y + 2.2,
-                            player.position_z
-                        );
+                        this.otherPlayers[player.id].position = {
+                            position_x: player.position_x,
+                            position_y: player.position_y,
+                            position_z: player.position_z,
+                        };
+                        this.otherPlayers[player.id].quaternion = {
+                            quaternion_x: player.quaternion_x,
+                            quaternion_y: player.quaternion_y,
+                            quaternion_z: player.quaternion_z,
+                            quaternion_w: player.quaternion_w,
+                        };
+                        this.otherPlayers[player.id].animation = {
+                            animation: player.animation,
+                        };
                     }
                 }
             }
@@ -472,7 +453,34 @@ export default class Player {
         this.avatar.animation.update(this.time.delta);
     }
 
-    updateOtherPlayers() {}
+    updateOtherPlayers() {
+        for (let player in this.otherPlayers) {
+            this.otherPlayers[player].model.avatar.position.set(
+                this.otherPlayers[player].position.position_x,
+                this.otherPlayers[player].position.position_y,
+                this.otherPlayers[player].position.position_z
+            );
+
+            this.otherPlayers[player].model.animation.play(
+                this.otherPlayers[player].animation.animation
+            );
+
+            this.otherPlayers[player].model.animation.update(this.time.delta);
+
+            this.otherPlayers[player].model.avatar.quaternion.set(
+                this.otherPlayers[player].quaternion.quaternion_x,
+                this.otherPlayers[player].quaternion.quaternion_y,
+                this.otherPlayers[player].quaternion.quaternion_z,
+                this.otherPlayers[player].quaternion.quaternion_w
+            );
+
+            this.otherPlayers[player].model.nametag.position.set(
+                this.otherPlayers[player].position.position_x,
+                this.otherPlayers[player].position.position_y + 2.1,
+                this.otherPlayers[player].position.position_z
+            );
+        }
+    }
 
     updateAvatarRotation() {
         if (this.actions.forward) {
@@ -736,6 +744,7 @@ export default class Player {
             this.updateAvatarRotation();
             this.updateAvatarAnimation();
             this.updateCameraPosition();
+            this.updateOtherPlayers();
         }
     }
 }
