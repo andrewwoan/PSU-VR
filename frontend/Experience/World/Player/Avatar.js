@@ -4,6 +4,7 @@ import Nametag from "./Nametag.js";
 
 export default class Avatar {
     constructor(avatar, scene, name, id) {
+        console.log(id);
         this.avatar = SkeletonUtils.clone(avatar.scene);
         this.avatar.userData.id = id;
 
@@ -79,6 +80,7 @@ export default class Avatar {
 
         this.animation.update = (time) => {
             this.animation.mixer.update(time * this.speedAdjustment);
+            console.log(this.avatar.userData.id);
         };
     }
 }

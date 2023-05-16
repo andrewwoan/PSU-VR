@@ -118,6 +118,7 @@ export default class Player {
         this.socket.on("playerData", (playerData) => {
             // console.log(playerData);
             const time = this.time.getDelta();
+            let count = 0;
             for (let player of playerData) {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
@@ -126,8 +127,6 @@ export default class Player {
                         } else {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
                                 if (player.name === "") return;
-
-                                console.log("YES THEY EQUAL BROSKY");
 
                                 const name = player.name.substring(0, 25);
 
@@ -145,9 +144,13 @@ export default class Player {
                         }
                     });
                     if (this.otherPlayers[player.id]) {
-                        console.log(this.otherPlayers[player.id]);
-                        // console.log(time);
-                        // console.log(this.otherPlayers[player.id]);
+                        const numProperties = Object.keys(
+                            this.otherPlayers
+                        ).length;
+                        // console.log(this.otherPlayers);
+                        // console.log(
+                        //     this.otherPlayers[player.id].model.animation
+                        // );
                         this.otherPlayers[player.id].model.avatar.position.set(
                             player.position_x,
                             player.position_y,
@@ -159,7 +162,7 @@ export default class Player {
                         );
 
                         this.otherPlayers[player.id].model.animation.update(
-                            time
+                            this.time.delta / numProperties
                         );
 
                         this.otherPlayers[
