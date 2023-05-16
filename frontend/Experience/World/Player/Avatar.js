@@ -25,7 +25,10 @@ export default class Avatar {
         this.avatar.scale.set(0.99, 0.99, 0.99);
         this.setAnimation();
         this.scene.add(this.avatar);
-        this.scene.add(this.nametag);
+
+        if (this.avatar.userData.id) {
+            this.scene.add(this.nametag);
+        }
     }
 
     setAnimation() {
