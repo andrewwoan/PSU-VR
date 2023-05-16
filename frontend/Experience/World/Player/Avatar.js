@@ -8,9 +8,12 @@ export default class Avatar {
         this.avatar = SkeletonUtils.clone(avatar.scene);
         this.avatar.userData.id = id;
 
-        this.animationData = avatar.animations.map((clip) => {
+        this.avatar.animations = avatar.animations.map((clip) => {
             return clip.clone();
         });
+
+        console.log(this.animationData);
+        console.log(avatar.animations);
 
         this.scene = scene;
         this.name = new Nametag();
@@ -24,7 +27,6 @@ export default class Avatar {
         this.speedAdjustment = 1;
         this.avatar.scale.set(0.99, 0.99, 0.99);
         this.setAnimation();
-        this.scene.add(this.avatar);
     }
 
     setAnimation() {
@@ -35,23 +37,23 @@ export default class Avatar {
         this.animation.actions = {};
 
         this.animation.actions.dancing = this.animation.mixer.clipAction(
-            this.animationData[0]
+            this.avatar.animations[0]
         );
         this.animation.actions.idle = this.animation.mixer.clipAction(
-            this.animationData[1]
+            this.avatar.animations[1]
         );
         this.animation.actions.jumping = this.animation.mixer.clipAction(
-            this.animationData[2]
+            this.avatar.animations[2]
         );
 
         this.animation.actions.running = this.animation.mixer.clipAction(
-            this.animationData[3]
+            this.avatar.animations[3]
         );
         this.animation.actions.walking = this.animation.mixer.clipAction(
-            this.animationData[4]
+            this.avatar.animations[4]
         );
         this.animation.actions.waving = this.animation.mixer.clipAction(
-            this.animationData[5]
+            this.avatar.animations[5]
         );
 
         this.animation.actions.current = this.animation.actions.idle;
