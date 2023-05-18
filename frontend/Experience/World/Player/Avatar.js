@@ -4,18 +4,16 @@ import Nametag from "./Nametag.js";
 
 export default class Avatar {
     constructor(avatar, scene, name, id) {
-        console.log(id);
+        this.scene = scene;
+        this.name = new Nametag();
+        this.nametag = this.name.createNametag(16, 150, name);
+
         this.avatar = SkeletonUtils.clone(avatar.scene);
         this.avatar.userData.id = id;
 
         this.avatar.animations = avatar.animations.map((clip) => {
             return clip.clone();
         });
-
-        this.scene = scene;
-        this.name = new Nametag();
-
-        this.nametag = this.name.createNametag(16, 150, name);
 
         this.setAvatar();
     }
