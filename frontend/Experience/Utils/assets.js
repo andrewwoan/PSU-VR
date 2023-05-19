@@ -8,6 +8,11 @@ export default [
                     path: "/models/asian_male_animated.glb",
                 },
                 {
+                    name: "asian_female",
+                    type: "glbModel",
+                    path: "/models/asian_female_animated.glb",
+                },
+                {
                     name: "boxes",
                     type: "glbModel",
                     path: "/models/Boxes.glb",

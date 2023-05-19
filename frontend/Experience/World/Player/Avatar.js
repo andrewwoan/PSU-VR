@@ -3,16 +3,22 @@ import * as SkeletonUtils from "three/addons/utils/SkeletonUtils.js";
 import Nametag from "./Nametag.js";
 
 export default class Avatar {
-    constructor(avatar, scene, name, id) {
+    constructor(animated_avatar, avatar, scene, name = "Anonymous", id) {
         this.scene = scene;
         this.name = new Nametag();
         this.nametag = this.name.createNametag(16, 150, name);
-
         this.avatar = SkeletonUtils.clone(avatar.scene);
         this.avatar.userData.id = id;
 
-        this.avatar.animations = avatar.animations.map((clip) => {
-            return clip.clone();
+        this.avatar.animations = animated_avatar.animations.map((clip) => {
+            const newClip = clip.clone();
+            console.log(newClip);
+            // return SkeletonUtils.retargetClip(
+            //     this.avatar,
+            //     animated_avatar,
+            //     newClip
+            // );
+            return newClip;
         });
 
         this.setAvatar();
@@ -32,6 +38,7 @@ export default class Avatar {
     setAnimation() {
         this.animation = {};
 
+        console.log(this.avatar);
         this.animation.mixer = new THREE.AnimationMixer(this.avatar);
 
         this.animation.actions = {};
@@ -58,6 +65,7 @@ export default class Avatar {
 
         this.animation.actions.current = this.animation.actions.idle;
         this.animation.actions.current.play();
+        console.log("SHEEESH2");
 
         this.animation.play = (name) => {
             const newAction = this.animation.actions[name];

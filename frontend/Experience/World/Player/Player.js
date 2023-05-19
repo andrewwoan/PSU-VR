@@ -17,8 +17,8 @@ export default class Player {
         this.resources = this.experience.resources;
         this.avatar = new Avatar(
             this.resources.items.asian_male,
-            this.scene,
-            "frik"
+            this.resources.items.asian_female,
+            this.scene
         );
 
         this.socket = this.experience.socket;
