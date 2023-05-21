@@ -3,24 +3,16 @@ import * as SkeletonUtils from "three/addons/utils/SkeletonUtils.js";
 import Nametag from "./Nametag.js";
 
 export default class Avatar {
-    constructor(animated_avatar, avatar, scene, name = "Anonymous", id) {
+    constructor(avatar, scene, name = "Anonymous", id) {
         this.scene = scene;
         this.name = new Nametag();
         this.nametag = this.name.createNametag(16, 150, name);
         this.avatar = SkeletonUtils.clone(avatar.scene);
         this.avatar.userData.id = id;
-        this.animated_avatar = animated_avatar;
 
-        // this.avatar.animations = animated_avatar.animations.map((clip) => {
-        //     const newClip = clip.clone();
-        //     console.log(newClip);
-        //     // return SkeletonUtils.retargetClip(
-        //     //     this.avatar,
-        //     //     animated_avatar,
-        //     //     newClip
-        //     // );
-        //     return newClip;
-        // });
+        this.avatar.animations = avatar.animations.map((clip) => {
+            return clip.clone();
+        });
 
         this.setAvatar();
     }
@@ -44,27 +36,27 @@ export default class Avatar {
 
         this.animation.actions = {};
 
-        console.log(this.animated_avatar.animations[0]);
+        console.log(this.avatar.animations[0]);
 
         this.animation.actions.dancing = this.animation.mixer.clipAction(
-            this.animated_avatar.animations[0]
+            this.avatar.animations[0]
         );
 
         this.animation.actions.idle = this.animation.mixer.clipAction(
-            this.animated_avatar.animations[1]
+            this.avatar.animations[1]
         );
         this.animation.actions.jumping = this.animation.mixer.clipAction(
-            this.animated_avatar.animations[2]
+            this.avatar.animations[2]
         );
 
         this.animation.actions.running = this.animation.mixer.clipAction(
-            this.animated_avatar.animations[3]
+            this.avatar.animations[3]
         );
         this.animation.actions.walking = this.animation.mixer.clipAction(
-            this.animated_avatar.animations[4]
+            this.avatar.animations[4]
         );
         this.animation.actions.waving = this.animation.mixer.clipAction(
-            this.animated_avatar.animations[5]
+            this.avatar.animations[5]
         );
 
         this.animation.actions.current = this.animation.actions.idle;

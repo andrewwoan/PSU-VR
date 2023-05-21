@@ -15,11 +15,7 @@ export default class Player {
         this.camera = this.experience.camera;
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
-        this.avatar = new Avatar(
-            this.resources.items.asian_male,
-            this.resources.items.asian_female,
-            this.scene
-        );
+        this.avatar = new Avatar(this.resources.items.asian_female, this.scene);
 
         this.socket = this.experience.socket;
 
