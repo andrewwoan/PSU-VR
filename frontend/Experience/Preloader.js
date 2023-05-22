@@ -33,6 +33,11 @@ export default class Preloader {
             nameForm: ".name-form",
             nameInput: "#name-input",
             nameInputButton: "#name-input-button",
+            characterSelectTitle: ".character-select-title",
+            avatarWrapper: ".avatar-img-wrapper",
+            avatarLeftImg: ".avatar-left",
+            avatarRightImg: ".avatar-right",
+            customizeButton: ".cutsomize-character-btn",
         });
 
         // **** This is for updating a percentage ****
@@ -144,10 +149,14 @@ export default class Preloader {
 
     onNameInput = () => {
         if (this.domElements.nameInput.value === "") return;
+        this.nameInputOutro();
+    };
+
+    onCharacterSelect = () => {
         this.preloaderOutro();
     };
 
-    async preloaderOutro() {
+    async nameInputOutro() {
         return new Promise((resolve) => {
             this.timeline2 = new gsap.timeline();
             this.timeline2
@@ -174,22 +183,34 @@ export default class Preloader {
                         duration: 1.2,
                         bottom: "47%",
                         ease: "power4.out",
-                    },
-                    "-=1.05"
-                )
-                .to(
-                    this.domElements.preloader,
-                    {
-                        duration: 1.7,
-                        top: "-150%",
-                        ease: "power3.out",
                         onComplete: () => {
-                            this.domElements.preloader.remove();
+                            this.domElements.welcomeTitle.remove();
+                            this.domElements.nameForm.remove();
+                            this.domElements.nameInputButton.remove();
                             resolve;
                         },
                     },
-                    "-=0.5"
+                    "-=1.05"
                 );
+        });
+    }
+
+    async preloaderOutro() {
+        return new Promise((resolve) => {
+            this.timeline3 = new gsap.timeline();
+            this.timeline3.to(
+                this.domElements.preloader,
+                {
+                    duration: 1.7,
+                    top: "-150%",
+                    ease: "power3.out",
+                    onComplete: () => {
+                        this.domElements.preloader.remove();
+                        resolve;
+                    },
+                },
+                "-=0.5"
+            );
         });
     }
 
@@ -197,6 +218,14 @@ export default class Preloader {
         this.domElements.nameInputButton.addEventListener(
             "click",
             this.onNameInput
+        );
+        this.domElements.avatarLeftImg.addEventListener(
+            "click",
+            this.onCharacterSelect
+        );
+        this.domElements.avatarRightImg.addEventListener(
+            "click",
+            this.onCharacterSelect
         );
     }
 
