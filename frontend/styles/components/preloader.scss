@@ -112,7 +112,6 @@
     left: 50%;
     width: 100%;
     transform: translate(-50%, -50%);
-    // text-transform: uppercase;
     letter-spacing: 2px;
     @include media("<=phone") {
         font-size: 28px;
@@ -174,4 +173,44 @@
         transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out,
             letter-spacing 0.2s ease-in-out;
     }
+}
+
+// Character Selection Screen -----------------------
+.character-select-title {
+    @extend %center;
+    font-size: 48px;
+    // opacity: 0;
+    color: $color-base-medium-blue;
+    font-weight: 200;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    letter-spacing: 2px;
+    @include media("<=phone") {
+        font-size: 28px;
+    }
+}
+
+.avatar-img-wrapper {
+    @extend %center;
+    gap: 64px;
+}
+
+.avatar-img {
+    width: auto;
+    height: 350px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+    &:hover {
+        background-color: $color-base-light-gray;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    }
+}
+
+.customize-character-btn {
+    position: absolute;
+    bottom: 22%;
 }
