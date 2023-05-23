@@ -37,7 +37,7 @@ export default class Preloader {
             avatarWrapper: ".avatar-img-wrapper",
             avatarLeftImg: ".avatar-left",
             avatarRightImg: ".avatar-right",
-            customizeButton: ".cutsomize-character-btn",
+            customizeButton: ".customize-character-btn",
         });
 
         // **** This is for updating a percentage ****
@@ -191,6 +191,36 @@ export default class Preloader {
                         },
                     },
                     "-=1.05"
+                )
+                .to(
+                    this.domElements.characterSelectTitle,
+                    {
+                        opacity: 1,
+                        duration: 1.2,
+                        bottom: "47%",
+                        ease: "power4.out",
+                    },
+                    "-=1.05"
+                )
+                .to(
+                    this.domElements.avatarWrapper,
+                    {
+                        opacity: 1,
+                        duration: 1.2,
+                        bottom: "47%",
+                        ease: "power4.out",
+                    },
+                    "-=1.05"
+                )
+                .to(
+                    this.domElements.customizeButton,
+                    {
+                        opacity: 1,
+                        duration: 1.2,
+                        bottom: "47%",
+                        ease: "power4.out",
+                    },
+                    "-=1.05"
                 );
         });
     }
@@ -198,19 +228,16 @@ export default class Preloader {
     async preloaderOutro() {
         return new Promise((resolve) => {
             this.timeline3 = new gsap.timeline();
-            this.timeline3.to(
-                this.domElements.preloader,
-                {
-                    duration: 1.7,
-                    top: "-150%",
-                    ease: "power3.out",
-                    onComplete: () => {
-                        this.domElements.preloader.remove();
-                        resolve;
-                    },
+            this.timeline3.to(this.domElements.preloader, {
+                duration: 1.7,
+                // top: "-150%",
+                opacity: 0,
+                ease: "power3.out",
+                onComplete: () => {
+                    this.domElements.preloader.remove();
+                    resolve;
                 },
-                "-=0.5"
-            );
+            });
         });
     }
 

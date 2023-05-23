@@ -179,11 +179,11 @@
 .character-select-title {
     @extend %center;
     font-size: 48px;
-    // opacity: 0;
+    opacity: 0;
     color: $color-base-medium-blue;
     font-weight: 200;
     position: absolute;
-    top: 25%;
+    top: 20%;
     left: 50%;
     width: 100%;
     transform: translate(-50%, -50%);
@@ -191,11 +191,19 @@
     @include media("<=phone") {
         font-size: 28px;
     }
+    z-index: -99;
 }
 
 .avatar-img-wrapper {
     @extend %center;
     gap: 64px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 500px;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    z-index: -99;
 }
 
 .avatar-img {
@@ -212,6 +220,8 @@
 
 .customize-character-btn {
     position: absolute;
-    bottom: 22%;
+    bottom: 30%;
+    opacity: 0;
     background-color: transparent;
+    z-index: -99;
 }

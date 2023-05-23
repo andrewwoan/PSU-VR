@@ -50,6 +50,8 @@ function handleNameSubmit() {
     updateSocket.emit("setName", userName);
 }
 
+function handleCharacterSelection() {}
+
 function handleMessageSubmit(event) {
     if (event.type === "click" || event.key === "Enter") {
         domElements.inputWrapper.classList.toggle("hidden");
