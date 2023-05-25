@@ -13,6 +13,8 @@ const domElements = elements({
     inputWrapper: ".message-input-wrapper",
     nameInputButton: "#name-input-button",
     nameInput: "#name-input",
+    avatarLeftImg: ".avatar-left",
+    avatarRightImg: ".avatar-right",
 });
 
 // Frontend Server ----------------------------------
@@ -37,6 +39,14 @@ chatSocket.on("connect", () => {
 domElements.messageSubmitButton.addEventListener("click", handleMessageSubmit);
 domElements.nameInputButton.addEventListener("click", handleNameSubmit);
 domElements.chatContainer.addEventListener("click", handleChatClick);
+domElements.avatarLeftImg.addEventListener(
+    "click",
+    handleCharacterSelectionLeft
+);
+domElements.avatarRightImg.addEventListener(
+    "click",
+    handleCharacterSelectionRight
+);
 document.addEventListener("keydown", handleMessageSubmit);
 
 function handleChatClick() {
@@ -50,7 +60,12 @@ function handleNameSubmit() {
     updateSocket.emit("setName", userName);
 }
 
-function handleCharacterSelection() {}
+function handleCharacterSelectionLeft() {
+    updateSocket.emit("setAvatar", "male");
+}
+function handleCharacterSelectionRight() {
+    updateSocket.emit("setAvatar", "female");
+}
 
 function handleMessageSubmit(event) {
     if (event.type === "click" || event.key === "Enter") {

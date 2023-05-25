@@ -62,6 +62,7 @@ updateNameSpace.on("connection", (socket) => {
         quaternion: { x: 0, y: 0, z: 0, w: 0 },
         animation: "idle",
         name: "",
+        avatarSkin: "",
     };
     connectedSockets.set(socket.id, socket);
 
@@ -73,6 +74,10 @@ updateNameSpace.on("connection", (socket) => {
 
     socket.on("setName", (name) => {
         socket.userData.name = name;
+    });
+
+    socket.on("setAvatar", (avatarSkin) => {
+        socket.userData.avatarSkin = avatarSkin;
     });
 
     socket.on("disconnect", () => {
@@ -95,6 +100,7 @@ updateNameSpace.on("connection", (socket) => {
         socket.userData.quaternion.z = player.quaternion[2];
         socket.userData.quaternion.w = player.quaternion[3];
         socket.userData.animation = player.animation;
+        socket.userData.avatarSkin = player.avatarSkin;
     });
 
     setInterval(() => {
@@ -103,6 +109,7 @@ updateNameSpace.on("connection", (socket) => {
             playerData.push({
                 id: socket.id,
                 name: socket.userData.name,
+                avatarSkin: socket.userData.avatarSkin,
                 position_x: socket.userData.position.x,
                 position_y: socket.userData.position.y,
                 position_z: socket.userData.position.z,
