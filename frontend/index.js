@@ -73,7 +73,7 @@ function handleCharacterSelectionRight() {
 
     domElements.avatarRightImg.removeEventListener(
         "click",
-        handleCharacterSelectionLeft
+        handleCharacterSelectionRight
     );
 }
 
