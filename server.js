@@ -77,7 +77,8 @@ updateNameSpace.on("connection", (socket) => {
     });
 
     socket.on("setAvatar", (avatarSkin) => {
-        updateNameSpace.emit("setAvatar", avatarSkin);
+        console.log(avatarSkin);
+        updateNameSpace.emit("setAvatarSkin", avatarSkin);
     });
 
     socket.on("disconnect", () => {
@@ -91,7 +92,6 @@ updateNameSpace.on("connection", (socket) => {
     });
 
     socket.on("updatePlayer", (player) => {
-        // console.log(player);
         socket.userData.position.x = player.position.x;
         socket.userData.position.y = player.position.y;
         socket.userData.position.z = player.position.z;
@@ -109,7 +109,6 @@ updateNameSpace.on("connection", (socket) => {
             playerData.push({
                 id: socket.id,
                 name: socket.userData.name,
-                avatarSkin: socket.userData.avatarSkin,
                 position_x: socket.userData.position.x,
                 position_y: socket.userData.position.y,
                 position_z: socket.userData.position.z,
@@ -118,11 +117,14 @@ updateNameSpace.on("connection", (socket) => {
                 quaternion_z: socket.userData.quaternion.z,
                 quaternion_w: socket.userData.quaternion.w,
                 animation: socket.userData.animation,
+                avatarSkin: socket.userData.avatarSkin,
             });
         }
 
-        if (socket.userData.name === "") return;
-        updateNameSpace.emit("playerData", playerData);
+        if (socket.userData.name === "" || socket.userData.avatarSkin === "") {
+        } else {
+            updateNameSpace.emit("playerData", playerData);
+        }
     }, 20);
 });
 

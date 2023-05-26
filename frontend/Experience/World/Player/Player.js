@@ -29,7 +29,6 @@ export default class Player {
         this.setPlayerSocket();
         this.setJoyStick();
         this.addEventListeners();
-        this.updatePlayerSocket();
     }
 
     initPlayer() {
@@ -37,7 +36,6 @@ export default class Player {
 
         this.player.body = this.camera.perspectiveCamera;
         this.player.animation = "idle";
-        this.player.avatarSkin = "";
 
         this.jumpOnce = false;
         this.player.onFloor = false;
@@ -109,28 +107,36 @@ export default class Player {
     setPlayerSocket() {
         this.socket.on("setID", (setID, name) => {});
 
-        this.socket.on("setAvatar", (avatarSkin) => {
+        this.socket.on("setAvatarSkin", (avatarSkin) => {
+            console.log("keep clicking me");
             if (!this.avatar) {
                 this.player.avatarSkin = avatarSkin;
                 this.avatar = new Avatar(
-                    this.resources.items[this.player.avatarSkin],
+                    this.resources.items[avatarSkin],
                     this.scene
                 );
+                console.log("fired creating avatar");
                 console.log(avatarSkin);
+                this.updatePlayerSocket();
             }
         });
 
         this.socket.on("playerData", (playerData) => {
-            // console.log(playerData);
-            const time = this.time.getDelta();
             for (let player of playerData) {
+                console.log(player);
+
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
                         if (child.userData.id === player.id) {
                             return;
                         } else {
                             if (!this.otherPlayers.hasOwnProperty(player.id)) {
-                                if (player.name === "") return;
+                                if (
+                                    player.name === "" ||
+                                    player.avatarSkin === ""
+                                ) {
+                                    return;
+                                }
 
                                 const name = player.name.substring(0, 25);
 
