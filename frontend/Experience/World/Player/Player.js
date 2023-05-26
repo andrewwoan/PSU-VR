@@ -16,7 +16,6 @@ export default class Player {
         this.octree = this.experience.world.octree;
         this.resources = this.experience.resources;
         this.socket = this.experience.socket;
-        this.avatar = new Avatar(this.resources.items.female, this.scene);
 
         this.domElements = elements({
             joystickArea: ".joystick-area",
@@ -38,6 +37,7 @@ export default class Player {
 
         this.player.body = this.camera.perspectiveCamera;
         this.player.animation = "idle";
+        this.player.avatarSkin = "";
 
         this.jumpOnce = false;
         this.player.onFloor = false;
@@ -109,6 +109,18 @@ export default class Player {
     setPlayerSocket() {
         this.socket.on("setID", (setID, name) => {});
 
+        this.socket.on("setAvatar", (avatarSkin) => {
+            if (!this.avatar) {
+                this.player.avatarSkin = avatarSkin;
+                this.avatar = new Avatar(
+                    this.resources.items[this.player.avatarSkin],
+                    this.scene
+                );
+            }
+
+            console.log(avatarSkin);
+        });
+
         this.socket.on("playerData", (playerData) => {
             // console.log(playerData);
             const time = this.time.getDelta();
@@ -124,7 +136,7 @@ export default class Player {
                                 const name = player.name.substring(0, 25);
 
                                 const newAvatar = new Avatar(
-                                    this.resources.items.asian_male,
+                                    this.resources.items[player.avatarSkin],
                                     this.scene,
                                     name,
                                     player.id
@@ -187,11 +199,14 @@ export default class Player {
 
     updatePlayerSocket() {
         setInterval(() => {
-            this.socket.emit("updatePlayer", {
-                position: this.avatar.avatar.position,
-                quaternion: this.avatar.avatar.quaternion,
-                animation: this.player.animation,
-            });
+            if (this.avatar) {
+                this.socket.emit("updatePlayer", {
+                    position: this.avatar.avatar.position,
+                    quaternion: this.avatar.avatar.quaternion,
+                    animation: this.player.animation,
+                    avatarSkin: this.player.avatarSkin,
+                });
+            }
         }, 20);
     }
 

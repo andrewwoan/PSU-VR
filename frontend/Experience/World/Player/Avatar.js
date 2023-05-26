@@ -31,12 +31,9 @@ export default class Avatar {
     setAnimation() {
         this.animation = {};
 
-        console.log(this.avatar);
         this.animation.mixer = new THREE.AnimationMixer(this.avatar);
 
         this.animation.actions = {};
-
-        console.log(this.avatar.animations[0]);
 
         this.animation.actions.dancing = this.animation.mixer.clipAction(
             this.avatar.animations[0]
@@ -61,7 +58,6 @@ export default class Avatar {
 
         this.animation.actions.current = this.animation.actions.idle;
         this.animation.actions.current.play();
-        console.log("SHEEESH2");
 
         this.animation.play = (name) => {
             const newAction = this.animation.actions[name];

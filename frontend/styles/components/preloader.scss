@@ -183,7 +183,7 @@
     color: $color-base-medium-blue;
     font-weight: 200;
     position: absolute;
-    top: 20%;
+    top: 15%;
     left: 50%;
     width: 100%;
     transform: translate(-50%, -50%);
@@ -196,9 +196,11 @@
 
 .avatar-img-wrapper {
     @extend %center;
+    // visibility: hidden;
+    pointer-events: none;
     gap: 64px;
     position: absolute;
-    top: 40%;
+    top: 45%;
     left: 50%;
     width: 500px;
     opacity: 0;
@@ -208,7 +210,7 @@
 
 .avatar-img {
     width: auto;
-    height: 350px;
+    height: 200px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 

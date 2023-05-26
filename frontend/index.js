@@ -62,9 +62,19 @@ function handleNameSubmit() {
 
 function handleCharacterSelectionLeft() {
     updateSocket.emit("setAvatar", "male");
+
+    domElements.avatarLeftImg.removeEventListener(
+        "click",
+        handleCharacterSelectionLeft
+    );
 }
 function handleCharacterSelectionRight() {
     updateSocket.emit("setAvatar", "female");
+
+    domElements.avatarRightImg.removeEventListener(
+        "click",
+        handleCharacterSelectionLeft
+    );
 }
 
 function handleMessageSubmit(event) {

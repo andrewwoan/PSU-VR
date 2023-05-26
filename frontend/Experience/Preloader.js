@@ -187,7 +187,10 @@ export default class Preloader {
                             this.domElements.welcomeTitle.remove();
                             this.domElements.nameForm.remove();
                             this.domElements.nameInputButton.remove();
-                            resolve;
+                            this.domElements.avatarLeftImg.style.pointerEvents =
+                                "auto";
+                            this.domElements.avatarRightImg.style.pointerEvents =
+                                "auto";
                         },
                     },
                     "-=1.05"
@@ -197,7 +200,7 @@ export default class Preloader {
                     {
                         opacity: 1,
                         duration: 1.2,
-                        bottom: "47%",
+                        top: "20%",
                         ease: "power4.out",
                     },
                     "-=1.05"
@@ -217,7 +220,7 @@ export default class Preloader {
                     {
                         opacity: 1,
                         duration: 1.2,
-                        bottom: "47%",
+                        bottom: "25%",
                         ease: "power4.out",
                     },
                     "-=1.05"
