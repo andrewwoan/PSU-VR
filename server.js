@@ -77,7 +77,6 @@ updateNameSpace.on("connection", (socket) => {
     });
 
     socket.on("setAvatar", (avatarSkin) => {
-        socket.userData.avatarSkin = avatarSkin;
         updateNameSpace.emit("setAvatar", avatarSkin);
     });
 
