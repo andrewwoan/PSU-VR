@@ -116,9 +116,8 @@ export default class Player {
                     this.resources.items[this.player.avatarSkin],
                     this.scene
                 );
+                console.log(avatarSkin);
             }
-
-            console.log(avatarSkin);
         });
 
         this.socket.on("playerData", (playerData) => {
