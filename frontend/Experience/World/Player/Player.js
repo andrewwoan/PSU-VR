@@ -108,20 +108,20 @@ export default class Player {
         this.socket.on("setID", (setID, name) => {});
 
         this.socket.on("setAvatarSkin", (avatarSkin) => {
-            console.log("Keep Clicking Me " + avatarSkin);
+            // console.log("Keep Clicking Me " + avatarSkin);
             if (!this.avatar) {
                 this.player.avatarSkin = avatarSkin;
                 this.avatar = new Avatar(
                     this.resources.items[avatarSkin],
                     this.scene
                 );
-                console.log("Fired creating avatar " + avatarSkin);
+                // console.log("Fired creating avatar " + avatarSkin);
                 this.updatePlayerSocket();
             }
         });
 
         this.socket.on("playerData", (playerData) => {
-            console.log(playerData);
+            // console.log(playerData);
             for (let player of playerData) {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
