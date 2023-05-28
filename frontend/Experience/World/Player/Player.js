@@ -107,9 +107,9 @@ export default class Player {
     setPlayerSocket() {
         this.socket.on("setID", (setID, name) => {});
 
-        this.socket.on("setAvatarSkin", (avatarSkin) => {
+        this.socket.on("setAvatarSkin", (avatarSkin, id) => {
             // console.log("Keep Clicking Me " + avatarSkin);
-            if (!this.avatar) {
+            if (!this.avatar && id === this.socket.id) {
                 this.player.avatarSkin = avatarSkin;
                 this.avatar = new Avatar(
                     this.resources.items[avatarSkin],

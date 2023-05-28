@@ -78,7 +78,7 @@ updateNameSpace.on("connection", (socket) => {
 
     socket.on("setAvatar", (avatarSkin) => {
         console.log("setting avatar " + avatarSkin);
-        updateNameSpace.emit("setAvatarSkin", avatarSkin);
+        updateNameSpace.emit("setAvatarSkin", avatarSkin, socket.id);
     });
 
     socket.on("disconnect", () => {
