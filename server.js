@@ -58,7 +58,7 @@ const connectedSockets = new Map();
 
 updateNameSpace.on("connection", (socket) => {
     socket.userData = {
-        position: { x: 0, y: -500, z: 0 },
+        position: { x: 0, y: -500, z: -500 },
         quaternion: { x: 0, y: 0, z: 0, w: 0 },
         animation: "idle",
         name: "",
@@ -77,7 +77,7 @@ updateNameSpace.on("connection", (socket) => {
     });
 
     socket.on("setAvatar", (avatarSkin) => {
-        console.log(avatarSkin);
+        console.log("setting avatar " + avatarSkin);
         updateNameSpace.emit("setAvatarSkin", avatarSkin);
     });
 
@@ -106,22 +106,28 @@ updateNameSpace.on("connection", (socket) => {
     setInterval(() => {
         const playerData = [];
         for (const socket of connectedSockets.values()) {
-            playerData.push({
-                id: socket.id,
-                name: socket.userData.name,
-                position_x: socket.userData.position.x,
-                position_y: socket.userData.position.y,
-                position_z: socket.userData.position.z,
-                quaternion_x: socket.userData.quaternion.x,
-                quaternion_y: socket.userData.quaternion.y,
-                quaternion_z: socket.userData.quaternion.z,
-                quaternion_w: socket.userData.quaternion.w,
-                animation: socket.userData.animation,
-                avatarSkin: socket.userData.avatarSkin,
-            });
+            if (
+                socket.userData.name !== "" &&
+                socket.userData.avatarSkin !== ""
+            ) {
+                playerData.push({
+                    id: socket.id,
+                    name: socket.userData.name,
+                    position_x: socket.userData.position.x,
+                    position_y: socket.userData.position.y,
+                    position_z: socket.userData.position.z,
+                    quaternion_x: socket.userData.quaternion.x,
+                    quaternion_y: socket.userData.quaternion.y,
+                    quaternion_z: socket.userData.quaternion.z,
+                    quaternion_w: socket.userData.quaternion.w,
+                    animation: socket.userData.animation,
+                    avatarSkin: socket.userData.avatarSkin,
+                });
+            }
         }
 
         if (socket.userData.name === "" || socket.userData.avatarSkin === "") {
+            return;
         } else {
             updateNameSpace.emit("playerData", playerData);
         }
