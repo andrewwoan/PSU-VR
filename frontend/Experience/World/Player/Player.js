@@ -108,20 +108,17 @@ export default class Player {
         this.socket.on("setID", (setID, name) => {});
 
         this.socket.on("setAvatarSkin", (avatarSkin, id) => {
-            // console.log("Keep Clicking Me " + avatarSkin);
             if (!this.avatar && id === this.socket.id) {
                 this.player.avatarSkin = avatarSkin;
                 this.avatar = new Avatar(
                     this.resources.items[avatarSkin],
                     this.scene
                 );
-                // console.log("Fired creating avatar " + avatarSkin);
                 this.updatePlayerSocket();
             }
         });
 
         this.socket.on("playerData", (playerData) => {
-            // console.log(playerData);
             for (let player of playerData) {
                 if (player.id !== this.socket.id) {
                     this.scene.traverse((child) => {
@@ -521,7 +518,6 @@ export default class Player {
             this.player.directionOffset = Math.PI / 4;
         }
 
-        // Extras
         if (this.actions.forward && this.actions.left && this.actions.right) {
             this.player.directionOffset = Math.PI;
         }
