@@ -1,0 +1,23 @@
+.joystick-area {
+    width: 140px;
+    height: 140px;
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
+    background: $color-base-white-transparent;
+    z-index: 40;
+    border-radius: 50% 50%;
+    @include media(">=tablet") {
+        display: none;
+    }
+}
+
+.control-overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    cursor: grab;
+    overflow: hidden;
+    touch-action: none;
+    z-index: 25;
+}

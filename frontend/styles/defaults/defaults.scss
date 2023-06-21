@@ -1,0 +1,12 @@
+@import "../../../node_modules/include-media/dist/_include-media.scss";
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+
+$breakpoints: (
+    "phone": 514px,
+    "tablet": 768px,
+    "desktop": 1024px,
+);
+
+body {
+    font-family: "Manrope", sans-serif;
+}

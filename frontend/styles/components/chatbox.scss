@@ -1,0 +1,66 @@
+.chat-box {
+    position: absolute;
+    bottom: 48px;
+    left: 48px;
+    width: 400px;
+    height: 200px;
+    background-color: $color-base-black-transparent;
+    color: $color-base-white;
+    z-index: 50;
+    font-size: 14px;
+    word-wrap: break-word;
+    @include media("<=tablet") {
+        display: none;
+    }
+}
+
+.chat-container {
+    width: 400px;
+    height: 200px;
+    word-wrap: break-word;
+    overflow-y: auto;
+}
+
+.form {
+    @extend %center;
+    position: absolute;
+    bottom: 0px;
+    flex-direction: row;
+}
+
+#chat-message-button {
+    @extend %center;
+    width: 50px;
+    height: 24px;
+    background-color: transparent;
+    color: $color-base-white;
+    position: absolute;
+    right: -10px;
+    z-index: 50;
+}
+
+.message-input-wrapper {
+    @extend %center;
+    position: absolute;
+    bottom: -24px;
+    left: 0px;
+    width: 400px;
+}
+
+#chat-message-input {
+    width: 100%;
+    height: 24px;
+    background-color: $color-base-black-semi-transparent;
+    border: none;
+    color: $color-base-white;
+    font: inherit;
+}
+
+#chat-message-input:focus {
+    background-color: $color-base-black-translucent;
+    outline: none;
+}
+
+.different-color {
+    color: $color-base-lightest-blue;
+}

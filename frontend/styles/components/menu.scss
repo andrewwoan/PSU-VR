@@ -1,0 +1,55 @@
+.menu-button {
+    @extend %center;
+
+    cursor: pointer;
+    position: absolute;
+    top: 48px;
+    right: 48px;
+    width: 40px;
+    height: 40px;
+    // background-color: $color-base-white;
+    background-color: rgb(187, 187, 187);
+    border-radius: 50%;
+    border: none;
+    transform-origin: center center;
+    z-index: 999999999999999999999999999999999;
+
+    &:hover {
+        transform: scale(1.2, 1.2);
+    }
+}
+
+.menu-circle {
+    width: 40px;
+    height: 40px;
+    background-color: $color-base-white;
+    border-radius: 50%;
+}
+
+.menu-bar {
+    width: 24px;
+    height: 2px;
+    display: block;
+    background-color: $color-base-dark-blue;
+}
+
+.menu-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 17px;
+}
+
+.switch-camera-view {
+    @extend %center;
+    cursor: pointer;
+    position: absolute;
+    top: 48px;
+    right: 48px;
+    width: 40px;
+    height: 40px;
+    background-color: $color-base-white;
+    border-radius: 50%;
+    border: none;
+    z-index: 999999999999999999999999999999999;
+}

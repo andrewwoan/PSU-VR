@@ -1,0 +1,229 @@
+.preloader {
+    @extend %center;
+    @extend %cover;
+    background: $color-base-white;
+    z-index: 9999999999999;
+    width: 100vw;
+    height: 100vh;
+    touch-action: none;
+    overflow: hidden;
+}
+
+.preloader-title {
+    @extend %center;
+    @extend %light-font;
+    color: $color-base-gray;
+    position: absolute;
+    bottom: 14%;
+    width: 250px;
+
+    // letter-spacing: 2px;
+    // text-transform: uppercase;
+}
+
+.preloader-wrapper {
+    @extend %center;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.preloader-progress {
+    @extend %center;
+    flex-direction: column;
+    position: absolute;
+    bottom: 10%;
+}
+
+.progress-wrapper {
+    @extend %center;
+    position: absolute;
+    bottom: 17%;
+}
+
+.preloader-wrapper {
+    padding-bottom: 120px;
+    position: relative;
+}
+
+.preloader-percentage1 {
+    text-align: right;
+}
+
+.symbol {
+    position: absolute;
+    right: -11px;
+}
+
+.percent {
+    @extend %light-font;
+    width: 16px;
+    color: $color-base-gray;
+    // @include media("<=tablet") {
+    //     font-size: 24px;
+    // }
+}
+
+.progress-bar-container {
+    width: 300px;
+    height: 2px;
+    background-color: $color-base-light-gray;
+    border-radius: 7px;
+    position: absolute;
+    top: 50%;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 2px;
+    background-color: $color-base-dark-blue;
+    border-radius: 7px;
+}
+
+.svgLogo {
+    position: absolute;
+    top: -100%;
+}
+
+.fade-in-out {
+    animation: fade-in-out 2s ease-in-out infinite;
+}
+
+@keyframes fade-in-out {
+    0% {
+        opacity: 0.35;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.35;
+    }
+}
+
+// Second preloader screen
+.welcome-title {
+    @extend %center;
+    font-size: 48px;
+    opacity: 0;
+    color: $color-base-medium-blue;
+    font-weight: 200;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    letter-spacing: 2px;
+    @include media("<=phone") {
+        font-size: 28px;
+    }
+}
+
+.name-form {
+    @extend %center;
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    width: 500px;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+}
+
+#name-input {
+    font-size: 18px;
+    border: none;
+    width: 400px;
+    color: $color-base-medium-blue;
+    border-bottom: 1px solid $color-base-medium-blue;
+    outline: none;
+    background-color: transparent;
+    @include media("<=phone") {
+        width: 250px;
+        font-size: 16px;
+    }
+}
+
+#name-input::placeholder {
+    color: $color-base-light-blue;
+    opacity: 0.5;
+}
+
+#name-input:focus {
+    border-bottom: 1px solid $color-base-dark-blue;
+}
+
+#name-input-button {
+    color: $color-base-dark-blue;
+    outline: 1px solid $color-base-dark-blue;
+    background-color: transparent;
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    bottom: 42%;
+    font-size: 14px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out,
+        letter-spacing 0.2s ease-in-out;
+
+    &:hover {
+        background-color: $color-base-dark-blue;
+        color: white;
+        outline: 1px solid $color-base-dark-blue;
+        letter-spacing: 2px;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out,
+            letter-spacing 0.2s ease-in-out;
+    }
+}
+
+// Character Selection Screen -----------------------
+.character-select-title {
+    @extend %center;
+    font-size: 48px;
+    opacity: 0;
+    color: $color-base-medium-blue;
+    font-weight: 200;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    letter-spacing: 2px;
+    @include media("<=phone") {
+        font-size: 28px;
+    }
+    z-index: -99;
+}
+
+.avatar-img-wrapper {
+    @extend %center;
+    // visibility: hidden;
+    pointer-events: none;
+    gap: 64px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 500px;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    z-index: -99;
+}
+
+.avatar-img {
+    width: auto;
+    height: 200px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+    &:hover {
+        background-color: $color-base-light-gray;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    }
+}
+
+.customize-character-btn {
+    position: absolute;
+    bottom: 30%;
+    opacity: 0;
+    background-color: transparent;
+    z-index: -99;
+}

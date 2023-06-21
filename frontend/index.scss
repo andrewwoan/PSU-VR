@@ -1,0 +1,13 @@
+@import "./styles/defaults/reset.scss";
+@import "./styles/defaults/fonts.scss";
+@import "./styles/defaults/defaults.scss";
+@import "./styles/defaults/variables.scss";
+
+@import "./styles/utils/reusables.scss";
+
+@import "./styles/components/preloader.scss";
+@import "./styles/components/canvas.scss";
+@import "./styles/components/menu.scss";
+@import "./styles/components/nameinput.scss";
+@import "./styles/components/chatbox.scss";
+@import "./styles/components/controlsUI.scss";
