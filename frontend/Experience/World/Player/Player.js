@@ -408,7 +408,6 @@ export default class Player {
 
         this.player.body.position.sub(this.camera.controls.target);
         this.camera.controls.target.copy(this.player.collider.end);
-        // console.log(this.camera.controls);
         this.player.body.position.add(this.player.collider.end);
 
         this.player.body.updateMatrixWorld();
