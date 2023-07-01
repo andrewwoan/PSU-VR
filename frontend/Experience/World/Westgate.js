@@ -161,8 +161,8 @@ export default class Westgate {
             });
         });
 
-        this.scene.add(this.screen);
         this.scene.add(this.glass);
+        this.scene.add(this.screen);
 
         this.scene.add(this.bars);
         this.scene.add(this.brick);
