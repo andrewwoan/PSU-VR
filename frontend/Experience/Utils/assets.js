@@ -13,39 +13,109 @@ export default [
                     path: "/models/asian_female_animated.glb",
                 },
                 {
-                    name: "boxes",
+                    name: "bars",
                     type: "glbModel",
-                    path: "/models/Boxes.glb",
+                    path: "/models/bars.glb",
                 },
                 {
-                    name: "boxesTexture",
-                    type: "imageTexture",
-                    path: "textures/baked/boxes.jpg",
-                },
-                {
-                    name: "chairs",
+                    name: "brick",
                     type: "glbModel",
-                    path: "/models/Chairs.glb",
+                    path: "/models/brick.glb",
                 },
                 {
-                    name: "chairsTexture",
-                    type: "imageTexture",
-                    path: "textures/baked/chairs.jpg",
-                },
-                {
-                    name: "extras",
+                    name: "buildings",
                     type: "glbModel",
-                    path: "/models/Extras.glb",
+                    path: "/models/buildings.glb",
                 },
                 {
-                    name: "extrasTexture",
-                    type: "imageTexture",
-                    path: "textures/baked/extras.webp",
+                    name: "easter",
+                    type: "glbModel",
+                    path: "/models/easter.glb",
+                },
+                {
+                    name: "everything",
+                    type: "glbModel",
+                    path: "/models/everything.glb",
                 },
                 {
                     name: "floor",
                     type: "glbModel",
-                    path: "/models/Floor.glb",
+                    path: "/models/floor.glb",
+                },
+                {
+                    name: "grass",
+                    type: "glbModel",
+                    path: "/models/grass.glb",
+                },
+                {
+                    name: "other",
+                    type: "glbModel",
+                    path: "/models/other.glb",
+                },
+                {
+                    name: "outside",
+                    type: "glbModel",
+                    path: "/models/outside.glb",
+                },
+                {
+                    name: "panera",
+                    type: "glbModel",
+                    path: "/models/panera.glb",
+                },
+                {
+                    name: "plastic",
+                    type: "glbModel",
+                    path: "/models/plastic.glb",
+                },
+                {
+                    name: "tables",
+                    type: "glbModel",
+                    path: "/models/tables.glb",
+                },
+                {
+                    name: "thirdfloor",
+                    type: "glbModel",
+                    path: "/models/thirdfloor.glb",
+                },
+                {
+                    name: "collider",
+                    type: "glbModel",
+                    path: "/models/collider.glb",
+                },
+                {
+                    name: "screen",
+                    type: "glbModel",
+                    path: "/models/screen.glb",
+                },
+                {
+                    name: "glass",
+                    type: "glbModel",
+                    path: "/models/glass.glb",
+                },
+                {
+                    name: "barsTexture",
+                    type: "imageTexture",
+                    path: "textures/baked/bars.jpg",
+                },
+                {
+                    name: "brickTexture",
+                    type: "imageTexture",
+                    path: "textures/baked/brick.jpg",
+                },
+                {
+                    name: "buildingsTexture",
+                    type: "imageTexture",
+                    path: "textures/baked/buildings.jpg",
+                },
+                {
+                    name: "easterTexture",
+                    type: "imageTexture",
+                    path: "textures/baked/easter.jpg",
+                },
+                {
+                    name: "everythingTexture",
+                    type: "imageTexture",
+                    path: "textures/baked/everything.jpg",
                 },
                 {
                     name: "floorTexture",
@@ -53,19 +123,14 @@ export default [
                     path: "textures/baked/floor.jpg",
                 },
                 {
-                    name: "gates",
-                    type: "glbModel",
-                    path: "/models/Gates.glb",
-                },
-                {
-                    name: "gatesTexture",
+                    name: "grassTexture",
                     type: "imageTexture",
-                    path: "textures/baked/gates.jpg",
+                    path: "textures/baked/grass.jpg",
                 },
                 {
-                    name: "outside",
-                    type: "glbModel",
-                    path: "/models/Outside.glb",
+                    name: "otherTexture",
+                    type: "imageTexture",
+                    path: "textures/baked/other.webp",
                 },
                 {
                     name: "outsideTexture",
@@ -73,29 +138,14 @@ export default [
                     path: "textures/baked/outside.jpg",
                 },
                 {
-                    name: "signs",
-                    type: "glbModel",
-                    path: "/models/Signs.glb",
-                },
-                {
-                    name: "signsTexture",
+                    name: "paneraTexture",
                     type: "imageTexture",
-                    path: "textures/baked/signs.jpg",
+                    path: "textures/baked/panera.jpg",
                 },
                 {
-                    name: "stairs",
-                    type: "glbModel",
-                    path: "/models/Stairs.glb",
-                },
-                {
-                    name: "stairsTexture",
+                    name: "plasticTexture",
                     type: "imageTexture",
-                    path: "textures/baked/stairs.jpg",
-                },
-                {
-                    name: "tables",
-                    type: "glbModel",
-                    path: "/models/Tables.glb",
+                    path: "textures/baked/plastic.jpg",
                 },
                 {
                     name: "tablesTexture",
@@ -103,39 +153,9 @@ export default [
                     path: "textures/baked/tables.jpg",
                 },
                 {
-                    name: "walls",
-                    type: "glbModel",
-                    path: "/models/Walls.glb",
-                },
-                {
-                    name: "wallsTexture",
+                    name: "thirdfloorTexture",
                     type: "imageTexture",
-                    path: "textures/baked/walls.jpg",
-                },
-                {
-                    name: "door",
-                    type: "glbModel",
-                    path: "/models/Door.glb",
-                },
-                {
-                    name: "doorTexture",
-                    type: "imageTexture",
-                    path: "textures/baked/door.jpg",
-                },
-                {
-                    name: "glass",
-                    type: "glbModel",
-                    path: "/models/Glass.glb",
-                },
-                {
-                    name: "collider",
-                    type: "glbModel",
-                    path: "/models/Collider.glb",
-                },
-                {
-                    name: "screen",
-                    type: "glbModel",
-                    path: "/models/Screen.glb",
+                    path: "textures/baked/thirdfloor.jpg",
                 },
                 {
                     name: "environment",
