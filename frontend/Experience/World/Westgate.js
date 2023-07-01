@@ -29,9 +29,9 @@ export default class Westgate {
         this.glass = this.resources.items.glass.scene;
         this.screen = this.resources.items.screen.scene;
 
-        // this.screen.children[0].material = new THREE.MeshBasicMaterial({
-        //     map: this.resources.items.video,
-        // });
+        this.screen.children[0].material = new THREE.MeshBasicMaterial({
+            map: this.resources.items.video,
+        });
 
         this.screen.children[0].material.flipY = false;
 
@@ -45,6 +45,12 @@ export default class Westgate {
             child.material.ior = 1.5;
             child.material.transmission = 1;
             child.material.opacity = 1;
+
+            // child.material = new THREE.MeshBasicMaterial({
+            //     color: 0x949baf,
+            //     transparent: true,
+            //     opacity: 0.4,
+            // });
         });
 
         this.bars.children.forEach((child) => {

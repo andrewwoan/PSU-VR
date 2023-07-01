@@ -42,7 +42,7 @@ export default class Resources extends EventEmitter {
                 this.video[asset.name].playsInline = true;
                 this.video[asset.name].autoplay = false;
                 this.video[asset.name].loop = true;
-                // this.video[asset.name].play();
+                this.video[asset.name].play();
 
                 this.videoTexture[asset.name] = new THREE.VideoTexture(
                     this.video[asset.name]
@@ -60,7 +60,6 @@ export default class Resources extends EventEmitter {
 
     singleAssetLoaded(asset, file) {
         this.items[asset.name] = file;
-        console.log(asset.name);
         this.loaded++;
         this.emit("loading", this.loaded, this.queue);
 
