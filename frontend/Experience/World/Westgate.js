@@ -25,6 +25,7 @@ export default class Westgate {
         this.plastic = this.resources.items.plastic.scene;
         this.tables = this.resources.items.tables.scene;
         this.thirdfloor = this.resources.items.thirdfloor.scene;
+        this.box = this.resources.items.box.scene;
 
         this.glass = this.resources.items.glass.scene;
         this.screen = this.resources.items.screen.scene;
@@ -53,6 +54,13 @@ export default class Westgate {
             // });
         });
 
+        this.box.children.forEach((child) => {
+            this.resources.items.boxTexture.flipY = false;
+            this.resources.items.boxTexture.colorSpace = THREE.SRGBColorSpace;
+            child.material = new THREE.MeshBasicMaterial({
+                map: this.resources.items.boxTexture,
+            });
+        });
         this.bars.children.forEach((child) => {
             this.resources.items.barsTexture.flipY = false;
             this.resources.items.barsTexture.colorSpace = THREE.SRGBColorSpace;
@@ -181,6 +189,7 @@ export default class Westgate {
         this.scene.add(this.outside);
         this.scene.add(this.panera);
         this.scene.add(this.plastic);
+        this.scene.add(this.box);
         this.scene.add(this.tables);
         this.scene.add(this.thirdfloor);
     }

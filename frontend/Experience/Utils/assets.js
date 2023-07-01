@@ -83,6 +83,11 @@ export default [
                     path: "/models/tables.glb",
                 },
                 {
+                    name: "box",
+                    type: "glbModel",
+                    path: "/models/box.glb",
+                },
+                {
                     name: "thirdfloor",
                     type: "glbModel",
                     path: "/models/thirdfloor.glb",
@@ -156,6 +161,11 @@ export default [
                     name: "thirdfloorTexture",
                     type: "imageTexture",
                     path: "textures/baked/thirdfloor.jpg",
+                },
+                {
+                    name: "boxTexture",
+                    type: "imageTexture",
+                    path: "textures/baked/box.jpg",
                 },
                 {
                     name: "environment",
