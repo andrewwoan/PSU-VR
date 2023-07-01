@@ -12,22 +12,21 @@
         "heroku-postbuild": "vite build"
     },
     "devDependencies": {
-        "concurrently": "^7.6.0",
-        "gsap": "^3.11.4",
+        "concurrently": "^8.2.0",
+        "gsap": "^3.12.2",
         "include-media": "^2.0.0",
-        "nodemon": "^2.0.21",
-        "sass": "^1.58.3",
-        "vite": "^4.1.0"
+        "nodemon": "^2.0.22",
+        "sass": "^1.63.6",
+        "vite": "^4.3.9"
     },
     "dependencies": {
         "cors": "^2.8.5",
-        "dotenv": "^16.0.3",
+        "dotenv": "^16.3.1",
         "events": "^3.3.0",
         "express": "^4.18.2",
         "nipplejs": "^0.10.1",
-        "socket.io": "^4.6.1",
-        "socket.io-client": "^4.6.1",
-        "three": "^0.152.2",
-        "three-mesh-bvh": "^0.5.23"
+        "socket.io": "^4.7.1",
+        "socket.io-client": "^4.7.1",
+        "three": "^0.154.0"
     }
 }
