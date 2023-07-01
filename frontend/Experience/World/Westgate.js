@@ -34,6 +34,8 @@ export default class Westgate {
             map: this.resources.items.video,
         });
 
+        console.log(this.resources.items.video);
+
         this.screen.children[0].material.flipY = false;
 
         this.collider = this.resources.items.collider.scene;
