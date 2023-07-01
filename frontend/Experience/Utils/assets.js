@@ -3,6 +3,16 @@ export default [
         westgate: {
             assets: [
                 {
+                    name: "screen",
+                    type: "glbModel",
+                    path: "/models/screen.glb",
+                },
+                {
+                    name: "glass",
+                    type: "glbModel",
+                    path: "/models/glass.glb",
+                },
+                {
                     name: "male",
                     type: "glbModel",
                     path: "/models/asian_male_animated.glb",
@@ -81,16 +91,6 @@ export default [
                     name: "collider",
                     type: "glbModel",
                     path: "/models/collider.glb",
-                },
-                {
-                    name: "screen",
-                    type: "glbModel",
-                    path: "/models/screen.glb",
-                },
-                {
-                    name: "glass",
-                    type: "glbModel",
-                    path: "/models/glass.glb",
                 },
                 {
                     name: "barsTexture",
