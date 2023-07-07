@@ -38,6 +38,7 @@ export default class Preloader {
             avatarLeftImg: ".avatar-left",
             avatarRightImg: ".avatar-right",
             customizeButton: ".customize-character-btn",
+            description: ".description",
         });
 
         // **** This is for updating a percentage ****
@@ -83,6 +84,16 @@ export default class Preloader {
                         opacity: 0,
                         duration: 1.2,
                         bottom: "21%",
+                        ease: "power4.out",
+                    },
+                    "-=1.05"
+                )
+                .to(
+                    this.domElements.description,
+                    {
+                        opacity: 0,
+                        duration: 1.2,
+                        bottom: "35%",
                         ease: "power4.out",
                     },
                     "-=1.05"

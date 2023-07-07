@@ -118,6 +118,20 @@
     }
 }
 
+.description {
+    @extend %center;
+    font-size: 12px;
+    // opacity: 0;
+    color: $color-base-medium-blue;
+    font-weight: 300;
+    position: absolute;
+    bottom: 30%;
+    width: 500px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    letter-spacing: 2px;
+}
+
 .name-form {
     @extend %center;
     position: absolute;

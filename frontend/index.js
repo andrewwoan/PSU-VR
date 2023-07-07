@@ -120,6 +120,4 @@ chatSocket.on("recieved-message", (name, message, time) => {
 });
 
 // Update Socket ----------------------------------------------------
-updateSocket.on("connect", () => {
-    // console.log("Joined Update" + updateSocket.id);
-});
+updateSocket.on("connect", () => {});
