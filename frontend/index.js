@@ -121,3 +121,16 @@ chatSocket.on("recieved-message", (name, message, time) => {
 
 // Update Socket ----------------------------------------------------
 updateSocket.on("connect", () => {});
+
+const audio = document.getElementById("myAudio");
+
+window.addEventListener("keydown", function (e) {
+    if (e.code === "Equal") {
+        if (!audio.paused) {
+            audio.pause();
+            audio.currentTime = 0;
+        } else {
+            audio.play();
+        }
+    }
+});
