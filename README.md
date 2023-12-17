@@ -1,8 +1,8 @@
 # PSU VR
 
-**[Live demo](https://psu-vr.vercel.app/)**
+**[Live demo](https://psu-vr.herokuapp.com/)**
 
-PSU VR is an immersive multiplayer virtual reality experience of Penn State's University Park Campus. 
+PSU VR is an immersive multiplayer virtual reality experience of Penn State's University Park Campus.
 
 **⚠️ This project is currently under development ⚠️**
 
